@@ -2,31 +2,31 @@
 <manifest>
 
   <!-- Settings -->
-  <default sync-j="4" revision="jethro" />
+  <default sync-j="4" revision="krogoth" />
 
   <!-- Remotes -->
-  <remote fetch="git://git.openembedded.org" name="oe"/>
-  <remote fetch="git://git.yoctoproject.org" name="yocto"/>
-  <remote fetch="git://github.com/" name="github"/>
+  <remote fetch="git://git.openembedded.org"    name="oe"/>
+  <remote fetch="git://git.yoctoproject.org"    name="yocto"/>
+  <remote fetch="git://github.com/"             name="github"/>
   <remote fetch="ssh://git@git.pelagicore.net/" name="pcore" />
 
   <!-- Base stuff -->
-  <project remote="oe" revision="jethro" name="meta-openembedded" path="sources/meta-openembedded"/>
-  <project remote="yocto" revision="jethro" name="poky" path="sources/poky"/>
-  <project remote="github" revision="jethro" name="Pelagicore/meta-bistro" path="sources/meta-bistro" />
-  <project remote="yocto" revision="jethro" name="meta-virtualization" path="sources/meta-virtualization"/>
+  <project remote="oe"     revision="krogoth" name="meta-openembedded"      path="sources/meta-openembedded"/>
+  <project remote="yocto"  revision="krogoth" name="poky"                   path="sources/poky"/>
+  <project remote="github" revision="master"  name="Pelagicore/meta-bistro" path="sources/meta-bistro" />
+  <project remote="yocto"  revision="krogoth" name="meta-virtualization"    path="sources/meta-virtualization"/>
 
   <!-- Target stuff -->
-  <project remote="yocto" revision="jethro" name="meta-intel" path="sources/meta-intel"/>
-  <project remote="pcore" revision="master" name="viktor-sjolind/pelux-nuc-bsp" path="sources/base" >
-      <copyfile src="README.md" dest="README.md"/>
+  <project remote="yocto" revision="krogoth" name="meta-intel"                   path="sources/meta-intel"/>
+  <project remote="pcore" revision="master"  name="viktor-sjolind/pelux-nuc-bsp" path="sources/base" >
+      <copyfile src="README.md"         dest="README.md"/>
       <copyfile src="setup-environment" dest="setup-environment"/>
   </project>
 
   <!-- GENIVI stuff -->
-  <project remote="yocto" revision="10.0" name="meta-ivi" path="sources/meta-ivi" />
+  <project remote="yocto" revision="11.0" name="meta-ivi" path="sources/meta-ivi" />
 
   <!-- Qt/Support stuff -->
-  <project remote="github" revision="jethro" name="meta-qt5/meta-qt5" path="sources/meta-qt5"/>
+  <project remote="github" revision="krogoth" name="meta-qt5/meta-qt5" path="sources/meta-qt5"/>
 
 </manifest>
