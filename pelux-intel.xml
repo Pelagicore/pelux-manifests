@@ -17,9 +17,10 @@
   <project remote="yocto"  revision="krogoth" name="meta-virtualization"    path="sources/meta-virtualization"/>
 
   <!-- Target stuff -->
-  <project remote="yocto" revision="krogoth" name="meta-intel"                   path="sources/meta-intel"/>
+  <project remote="yocto" revision="krogoth" name="meta-intel"                          path="sources/meta-intel"/>
   <project remote="pcore" revision="master"  name="viktor-sjolind/meta-pelux-bsp-intel" path="sources/meta-pelux-intel-bsp" />
-  <project remote="pcore" revision="master"  name="viktor-sjolind/pelux-intel-base" path="sources/base" >
+  <project remote="pcore" revision="master"  name="viktor-sjolind/meta-pelux"           path="sources/meta-pelux" />
+  <project remote="pcore" revision="master"  name="viktor-sjolind/pelux-intel-base"     path="sources/base" >
       <copyfile src="README.md"         dest="README.md"/>
       <copyfile src="setup-environment" dest="setup-environment"/>
   </project>
