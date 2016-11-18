@@ -22,7 +22,6 @@
   <project remote="pcore" revision="master"  name="viktor-sjolind/meta-pelux"           path="sources/meta-pelux" />
   <project remote="pcore" revision="master"  name="viktor-sjolind/pelux-intel-base"     path="sources/base" >
       <copyfile src="README.md"         dest="README.md"/>
-      <copyfile src="setup-environment" dest="setup-environment"/>
   </project>
 
   <!-- GENIVI stuff -->
