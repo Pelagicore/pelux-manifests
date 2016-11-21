@@ -1,0 +1,3 @@
+[submodule "vagrant-cookbook"]
+	path = vagrant-cookbook
+	url = https://github.com/Pelagicore/vagrant-cookbook.git
