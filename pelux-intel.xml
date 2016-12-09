@@ -8,7 +8,6 @@
   <remote fetch="git://git.openembedded.org"    name="oe"/>
   <remote fetch="git://git.yoctoproject.org"    name="yocto"/>
   <remote fetch="git://github.com/"             name="github"/>
-  <remote fetch="ssh://git@git.pelagicore.net/" name="pcore" />
 
   <!-- Base stuff -->
   <project remote="oe"     revision="krogoth" name="meta-openembedded"      path="sources/meta-openembedded"/>
@@ -18,11 +17,9 @@
 
   <!-- Target stuff -->
   <project remote="yocto" revision="krogoth" name="meta-intel"                          path="sources/meta-intel"/>
-  <project remote="pcore" revision="master"  name="viktor-sjolind/meta-pelux-bsp-intel" path="sources/meta-pelux-bsp-intel" />
-  <project remote="pcore" revision="master"  name="viktor-sjolind/meta-pelux"           path="sources/meta-pelux" />
-  <project remote="pcore" revision="master"  name="viktor-sjolind/pelux-intel-base"     path="build/conf" >
-      <copyfile src="README.md"         dest="README.md"/>
-  </project>
+  <project remote="github" revision="master"  name="Pelagicore/meta-pelux-bsp-intel" path="sources/meta-pelux-bsp-intel" />
+  <project remote="github" revision="master"  name="Pelagicore/meta-pelux"           path="sources/meta-pelux" />
+  <project remote="github" revision="master"  name="Pelagicore/pelux-intel-base"     path="build/conf" />
 
   <!-- GENIVI stuff -->
   <project remote="yocto" revision="11.0" name="meta-ivi" path="sources/meta-ivi" />

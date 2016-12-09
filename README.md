@@ -1,5 +1,5 @@
-Pelux reference instance manifests
-==================================
+Pelux reference manifests
+=========================
 This is the manifest repository for building the Pelux reference for various targets using Yocto 
 
 Maintained at https://github.com/pelagicore/pelux-manifests
@@ -7,7 +7,7 @@ Maintained at https://github.com/pelagicore/pelux-manifests
 Building an Image
 -----------------
 Variables:
-* Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each target has its own manifest describing what other git repositories are needed for the build.
+* Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the Pelux reference has its own manifest describing what other git repositories are needed for the build.
 * Branch, what version of this repository to use. This follows the same principles as the Yocto project, see `Branching` below. 
 
 
@@ -27,8 +27,15 @@ MANIFEST=<manifest> BRANCH=<branch> vagrant up
 ### Using Repo tool
 
 ```bash
-repo init -u ssh://git@git.pelagicore.net/viktor-sjolind/pelux-manifests.git -m <manifest> -b <branch>
+repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
 repo sync
+
+cd sources/poky
+source oe-init-build-env ../../build
+cp conf/local.conf.sample conf/local.conf
+cp conf/bblayers.conf.sample conf/bblayers.conf
+
+bitbake core-image-pelux
 ```
 
 Targets
