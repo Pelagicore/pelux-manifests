@@ -18,6 +18,12 @@ if (manifest.nil? || manifest == 0)
     abort("MANIFEST must be specified")
 end
 
+branch = ENV['BRANCH']
+
+if (branch.nil? || branch == 0)
+    branch = "master"
+end
+
 Vagrant.configure(2) do |config|
     # We don't use the rsynced files
     config.vm.synced_folder '.', '/vagrant', :disabled => true
@@ -61,14 +67,15 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/yocto/initialize-repo-tool.sh"
 
     # Initialize Yocto environment
-    config.vm.provision "shell", privileged: false, args: [manifest], inline: <<-SHELL
+    config.vm.provision "shell", privileged: false, args: [manifest, branch], inline: <<-SHELL
         MANIFEST=$1
+        BRANCH=$2
         export CONFDIR=/home/vagrant/pelux_yocto/build/conf
 
         # Clone recipes
         mkdir pelux_yocto
         cd pelux_yocto
-        time repo init -u ssh://git@git.pelagicore.net/viktor-sjolind/pelux-manifests.git -m $MANIFEST -b master
+        time repo init -u ssh://git@git.pelagicore.net/viktor-sjolind/pelux-manifests.git -m $MANIFEST -b $BRANCH
         time repo sync
 
         # Tweak configs
@@ -88,15 +95,5 @@ Vagrant.configure(2) do |config|
         args: ["/home/vagrant/pelux_yocto/", "core-image-pelux"],
         privileged: false,
         path: "vagrant-cookbook/yocto/build-images.sh"
-
-    # Create a release
-    config.vm.provision "shell", privileged: false, inline: <<-SHELL
-        export PATH=$PATH:~/repo/
-#        git clone ssh://git@git.pelagicore.net/viktor-sjolind/pelux-manifests.git -b master
-#        cd manifest/release_tools/
-#        git pull
-#        rm -rf ~/releases
-#        time ./make_release.sh /home/vagrant/pelux_yocto/sources/ /home/vagrant/pelux_yocto/build/ ~/releases/ `git -C ~/yocto-manifests rev-parse --short HEAD` ~/yocto-manifests/README.md ~/pelux_yocto/documentation/PELUX/_build/latex/PELUX.pdf ~/pelux_yocto/utils/bootburn/
-    SHELL
 end
 
