@@ -5,9 +5,6 @@
 disk_name = 'yocto_disk.vdi'
 disk_size_gb = 200
 
-# SSH key to use when cloning with git in guest
-vagrant_private_key_file="ssh_private_key_id_rsa"
-
 # System resources
 ram = 16 #GB
 cpus = 6
@@ -44,8 +41,6 @@ Vagrant.configure(2) do |config|
         ping google.com &> /dev/null &
     SHELL
 
-    config.vm.provision "file", source: vagrant_private_key_file, destination: "/home/vagrant/.ssh/id_rsa"
-
     # Use apt-cacher on main server
     config.vm.provision "shell",
         args: ['10.8.36.16'],
@@ -56,9 +51,6 @@ Vagrant.configure(2) do |config|
 
     # Not all networks can handle IPv6, so we disable it for now
     config.vm.provision "shell", path: "vagrant-cookbook/system-config/disable-ipv6.sh"
-
-    # Set of git access for git.pelagicore.net
-    config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/system-config/ssh-keyscan-conf.sh"
 
     # Configure username and password in git
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/system-config/vagrant-ssh-user.sh"
@@ -75,7 +67,7 @@ Vagrant.configure(2) do |config|
         # Clone recipes
         mkdir pelux_yocto
         cd pelux_yocto
-        time repo init -u ssh://git@git.pelagicore.net/viktor-sjolind/pelux-manifests.git -m $MANIFEST -b $BRANCH
+        time repo init -u https://github.com/pelagicore/pelux-manifests.git -m $MANIFEST -b $BRANCH
         time repo sync
 
         # Tweak configs
