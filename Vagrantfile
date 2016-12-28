@@ -62,27 +62,22 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", privileged: false, args: [manifest, branch], inline: <<-SHELL
         MANIFEST=$1
         BRANCH=$2
-        export CONFDIR=/home/vagrant/pelux_yocto/build/conf
 
         # Clone recipes
         mkdir pelux_yocto
         cd pelux_yocto
         time repo init -u https://github.com/pelagicore/pelux-manifests.git -m $MANIFEST -b $BRANCH
         time repo sync
-
-        # Tweak configs
-        cp "$CONFDIR/local.conf.sample" "$CONFDIR/local.conf"
-        cp "$CONFDIR/bblayers.conf.sample" "$CONFDIR/bblayers.conf"
-        sed -i 's:<Yocto root>:/home/vagrant/pelux_yocto/:' "$CONFDIR/bblayers.conf"
     SHELL
 
     # Fetch the sources
     config.vm.provision "shell",
         args: ["/home/vagrant/pelux_yocto", "core-image-pelux"],
         privileged: false,
+        env: {"TEMPLATECONF" => "/home/vagrant/pelux_yocto/sources/meta-pelux-bsp-intel/conf"},
         path: "vagrant-cookbook/yocto/fetch-sources-for-recipes.sh"
 
-    # Build the kernel
+    # Build the image
     config.vm.provision "shell",
         args: ["/home/vagrant/pelux_yocto/", "core-image-pelux"],
         privileged: false,
