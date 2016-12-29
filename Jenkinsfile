@@ -6,16 +6,12 @@ def runInVagrant = { String workspace, String command ->
 }
 
 node {
+    // Store the directory we are executed in as our workspace.
     String workspace = pwd()
-    try {
-        // Store the directory we are executed in as our workspace.
-        // These are the build parameters we want to use
-        String buildParams = "-DENABLE_TEST=ON -DENABLE_COVERAGE=ON "
-        buildParams       += "-DENABLE_USER_DOC=ON -DENABLE_API_DOC=ON "
-        buildParams       += "-DENABLE_SYSTEMD=ON -DENABLE_PROFILING=ON "
-        buildParams       += "-DENABLE_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=/usr"
 
+    try {
         // Stages are subtasks that will be shown as subsections of the finiished build in Jenkins.
+
         stage('Download') {
             // Checkout the git repository and refspec pointed to by jenkins
             checkout scm
@@ -23,7 +19,7 @@ node {
             sh 'git submodule update --init'
         }
 
-        stage('StartVM') {
+        stage('StartVM and Build') {
             // Calculate available amount of RAM
             String gigsramStr = sh (
                 script: 'free -tg | tail -n1 | awk \'{ print $2 }\'',
@@ -37,10 +33,10 @@ node {
             }
 
             // Start the machine (destroy it if present) and provision it
-            sh "cd ${workspace} && vagrant destroy -f || true"
+            sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant destroy -f || true"
             withEnv(["VAGRANT_RAM=${gigsram}",
                      "APT_CACHE_SERVER=10.8.36.16"]) {
-                sh "cd ${workspace} && vagrant up"
+                sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant up"
             }
         }
     }
@@ -57,5 +53,5 @@ node {
 
     // Always try to shut down the machine
     // Shutdown the machine
-    sh "cd ${workspace} && vagrant destroy -f || true"
+    sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant destroy -f || true"
 }
