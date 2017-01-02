@@ -30,11 +30,7 @@ MANIFEST=<manifest> BRANCH=<branch> vagrant up
 repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
 repo sync
 
-cd sources/poky
-source oe-init-build-env ../../build
-cp conf/local.conf.sample conf/local.conf
-cp conf/bblayers.conf.sample conf/bblayers.conf
-
+TEMPLATECONF=../sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
 bitbake core-image-pelux
 ```
 
