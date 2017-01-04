@@ -41,11 +41,6 @@ Vagrant.configure(2) do |config|
         ping google.com &> /dev/null &
     SHELL
 
-    # Use apt-cacher on main server
-    config.vm.provision "shell",
-        args: ['10.8.36.16'],
-        path: "vagrant-cookbook/system-config/apt-cacher.sh"
-
     # Install dependencies for BitBake
     config.vm.provision "shell", path: "vagrant-cookbook/deps/yocto.sh"
 
