@@ -5,6 +5,9 @@
   <remote fetch="git://code.qt.io/"             name="qt-project" />
 
   <!-- Qt and Appman -->
-  <project remote="qt-project" revision="3425517323dbb47641541e9905821f3e3633be5e" name="yocto/meta-boot2qt" path="sources/meta-boot2qt"/>
+  <project remote="qt-project"
+           revision="dev"
+           name="yocto/meta-boot2qt"
+           path="sources/meta-boot2qt"/>
 
 </manifest>
