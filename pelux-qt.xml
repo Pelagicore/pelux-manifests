@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!-- Remotes -->
+  <remote fetch="git://code.qt.io/"             name="qt-project" />
+
+  <!-- Qt and Appman -->
+  <project remote="qt-project" revision="3425517323dbb47641541e9905821f3e3633be5e" name="yocto/meta-boot2qt" path="sources/meta-boot2qt"/>
+
+</manifest>
