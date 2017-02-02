@@ -36,7 +36,7 @@ node {
             sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant destroy -f || true"
             withEnv(["VAGRANT_RAM=${gigsram}",
                      "APT_CACHE_SERVER=10.8.36.16"]) {
-                sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant up"
+                sh "cd ${workspace} && BRANCH=${env.BRANCH_NAME} MANIFEST=pelux-intel.xml vagrant up"
             }
         }
     }
