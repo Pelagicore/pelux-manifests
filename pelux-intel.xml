@@ -3,9 +3,6 @@
 
   <include name="pelux-base.xml"/>
 
-  <!-- Settings -->
-  <default sync-j="4" revision="krogoth" />
-
   <!-- Target stuff -->
   <project remote="yocto"  revision="krogoth" name="meta-intel"                      path="sources/meta-intel"/>
   <project remote="github" revision="master"  name="Pelagicore/meta-pelux-bsp-intel" path="sources/meta-pelux-bsp-intel" />
