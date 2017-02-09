@@ -8,7 +8,7 @@
   <remote fetch="git://git.openembedded.org"    name="oe"/>
   <remote fetch="git://git.yoctoproject.org"    name="yocto"/>
   <remote fetch="git://github.com/"             name="github"/>
-  <remote fetch="http://code.qt.io/cgit/yocto/meta-qt5.git" name="qt"/>
+  <remote fetch="git://code.qt.io/" name="code.qt"/>
 
   <!-- Base stuff -->
   <project remote="oe"     revision="morty"  name="meta-openembedded"      path="sources/meta-openembedded"/>
@@ -22,6 +22,6 @@
   <project remote="yocto" revision="experimental" name="meta-ivi" path="sources/meta-ivi" />
 
   <!-- Qt Support stuff -->
-  <project remote="qt" revision="morty" name="meta-qt5/meta-qt5" path="sources/meta-qt5"/>
+  <project remote="code.qt" revision="morty" name="yocto/meta-qt5" path="sources/meta-qt5"/>
 
 </manifest>
