@@ -21,6 +21,12 @@ if (branch.nil? || branch == 0)
     branch = "master"
 end
 
+fork = ENV['FORK']
+
+if (fork.nil? || fork == 0)
+    fork = "pelagicore"
+end
+
 Vagrant.configure(2) do |config|
     # We don't use the rsynced files
     config.vm.synced_folder '.', '/vagrant', :disabled => true
@@ -54,14 +60,15 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/yocto/initialize-repo-tool.sh"
 
     # Initialize Yocto environment
-    config.vm.provision "shell", privileged: false, args: [manifest, branch], inline: <<-SHELL
+    config.vm.provision "shell", privileged: false, args: [manifest, branch, fork], inline: <<-SHELL
         MANIFEST=$1
         BRANCH=$2
+        FORK=$3
 
         # Clone recipes
         mkdir pelux_yocto
         cd pelux_yocto
-        time repo init -u https://github.com/pelagicore/pelux-manifests.git -m $MANIFEST -b $BRANCH
+        time repo init -u https://github.com/${FORK}/pelux-manifests.git -m $MANIFEST -b $BRANCH
         time repo sync
     SHELL
 
