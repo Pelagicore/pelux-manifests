@@ -65,6 +65,11 @@ Vagrant.configure(2) do |config|
         BRANCH=$2
         FORK=$3
 
+        echo "Running repo init with the following settings:"
+        echo "manifest=${MANIFEST}\n"
+        echo "branch  =${BRANCH}\n"
+        echo "fork    =${FORK}\n"
+
         # Clone recipes
         mkdir pelux_yocto
         cd pelux_yocto
