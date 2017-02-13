@@ -22,6 +22,6 @@
   <project remote="yocto" revision="experimental" name="meta-ivi" path="sources/meta-ivi" />
 
   <!-- Qt Support stuff -->
-  <project remote="code.qt" revision="morty" name="yocto/meta-qt5" path="sources/meta-qt5"/>
+  <project remote="code.qt" revision="upstream/morty" name="yocto/meta-qt5" path="sources/meta-qt5"/>
 
 </manifest>
