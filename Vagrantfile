@@ -15,21 +15,7 @@ if (manifest.nil? || manifest == 0)
     abort("MANIFEST must be specified")
 end
 
-branch = ENV['BRANCH']
-
-if (branch.nil? || branch == 0)
-    branch = "master"
-end
-
-fork = ENV['FORK']
-
-if (fork.nil? || fork == 0)
-    fork = "pelagicore"
-end
-
 Vagrant.configure(2) do |config|
-    # We don't use the rsynced files
-    config.vm.synced_folder '.', '/vagrant', :disabled => true
 
     config.vm.box = "debian/jessie64"
 
@@ -60,20 +46,27 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/yocto/initialize-repo-tool.sh"
 
     # Initialize Yocto environment
-    config.vm.provision "shell", privileged: false, args: [manifest, branch, fork], inline: <<-SHELL
+    config.vm.provision "shell", privileged: false, args: [manifest], inline: <<-SHELL
         MANIFEST=$1
-        BRANCH=$2
-        FORK=$3
 
         echo "Running repo init with the following settings:"
         echo "manifest=${MANIFEST}\n"
-        echo "branch  =${BRANCH}\n"
-        echo "fork    =${FORK}\n"
+
+        # Copy the host repo to ensure that no later git commands destroy anything.
+        SYNC_DIR="/vagrant"
+        COPY_DIR="/tmp/git_repo"
+        cp -r ${SYNC_DIR} ${COPY_DIR}
+
+        # Make sure there is a master branch and that it is pointing to the latest commit.
+        cd ${COPY_DIR}
+        git branch -D master || true
+        git checkout -b master
+        cd -
 
         # Clone recipes
         mkdir pelux_yocto
         cd pelux_yocto
-        time repo init -u https://github.com/${FORK}/pelux-manifests.git -m $MANIFEST -b $BRANCH
+        time repo init -u ${COPY_DIR} -m ${MANIFEST} -b master
         time repo sync
     SHELL
 
