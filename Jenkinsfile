@@ -1,10 +1,5 @@
 #!/usr/bin/groovy
 
-// Runs a shell command in the vagrant vm
-def runInVagrant = { String workspace, String command ->
-    sh "cd ${workspace} && vagrant ssh -c '${command}'"
-}
-
 node {
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
