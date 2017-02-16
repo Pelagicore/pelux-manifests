@@ -1,6 +1,6 @@
 #!/usr/bin/groovy
 
-node {
+def buildManifest = {String manifest ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
 
@@ -28,10 +28,10 @@ node {
             }
 
             // Start the machine (destroy it if present) and provision it
-            sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant destroy -f || true"
+            sh "cd ${workspace} && MANIFEST=${manifest} vagrant destroy -f || true"
             withEnv(["VAGRANT_RAM=${gigsram}",
                      "APT_CACHE_SERVER=10.8.36.16"]) {
-                sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant up"
+                sh "cd ${workspace} && MANIFEST=${manifest} vagrant up"
             }
         }
     }
@@ -48,5 +48,13 @@ node {
 
     // Always try to shut down the machine
     // Shutdown the machine
-    sh "cd ${workspace} && MANIFEST=pelux-intel.xml vagrant destroy -f || true"
+    sh "cd ${workspace} && MANIFEST=${manifest} vagrant destroy -f || true"
+}
+
+node {
+    buildManifest("pelux-intel.xml")
+}
+
+node {
+    buildManifest("pelux-intel-qt.xml")
 }
