@@ -11,17 +11,41 @@
   <remote fetch="git://code.qt.io/" name="code.qt"/>
 
   <!-- Base stuff -->
-  <project remote="oe"     revision="morty"  name="meta-openembedded"      path="sources/meta-openembedded"/>
-  <project remote="yocto"  revision="morty"  name="poky"                   path="sources/poky"/>
-  <project remote="github" revision="master" name="Pelagicore/meta-bistro" path="sources/meta-bistro" />
-  <project remote="yocto"  revision="morty"  name="meta-virtualization"    path="sources/meta-virtualization"/>
+  <project remote="oe"
+           revision="55c8a76da5dc099a7bc3838495c672140cedb78e"
+           name="meta-openembedded"
+           path="sources/meta-openembedded"/>
 
-  <project remote="github" revision="master" name="Pelagicore/meta-pelux"  path="sources/meta-pelux" />
+  <project remote="yocto"
+           revision="ae9b341ecfcc60e970f29cfe04306411ad26c0cf"
+           name="poky"
+           path="sources/poky"/>
+
+  <project remote="github"
+           revision="c22dacdbfd1d660a00bea9a76e268e831118d6d8"
+           name="Pelagicore/meta-bistro"
+           path="sources/meta-bistro" />
+
+  <project remote="yocto"
+           revision="120745a7fcb72ece2616ce3f5ae233badb587352"
+           name="meta-virtualization"
+           path="sources/meta-virtualization"/>
+
+  <project remote="github"
+           revision="4908e1ae249cee8047403bfe6704fea0d8215dec"
+           name="Pelagicore/meta-pelux"
+           path="sources/meta-pelux" />
 
   <!-- GENIVI stuff -->
-  <project remote="yocto" revision="experimental" name="meta-ivi" path="sources/meta-ivi" />
+  <project remote="yocto"
+           revision="f4ee00a42565ed6640493b7f8c9f1069e9d4b693"
+           name="meta-ivi"
+           path="sources/meta-ivi" />
 
   <!-- Qt Support stuff -->
-  <project remote="code.qt" revision="upstream/morty" name="yocto/meta-qt5" path="sources/meta-qt5"/>
+  <project remote="code.qt"
+           revision="4020adfd5198cf581eb20fbfd7d5b4c1a42fcdf4"
+           name="yocto/meta-qt5"
+           path="sources/meta-qt5"/>
 
 </manifest>
