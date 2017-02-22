@@ -4,7 +4,14 @@
   <include name="pelux-base.xml"/>
 
   <!-- Target stuff -->
-  <project remote="yocto"  revision="krogoth" name="meta-intel"                      path="sources/meta-intel"/>
-  <project remote="github" revision="master"  name="Pelagicore/meta-pelux-bsp-intel" path="sources/meta-pelux-bsp-intel" />
+  <project remote="yocto"
+           revision="1f8dd1b00ce9c72d73583c405ec392690d9b08b7"
+           name="meta-intel"
+           path="sources/meta-intel"/>
+
+  <project remote="github"
+           revision="c341cdd4f8c47fcd9b3d0979f937e52588ac84a7"
+           name="Pelagicore/meta-pelux-bsp-intel"
+           path="sources/meta-pelux-bsp-intel" />
 
 </manifest>
