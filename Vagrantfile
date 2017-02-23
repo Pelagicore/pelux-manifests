@@ -52,16 +52,28 @@ Vagrant.configure(2) do |config|
         echo "Running repo init with the following settings:"
         echo "manifest=${MANIFEST}\n"
 
+        # In order to get repo tool to be able to init from pull-requests, there
+        # has to be a branch available in /refs/heads. This is facilitated by
+        # syncing the git repositroy on the host (in which this file is located) into
+        # the vagrant machine.
+
         # Copy the host repo to ensure that no later git commands destroy anything.
         SYNC_DIR="/vagrant"
         COPY_DIR="/tmp/git_repo"
         cp -r ${SYNC_DIR} ${COPY_DIR}
+
+        # After making a copy of the synced git directory it is made sure that there is
+        # a branch, in this case called master, in /refs/heads containing the latest commits
+        # which we can point to using repo init.
 
         # Make sure there is a master branch and that it is pointing to the latest commit.
         cd ${COPY_DIR}
         git branch -D master || true
         git checkout -b master
         cd -
+
+        # Now everything is set to be able to do repo init from the copied git repository.
+        # Manifest is provided via environment variables set at running vagrant up.
 
         # Clone recipes
         mkdir pelux_yocto
