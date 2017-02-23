@@ -55,7 +55,8 @@ Vagrant.configure(2) do |config|
         # In order to get repo tool to be able to init from pull-requests, there
         # has to be a branch available in /refs/heads. This is facilitated by
         # syncing the git repositroy on the host (in which this file is located) into
-        # the vagrant machine.
+        # the vagrant machine. The git repository is fetched from the host since the
+        # host already fetched the correct refs via the Jenkinsfile.
 
         # Copy the host repo to ensure that no later git commands destroy anything.
         SYNC_DIR="/vagrant"
