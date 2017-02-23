@@ -10,7 +10,7 @@
            path="sources/meta-intel"/>
 
   <project remote="github"
-           revision="c341cdd4f8c47fcd9b3d0979f937e52588ac84a7"
+           revision="d1c436bab4adf4006563ea3c62b0256dbcf8e687"
            name="Pelagicore/meta-pelux-bsp-intel"
            path="sources/meta-pelux-bsp-intel" />
 
