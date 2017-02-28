@@ -1,6 +1,6 @@
 #!/usr/bin/groovy
 
-def buildManifest = {String manifest ->
+def buildManifest = {String manifest, String bitbake_image ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
 
@@ -28,10 +28,10 @@ def buildManifest = {String manifest ->
             }
 
             // Start the machine (destroy it if present) and provision it
-            sh "cd ${workspace} && MANIFEST=${manifest} vagrant destroy -f || true"
+            sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
             withEnv(["VAGRANT_RAM=${gigsram}",
                      "APT_CACHE_SERVER=10.8.36.16"]) {
-                sh "cd ${workspace} && MANIFEST=${manifest} vagrant up"
+                sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant up"
             }
         }
     }
@@ -48,13 +48,13 @@ def buildManifest = {String manifest ->
 
     // Always try to shut down the machine
     // Shutdown the machine
-    sh "cd ${workspace} && MANIFEST=${manifest} vagrant destroy -f || true"
+    sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
 }
 
 node {
-    buildManifest("pelux-intel.xml")
+    buildManifest("pelux-intel.xml", "core-image-pelux")
 }
 
 node {
-    buildManifest("pelux-intel-qt.xml")
+    buildManifest("pelux-intel-qt.xml", "core-image-pelux-qt")
 }
