@@ -15,6 +15,12 @@ if (manifest.nil? || manifest == 0)
     abort("MANIFEST must be specified")
 end
 
+bitbake_image = ENV['BITBAKE_IMAGE']
+
+if (bitbake_image.nil? || bitbake_image == 0)
+    abort("BITBAKE_IMAGE must be specified")
+end
+
 Vagrant.configure(2) do |config|
 
     config.vm.box = "debian/jessie64"
@@ -92,7 +98,7 @@ Vagrant.configure(2) do |config|
 
     # Build the image
     config.vm.provision "shell",
-        args: ["/home/vagrant/pelux_yocto/", "core-image-pelux"],
+        args: ["/home/vagrant/pelux_yocto/", bitbake_image],
         privileged: false,
         path: "vagrant-cookbook/yocto/build-images.sh"
 end
