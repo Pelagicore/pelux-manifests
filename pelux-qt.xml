@@ -6,7 +6,7 @@
 
   <!-- Qt and Appman -->
   <project remote="qt-project"
-           revision="dev"
+           revision="09f8c75cfeb0ea6d6b77dbd25cfbf779aa395b45"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
