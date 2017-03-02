@@ -7,8 +7,6 @@ Maintained at https://github.com/pelagicore/pelux-manifests
 Building an Image
 -----------------
 Variables:
-* Branch, what version of this repository to use. This follows the same principles as the Yocto project, see `Branching` below. 
-
 * Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the PELUX reference has its own manifest describing what other git repositories are needed for the build.
 
 ### Using vagrant
@@ -19,14 +17,28 @@ Dependencies:
 * Virtualbox
 * virtualization enabled in bios
 
-On Linux systems:
+Procedure:
+
+1. Clone the pelux-manifests git repository.
+2. Start vagrant
 ```bash
-MANIFEST=<manifest> BRANCH=<branch> vagrant up
+MANIFEST=<manifest> vagrant up
 ```
+
+Note:
+The virtual machine started via vagrant will sync the cloned git repository and use the manifests contained in it
+to set up the build environment. This means that the branch/commit currently checked out will determine what version
+is being built.
 
 ### Using Repo tool
 
+Using this approach one should not clone this git repository. All git manipulation is handled by repo tool.
+Branch denotes what branch of pelux-manifests to use.
+
 ```bash
+mkdir pelux
+cd pelux
+
 repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
 repo sync
 
