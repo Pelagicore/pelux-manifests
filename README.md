@@ -43,7 +43,9 @@ cd pelux
 repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
 repo sync
 
-TEMPLATECONF=../sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
+PWD=`pwd`
+
+TEMPLATECONF=${PWD}/sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
 bitbake <image>
 ```
 
