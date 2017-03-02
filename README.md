@@ -8,6 +8,7 @@ Building an Image
 -----------------
 Variables:
 * Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the PELUX reference has its own manifest describing what other git repositories are needed for the build.
+* Image, refers to what version of PELUX that should be built. Currently there are two versions: `core-image-pelux` and `core-image-pelux-qt`. The latter being a version that includes NeptuneUI and QtApplicationManager.
 
 ### Using vagrant
 
@@ -22,7 +23,7 @@ Procedure:
 1. Clone the pelux-manifests git repository.
 2. Start vagrant
 ```bash
-MANIFEST=<manifest> vagrant up
+MANIFEST=<manifest> BITBAKE_IMAGE=<image> vagrant up
 ```
 
 Note:
@@ -43,7 +44,7 @@ repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b 
 repo sync
 
 TEMPLATECONF=../sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
-bitbake core-image-pelux
+bitbake <image>
 ```
 
 Targets
