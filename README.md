@@ -1,15 +1,15 @@
-Pelux reference manifests
+PELUX baseline manifests
 =========================
-This is the manifest repository for building the Pelux reference for various targets using Yocto 
+This is the manifest repository for building the PELUX reference for various targets using Yocto
 
 Maintained at https://github.com/pelagicore/pelux-manifests
 
 Building an Image
 -----------------
 Variables:
-* Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the Pelux reference has its own manifest describing what other git repositories are needed for the build.
 * Branch, what version of this repository to use. This follows the same principles as the Yocto project, see `Branching` below. 
 
+* Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the PELUX reference has its own manifest describing what other git repositories are needed for the build.
 
 ### Using vagrant
 
