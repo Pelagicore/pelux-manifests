@@ -33,19 +33,33 @@ is being built.
 
 ### Using Repo tool
 
-Using this approach one should not clone this git repository. All git manipulation is handled by repo tool.
-Branch denotes what branch of pelux-manifests to use.
+#### NOTE: Using this approach one should not clone this git repository, all git manipulation is handled by repo tool.
 
+First, install repo tool as instructed at http://source.android.com/source/downloading.html#installing-repo.
+
+Then create a directory for the PELUX build.
 ```bash
 mkdir pelux
 cd pelux
+```
 
+Instruct repo tool to fetch a manifest using the command `repo init`. Branch denotes what branch of
+pelux-manifests to use. Then make repo tool fetch all sources using the command `repo sync`.
+```bash
 repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
 repo sync
+```
 
+When done fetching the sources, create a build directory and set up bitbake. TEMPLATECONF tells the
+`oe-init-build-env` script which path to fetch configuration samples from.
+```bash
 PWD=`pwd`
 
 TEMPLATECONF=${PWD}/sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
+```
+
+Finally, build the desired image. See the variables description above for information on the different images.
+```bash
 bitbake <image>
 ```
 
