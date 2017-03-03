@@ -1,6 +1,6 @@
 PELUX baseline manifests
 =========================
-This is the manifest repository for building the PELUX reference for various targets using Yocto
+This is the manifest repository for building the PELUX baseline for various hardware targets using Yocto
 
 Maintained at https://github.com/pelagicore/pelux-manifests
 
@@ -26,14 +26,13 @@ Procedure:
 MANIFEST=<manifest> BITBAKE_IMAGE=<image> vagrant up
 ```
 
-Note:
 The virtual machine started via vagrant will sync the cloned git repository and use the manifests contained in it
 to set up the build environment. This means that the branch/commit currently checked out will determine what version
 is being built.
 
 ### Using Repo tool
 
-#### NOTE: Using this approach one should not clone this git repository, all git manipulation is handled by repo tool.
+#### NOTE: Using this approach one should not clone this git repository, all git manipulation is handled by the repo tool.
 
 First, install repo tool as instructed at http://source.android.com/source/downloading.html#installing-repo.
 
@@ -43,8 +42,8 @@ mkdir pelux
 cd pelux
 ```
 
-Instruct repo tool to fetch a manifest using the command `repo init`. Branch denotes what branch of
-pelux-manifests to use. Then make repo tool fetch all sources using the command `repo sync`.
+Instruct repo tool to fetch a manifest using the command `repo init`. In this context, branch denotes what
+branch of git repo `pelux-manifests` to use. Then make repo tool fetch all sources using the command `repo sync`.
 ```bash
 repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
 repo sync
