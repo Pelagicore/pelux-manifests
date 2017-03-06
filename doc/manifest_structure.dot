@@ -1,0 +1,10 @@
+digraph {
+    bspQtAS [label="BSP + QtAS"];
+    bsp     [label="BSP"];
+    base    [label="Base"];
+    qt      [label="Qt"];
+
+    bsp  -> base;
+    bspQtAS -> bsp;
+    bspQtAS -> qt;
+}
