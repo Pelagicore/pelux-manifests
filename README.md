@@ -6,7 +6,17 @@ Maintained at https://github.com/pelagicore/pelux-manifests
 
 Building an Image
 -----------------
+
+The following manifests can be used for a build:
+
+* `pelux-intel.xml` - For building the `core-image-pelux` image
+* `pelux-intel-qt.xml` - For building the `core-image-pelux-qt` image, which is the baseline with QtAS
+
+An image build can be started using a virtual machine, see section "Using vagrant", or using `repo` tool
+directly, see section "Using Repo tool".
+
 Variables:
+
 * Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the PELUX reference has its own manifest describing what other git repositories are needed for the build.
 * Image, refers to what version of PELUX that should be built. Currently there are two versions: `core-image-pelux` and `core-image-pelux-qt`. The latter being a version that includes NeptuneUI and QtApplicationManager.
 
