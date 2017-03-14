@@ -67,6 +67,10 @@ PWD=`pwd`
 TEMPLATECONF=${PWD}/sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
 ```
 
+The script will create configs if there are no configs present, a message about created `conf/local.conf`
+and `conf/bblayers.conf` files is normal.
+
+
 Finally, build the desired image. See the variables description above for information on the different images.
 ```bash
 bitbake <image>
