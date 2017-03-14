@@ -78,6 +78,8 @@ bitbake <image>
 
 Targets
 -------
+Below is a description of the currently supported hardware targets. For more information about
+how to use a built image with the targets, see [Getting started](getting-started.md).
 
 ### Pelux Intel
 Reference instance for the Intel i7 x86 platform. Examples of boards using this architecture include:
