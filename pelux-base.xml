@@ -37,9 +37,9 @@
            path="sources/meta-pelux" />
 
   <!-- GENIVI stuff -->
-  <project remote="yocto"
+  <project remote="github"
            revision="f4ee00a42565ed6640493b7f8c9f1069e9d4b693"
-           name="meta-ivi"
+           name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
   <!-- Qt Support stuff -->
