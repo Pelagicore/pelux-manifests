@@ -38,7 +38,7 @@
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           revision="f4ee00a42565ed6640493b7f8c9f1069e9d4b693"
+           revision="1c341e1b2421e4d7c0594978d001a3cd322da95c"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
