@@ -62,9 +62,7 @@ repo sync
 When done fetching the sources, create a build directory and set up bitbake. TEMPLATECONF tells the
 `oe-init-build-env` script which path to fetch configuration samples from.
 ```bash
-PWD=`pwd`
-
-TEMPLATECONF=${PWD}/sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
+TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
 ```
 
 The script will create configs if there are no configs present, a message about created `conf/local.conf`
