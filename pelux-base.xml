@@ -12,22 +12,22 @@
 
   <!-- Base stuff -->
   <project remote="oe"
-           revision="55c8a76da5dc099a7bc3838495c672140cedb78e"
+           revision="fe5c83312de11e80b85680ef237f8acb04b4b26e"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <project remote="yocto"
-           revision="ae9b341ecfcc60e970f29cfe04306411ad26c0cf"
+           revision="924e576b8930fd2268d85f0b151e5f68a3c2afce"
            name="poky"
            path="sources/poky"/>
 
   <project remote="github"
-           revision="d8349c20b567f28b423ced7c8e85423640cc641e"
+           revision="320661bb1f42673807b442af92c1c870bee34b16"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="yocto"
-           revision="120745a7fcb72ece2616ce3f5ae233badb587352"
+           revision="1beb18840539f0366b6a5f20bcff98c99534c496"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 

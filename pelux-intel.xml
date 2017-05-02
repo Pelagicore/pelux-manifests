@@ -5,7 +5,7 @@
 
   <!-- Target stuff -->
   <project remote="yocto"
-           revision="1f8dd1b00ce9c72d73583c405ec392690d9b08b7"
+           revision="6add41510412ca196efb3e4f949d403a8b6f35d7"
            name="meta-intel"
            path="sources/meta-intel"/>
 
