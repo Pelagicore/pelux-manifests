@@ -44,7 +44,7 @@
 
   <!-- Qt Support stuff -->
   <project remote="code.qt"
-           revision="251beba0ca5f7fae85b8fd9c20851c53347c9722"
+           revision="3d9c554e66f2e6f6eaf8b94d6b1e2bfb34eeae0a"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
