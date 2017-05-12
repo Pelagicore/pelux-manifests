@@ -1,60 +1,47 @@
-#!/usr/bin/groovy
-
-def buildManifest = {String manifest, String bitbake_image ->
-    // Store the directory we are executed in as our workspace.
-    String workspace = pwd()
-
-    try {
-        // Stages are subtasks that will be shown as subsections of the finiished build in Jenkins.
-
+pipeline {
+    agent any
+    parameters {
+        string(name: 'manifest', defaultValue: '', description: 'What repo manifest to use')
+        string(name: 'bitbake_image', defaultValue: '', description: 'What image to build')
+    }
+    stages {
         stage('Download') {
-            // Checkout the git repository and refspec pointed to by jenkins
-            checkout scm
-            // Update the submodules in the repository.
-            sh 'git submodule update --init'
-        }
-
-        stage('StartVM and Build') {
-            // Calculate available amount of RAM
-            String gigsramStr = sh (
-                script: 'free -tg | tail -n1 | awk \'{ print $2 }\'',
-                returnStdout: true
-            )
-            int gigsram = gigsramStr.trim() as Integer
-            // Cap memory usage at 8GB
-            if (gigsram >= 8) {
-                gigsram = 8
-                println "Will set VAGRANT_RAM to ${gigsram}"
-            }
-
-            // Start the machine (destroy it if present) and provision it
-            sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
-            withEnv(["VAGRANT_RAM=${gigsram}",
-                     "APT_CACHE_SERVER=10.8.36.16"]) {
-                sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant up"
-            }
-        }
+	    steps {
+                // Checkout the git repository and refspec pointed to by jenkins
+                checkout scm
+                // Update the submodules in the repository.
+                sh "git submodule update --init"
+	    }
+	}
+        stage('build') {
+	    steps {
+	        script {
+                    // Calculate available amount of RAM
+                    String gigsramStr = sh (
+                        script: "free -tg | tail -n1 | awk '{ print \$2 }'",
+                        returnStdout: true
+                    )
+                    int gigsram = gigsramStr.trim() as Integer
+                    // Cap memory usage at 8GB
+                    if (gigsram >= 8) {
+                        gigsram = 8
+                        println "Will set VAGRANT_RAM to ${gigsram}"
+                    }
+                 
+                    // Start the machine (destroy it if present) and provision it
+                    sh "cd ${workspace} && MANIFEST=${params.manifest} BITBAKE_IMAGE=${params.bitbake_image} vagrant destroy -f || true"
+                    withEnv(["VAGRANT_RAM=${gigsram}",
+                             "APT_CACHE_SERVER=10.8.36.16"]) {
+                        sh "cd ${workspace} && MANIFEST=${params.manifest} BITBAKE_IMAGE=${params.bitbake_image} vagrant up"
+                    }
+		}
+	    }
+	}
     }
-
-    catch(err) {
-        // Do not add a stage here.
-        // When "stage" commands are run in a different order than the previous run
-        // the history is hidden since the rendering plugin assumes that the system has changed and
-        // that the old runs are irrelevant. As such adding a stage at this point will trigger a
-        // "change of the system" each time a run fails.
-        println "Something went wrong!"
-        currentBuild.result = "FAILURE"
+    post {
+        always {
+            // Shutdown the machine
+            sh "cd ${workspace} && MANIFEST= BITBAKE_IMAGE= vagrant destroy -f || true"
+	}
     }
-
-    // Always try to shut down the machine
-    // Shutdown the machine
-    sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
-}
-
-node {
-    buildManifest("pelux-intel.xml", "core-image-pelux")
-}
-
-node {
-    buildManifest("pelux-intel-qt.xml", "core-image-pelux-qt")
 }
