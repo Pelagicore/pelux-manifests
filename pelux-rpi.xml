@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <include name="pelux-base.xml"/>
+
+  <!-- Target stuff -->
+  <project remote="yocto"
+           revision="28d4404f89eb59d406b4976c0e3f5ca19137ba74"
+           name="meta-raspberrypi"
+           path="sources/meta-raspberrypi"/>
+
+  <project remote="github"
+           revision="e8b1cdfd9d70a034bcc7bf7f2ba9a6fb1257b52e"
+           name="Pelagicore/meta-pelux-bsp-rpi"
+           path="sources/meta-pelux-bsp-rpi" />
+
+</manifest>
