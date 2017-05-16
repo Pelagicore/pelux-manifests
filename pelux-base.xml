@@ -32,13 +32,13 @@
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="6433889f94f940d37e9d8eb6740324c1c104a914"
+           revision="515f5cc2ef3911d9cf471dc4e8ece1b76a34b4c6"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           revision="1c341e1b2421e4d7c0594978d001a3cd322da95c"
+           revision="df824ccfb821a38f2e83b1d1ac75a4601a5b738b"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
