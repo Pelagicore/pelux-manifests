@@ -9,8 +9,9 @@ Building an Image
 
 The following manifests can be used for a build:
 
-* `pelux-intel.xml` - For building the `core-image-pelux` image
+* `pelux-intel.xml` - For building the `core-image-pelux` image for Intel
 * `pelux-intel-qt.xml` - For building the `core-image-pelux-qt` image, which is the baseline with QtAS
+* `pelux-rpi.xml` - For building the `core-image-pelux`image for Raspberry Pi 3
 
 An image build can be started using a virtual machine, see section "Using vagrant", or using `repo` tool
 directly, see section "Using Repo tool".
@@ -60,7 +61,8 @@ repo sync
 ```
 
 When done fetching the sources, create a build directory and set up bitbake. TEMPLATECONF tells the
-`oe-init-build-env` script which path to fetch configuration samples from.
+`oe-init-build-env` script which path to fetch configuration samples from. Note that the example below
+get the template configuration for the Intel BSP, adapt the path according to your current BSP.
 ```bash
 TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
 ```
@@ -84,6 +86,9 @@ Reference instance for the Intel i7 x86 platform. Examples of boards using this 
 
 * Intel NUC
 * Minnowboard
+
+### Pelux Raspberry Pi
+Reference instance for Raspberry Pi 3
 
 Branching
 ---------
