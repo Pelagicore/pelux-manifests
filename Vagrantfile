@@ -15,6 +15,9 @@ if (manifest.nil? || manifest == 0)
     abort("MANIFEST must be specified")
 end
 
+# Extract BSP name from manifest name, expects the format pelux-<BSP>-* or pelux-<BSP>.*
+bsp = manifest[/pelux-([^-]*)(-|\.).*/,1]
+
 bitbake_image = ENV['BITBAKE_IMAGE']
 
 if (bitbake_image.nil? || bitbake_image == 0)
@@ -93,7 +96,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell",
         args: ["/home/vagrant/pelux_yocto", "core-image-pelux"],
         privileged: false,
-        env: {"TEMPLATECONF" => "/home/vagrant/pelux_yocto/sources/meta-pelux-bsp-intel/conf"},
+        env: {"TEMPLATECONF" => "/home/vagrant/pelux_yocto/sources/meta-pelux-bsp-" + bsp + "/conf"},
         path: "vagrant-cookbook/yocto/fetch-sources-for-recipes.sh"
 
     # Build the image
