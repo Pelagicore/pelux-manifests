@@ -11,7 +11,7 @@
 
   <!-- When updating this, also update pelux-intel-qt.xml -->
   <project remote="github"
-           revision="6574ca1b6112e912dcb2ec474056d101797187d3"
+           revision="446b786366a2ae34bd2abe345ef0c89f2f7be023"
            name="Pelagicore/meta-pelux-bsp-intel"
            path="sources/meta-pelux-bsp-intel" />
 
