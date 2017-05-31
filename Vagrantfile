@@ -26,11 +26,25 @@ end
 
 Vagrant.configure(2) do |config|
 
-    config.vm.box = "debian/jessie64"
+    # Prefer docker over virtualbox since it is listed first
+    # meaning that docker should run if no '--provider' is supplied
+    # when calling vagrant up
+    config.vm.provider "docker" do |d, configOverride|
+        d.build_dir = "."
+        d.pull = true
+        d.has_ssh = true
 
-    config.vm.provider "virtualbox" do |vb|
+        # Overrides for 'config' unique for docker
+        configOverride.ssh.username = "vagrant"
+        configOverride.ssh.password = "vagrant"
+    end
+
+    config.vm.provider "virtualbox" do |vb, configOverride|
         vb.memory = ram * 1024
         vb.cpus = cpus
+
+        # Overrides for 'configs' unique for virtualbox
+        configOverride.vm.box = "debian/jessie64"
     end
 
 
@@ -97,6 +111,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell",
         args: ["/home/vagrant/pelux_yocto/", bitbake_image],
         privileged: false,
+        env: {"LANG" => "C.UTF-8"},
         path: "vagrant-cookbook/yocto/build-images.sh"
 end
 
