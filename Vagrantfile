@@ -33,9 +33,6 @@ Vagrant.configure(2) do |config|
         vb.cpus = cpus
     end
 
-    # Attach an extra disk to /home/vagrant
-    eval (File.read 'vagrant-cookbook/host-system-config/attach-extra-disk.vagrantfile')
-    config.vm.provision "shell", args: ["/dev/sdb"], path: "vagrant-cookbook/host-system-config/create-disk.sh"
 
     # On some hosts, the network stack needs to be kicked alive
     config.vm.provision "shell", privileged: false, inline: <<-SHELL
