@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", args: ["/dev/sdb"], path: "vagrant-cookbook/host-system-config/create-disk.sh"
 
     # On some hosts, the network stack needs to be kicked alive
-    config.vm.provision "shell", inline: <<-SHELL
+    config.vm.provision "shell", privileged: false, inline: <<-SHELL
         ping google.com &> /dev/null &
     SHELL
 
