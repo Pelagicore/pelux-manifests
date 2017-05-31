@@ -45,9 +45,6 @@ Vagrant.configure(2) do |config|
     # Install dependencies for BitBake
     config.vm.provision "shell", path: "vagrant-cookbook/deps/yocto.sh"
 
-    # Not all networks can handle IPv6, so we disable it for now
-    config.vm.provision "shell", path: "vagrant-cookbook/system-config/disable-ipv6.sh"
-
     # Configure username and password in git
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/system-config/vagrant-ssh-user.sh"
 
