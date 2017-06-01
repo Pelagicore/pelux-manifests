@@ -22,7 +22,7 @@
            path="sources/poky"/>
 
   <project remote="github"
-           revision="74f68eeee4f329cc97bb57ed3fccf28e7839ce81"
+           revision="37602f52e6a4353135ddcdc5584b6bd09bc38618"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
@@ -32,7 +32,7 @@
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="3f8504bb24c0727cb32bf5ca698f27d3e4510165"
+           revision="f70db946bf59f7d81dd0b5cec9adf0f19366f06e"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
