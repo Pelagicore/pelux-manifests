@@ -10,7 +10,7 @@
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           revision="225904ef2c9b1a8d12bf8845ee4f45d4c8e62e00"
+           revision="203c0844aa68e46f46162d1a99cbe7c513d5fbd6"
            name="Pelagicore/meta-pelux-bsp-rpi"
            path="sources/meta-pelux-bsp-rpi" />
 
