@@ -53,10 +53,10 @@ def buildManifest = {String manifest, String bitbake_image ->
     sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
 }
 
-node("Zergling") {
+node("DockerCI") {
     buildManifest("pelux-intel.xml", "core-image-pelux")
 }
 
-node("Zergling") {
+node("DockerCI") {
     buildManifest("pelux-intel-qt.xml", "core-image-pelux-qt")
 }
