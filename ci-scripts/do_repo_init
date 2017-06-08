@@ -19,7 +19,7 @@
 #
 
 
-MANIFEST=$1
+MANIFEST="manifests/$1"
 
 if [ "${MANIFEST}" = "" ];
 then

@@ -56,7 +56,7 @@ cd pelux
 Instruct repo tool to fetch a manifest using the command `repo init`. In this context, branch denotes what
 branch of git repo `pelux-manifests` to use. Then make repo tool fetch all sources using the command `repo sync`.
 ```bash
-repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
+repo init -u https://github.com/Pelagicore/pelux-manifests.git -m manifests/<manifest> -b <branch>
 repo sync
 ```
 
