@@ -30,11 +30,30 @@ def buildManifest = {String manifest, String bitbake_image ->
             println "Will set VAGRANT_RAM to ${gigsram}"
 
             // Start the machine (destroy it if present) and provision it
-            sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
-            withEnv(["VAGRANT_RAM=${gigsram}",
-                     "APT_CACHE_SERVER=10.8.36.16"]) {
-                sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant up"
+            sh "cd ${workspace}"
+            sh "vagrant destroy -f || true"
+            withEnv(["VAGRANT_RAM=${gigsram}"]) {
+                sh "vagrant up"
             }
+        }
+
+        stage('Repo init') {
+            sh "pwd"
+            sh "ls -la"
+            sh "vagrant ssh -c \"/vagrant/ci-scripts/do_repo_init ${manifest}\""
+        }
+
+        String yoctoDir = "/home/vagrant/pelux_yocto"
+
+        stage('Setup bitbake and do fetchall') {
+            // Extract the BSP part of the manifest file name.
+            String bsp = manifest.split("-")[1].tokenize(".")[0]
+            // Setup bitbake environment and trigger a 'fetchall'
+            sh "vagrant ssh -c \"TEMPLATECONF=${yoctoDir}/sources/meta-pelux-bsp-${bsp}/conf /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
+        }
+
+        stage("Bitbake ${bitbake_image}") {
+            sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}\""
         }
     }
 
@@ -50,7 +69,7 @@ def buildManifest = {String manifest, String bitbake_image ->
 
     // Always try to shut down the machine
     // Shutdown the machine
-    sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
+    sh "vagrant destroy -f || true"
 }
 
 node("DockerCI") {
