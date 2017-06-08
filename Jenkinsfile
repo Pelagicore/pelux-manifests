@@ -1,20 +1,22 @@
 #!/usr/bin/groovy
 
+// Copyright (C) Pelagicore AB 2017
+
 def buildManifest = {String manifest, String bitbake_image ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
 
     try {
-        // Stages are subtasks that will be shown as subsections of the finiished build in Jenkins.
+        // Stages are subtasks that will be shown as subsections of the finished build in Jenkins.
 
-        stage('Download') {
+        stage('Checkout') {
             // Checkout the git repository and refspec pointed to by jenkins
             checkout scm
             // Update the submodules in the repository.
             sh 'git submodule update --init'
         }
 
-        stage('StartVM and Build') {
+        stage('Start Vagrant') {
             // Calculate available amount of RAM
             String gigsramStr = sh (
                 script: 'free -tg | tail -n1 | awk \'{ print $2 }\'',
@@ -24,8 +26,8 @@ def buildManifest = {String manifest, String bitbake_image ->
             // Cap memory usage at 8GB
             if (gigsram >= 8) {
                 gigsram = 8
-                println "Will set VAGRANT_RAM to ${gigsram}"
             }
+            println "Will set VAGRANT_RAM to ${gigsram}"
 
             // Start the machine (destroy it if present) and provision it
             sh "cd ${workspace} && MANIFEST=${manifest} BITBAKE_IMAGE=${bitbake_image} vagrant destroy -f || true"
