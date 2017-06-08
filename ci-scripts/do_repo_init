@@ -1,0 +1,61 @@
+#! /bin/bash
+#
+# Copyright (C) 2017 Luxoft
+#
+# Permission to use, copy, modify, and/or distribute this software for
+# any purpose with or without fee is hereby granted, provided that the
+# above copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR
+# BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES
+# OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+# WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+# ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+# SOFTWARE.
+#
+# For further information see LICENSE
+#
+
+
+MANIFEST=$1
+
+if [ "${MANIFEST}" = "" ];
+then
+    echo "Missing argument 1: manifest"
+    exit -1
+fi
+
+echo "Running repo init with the following settings:"
+echo "manifest=${MANIFEST}\n"
+
+# In order to get repo tool to be able to init from pull-requests, there
+# has to be a branch available in /refs/heads. This is facilitated by
+# syncing the git repositroy on the host (in which this file is located) into
+# the vagrant machine. The git repository is fetched from the host since the
+# host already fetched the correct refs via the Jenkinsfile.
+
+# Copy the host repo to ensure that no later git commands destroy anything.
+SYNC_DIR="/vagrant"
+COPY_DIR="/tmp/git_repo"
+cp -r ${SYNC_DIR} ${COPY_DIR}
+
+# After making a copy of the synced git directory it is made sure that there is
+# a branch, in this case called master, in /refs/heads containing the latest commits
+# which we can point to using repo init.
+
+# Make sure there is a master branch and that it is pointing to the latest commit.
+cd ${COPY_DIR}
+git branch -D master || true
+git checkout -b master
+cd -
+
+# Now everything is set to be able to do repo init from the copied git repository.
+# Manifest is provided via environment variables set at running vagrant up.
+
+# Clone recipes
+mkdir pelux_yocto
+cd pelux_yocto
+time repo init -u ${COPY_DIR} -m ${MANIFEST} -b master
+time repo sync
