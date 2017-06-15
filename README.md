@@ -56,8 +56,12 @@ vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh
                  ${bitbake_image}
                \"
 ```
+6. Move the built images to the host
+```bash
+vagrant ssh -c "cp -r ${yoctoDir}/build/tmp/deploy/images /vagrant"
+```
 
-The virtual machine started via vagrant will sync the cloned git repository and use the manifests contained in it to set up the build environment. This means that the branch/commit currently checked out will determine what version is being built.
+The container/virtual machine started via vagrant will sync the cloned git repository and use the manifests contained in it to set up the build environment. This means that the branch/commit currently checked out will determine what version is being built. The final step will copy the image directory containing the built images to the directory on the host where vagrant was started.
 
 ### Using Repo tool
 
