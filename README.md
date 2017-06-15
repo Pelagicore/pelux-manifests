@@ -26,7 +26,7 @@ Variables:
 Dependencies:
 
 * Vagrant
-* Virtualbox
+* Docker or VirtualBox
 * virtualization enabled in bios
 
 Procedure:
@@ -34,12 +34,30 @@ Procedure:
 1. Clone the pelux-manifests git repository.
 2. Start vagrant
 ```bash
-MANIFEST=<manifest> BITBAKE_IMAGE=<image> vagrant up
+vagrant up --provider="docker"
+```
+3. Set variables to be used below
+```bash
+bitbake_image="core-image-pelux"
+yoctoDir="/home/vagrant/pelux_yocto"
+```
+4. Setup bitbake with correct local.conf and bblayers.conf
+```bash
+vagrant ssh -c \"TEMPLATECONF=${yoctoDir}/sources/meta-pelux-bsp-intel/conf
+                 /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh
+                 ${yoctoDir}
+                 ${bitbake_image}
+               \"
+```
+5. Bitbake the PELUX image
+```bash
+vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh
+                 ${yoctoDir}
+                 ${bitbake_image}
+               \"
 ```
 
-The virtual machine started via vagrant will sync the cloned git repository and use the manifests contained in it
-to set up the build environment. This means that the branch/commit currently checked out will determine what version
-is being built.
+The virtual machine started via vagrant will sync the cloned git repository and use the manifests contained in it to set up the build environment. This means that the branch/commit currently checked out will determine what version is being built.
 
 ### Using Repo tool
 
