@@ -13,8 +13,8 @@ The following manifests can be used for a build:
 * `pelux-intel-qt.xml` - For building the `core-image-pelux-qt` image, which is the baseline with QtAS
 * `pelux-rpi.xml` - For building the `core-image-pelux`image for Raspberry Pi 3
 
-An image build can be started using a virtual machine, see section "Using vagrant", or using `repo` tool
-directly, see section "Using Repo tool".
+An image build can be started using a container/virtual machine, see section "Using vagrant", or using `repo` tool directly, see section "Using Repo tool". Since the Repo tool approach is not boxed it is notably faster than using Vagrant. Therefore, the Vagrant approach is usually only used in situations where one does not want to depend on the host system, such as running continuous integration jobs.
+
 
 Variables:
 
