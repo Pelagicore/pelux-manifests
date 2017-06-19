@@ -1,6 +1,7 @@
 PELUX baseline manifests
 =========================
-This is the manifest repository for building the PELUX baseline for various hardware targets using Yocto
+This is the manifest repository for building the PELUX baseline for various
+hardware targets using Yocto
 
 Maintained at https://github.com/pelagicore/pelux-manifests
 
@@ -13,7 +14,12 @@ The following manifests can be used for a build:
 * `pelux-intel-qt.xml` - For building the `core-image-pelux-qt` image, which is the baseline with QtAS
 * `pelux-rpi.xml` - For building the `core-image-pelux`image for Raspberry Pi 3
 
-An image build can be started using a container/virtual machine, see section "Using vagrant", or using `repo` tool directly, see section "Using Repo tool". Since the Repo tool approach is not boxed it is notably faster than using Vagrant. Therefore, the Vagrant approach is usually only used in situations where one does not want to depend on the host system, such as running continuous integration jobs.
+An image build can be started using a container/virtual machine, see section
+"Using vagrant", or using `repo` tool directly, see section "Using Repo tool".
+Since the Repo tool approach is not boxed it is notably faster than using
+Vagrant. Therefore, the Vagrant approach is usually only used in situations
+where one does not want to depend on the host system, such as running
+continuous integration jobs.
 
 
 Variables:
@@ -61,11 +67,16 @@ vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh
 vagrant ssh -c "cp -r ${yoctoDir}/build/tmp/deploy/images /vagrant"
 ```
 
-The container/virtual machine started via vagrant will sync the cloned git repository and use the manifests contained in it to set up the build environment. This means that the branch/commit currently checked out will determine what version is being built. The final step will copy the image directory containing the built images to the directory on the host where vagrant was started.
+The container/virtual machine started via vagrant will sync the cloned git
+repository and use the manifests contained in it to set up the build
+environment. This means that the branch/commit currently checked out will
+determine what version is being built. The final step will copy the image
+directory containing the built images to the directory on the host where vagrant
+was started.
 
 ### Using Repo tool
 
-#### NOTE: Using this approach one should not clone this git repository, all git manipulation is handled by the repo tool.
+#### NOTE: When using this approach one should not clone this git repository, all git manipulation is handled by the repo tool.
 
 First, install repo tool as instructed at http://source.android.com/source/downloading.html#installing-repo.
 
@@ -75,36 +86,42 @@ mkdir pelux
 cd pelux
 ```
 
-Instruct repo tool to fetch a manifest using the command `repo init`. In this context, branch denotes what
-branch of git repo `pelux-manifests` to use. Then make repo tool fetch all sources using the command `repo sync`.
+Instruct repo tool to fetch a manifest using the command `repo init`. In this
+context, branch denotes what branch of git repo `pelux-manifests` to use. Then
+make repo tool fetch all sources using the command `repo sync`.
 ```bash
 repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
 repo sync
 ```
 
-When done fetching the sources, create a build directory and set up bitbake. TEMPLATECONF tells the
-`oe-init-build-env` script which path to fetch configuration samples from. Note that the example below
-get the template configuration for the Intel BSP, adapt the path according to your current BSP.
+When done fetching the sources, create a build directory and set up bitbake.
+TEMPLATECONF tells the `oe-init-build-env` script which path to fetch
+configuration samples from. Note that the example below get the template
+configuration for the Intel BSP, adapt the path according to your current BSP.
 ```bash
-TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ source sources/poky/oe-init-build-env build
+TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ \
+             source sources/poky/oe-init-build-env build
 ```
 
-The script will create configs if there are no configs present, a message about created `conf/local.conf`
-and `conf/bblayers.conf` files is normal.
+The script will create configs if there are no configs present, a message about
+created `conf/local.conf` and `conf/bblayers.conf` files is normal.
 
 
-Finally, build the desired image. See the variables description above for information on the different images.
+Finally, build the desired image. See the variables description above for
+information on the different images.
 ```bash
 bitbake <image>
 ```
 
 Targets
 -------
-Below is a description of the currently supported hardware targets. For more information about
-how to use a built image with the targets, see [Getting started](getting-started.md).
+Below is a description of the currently supported hardware targets. For more
+information about how to use a built image with the targets, see
+[Getting started](getting-started.md).
 
 ### Pelux Intel
-Reference instance for the Intel i7 x86 platform. Examples of boards using this architecture include:
+Reference instance for the Intel i7 x86 platform. Examples of boards using this
+architecture include:
 
 * Intel NUC
 * Minnowboard
