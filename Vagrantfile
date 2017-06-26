@@ -41,6 +41,11 @@ Vagrant.configure(2) do |config|
     # Install dependencies for BitBake
     config.vm.provision "shell", path: "vagrant-cookbook/deps/yocto.sh"
 
+    # Set UTF-8 for BitBake python
+    config.vm.provision "shell", privileged: false, inline: <<-SHELL
+        echo 'export LC_ALL="en_US.UTF-8"' >> .profile
+    SHELL
+
     # Configure username and password in git
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/system-config/vagrant-ssh-user.sh"
 
