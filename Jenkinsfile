@@ -1,7 +1,6 @@
 #!/usr/bin/groovy
 
 // Copyright (C) Pelagicore AB 2017
-
 def buildManifest = {String manifest, String bitbake_image ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
@@ -73,10 +72,9 @@ def buildManifest = {String manifest, String bitbake_image ->
     sh "vagrant destroy -f || true"
 }
 
-node("DockerCI") {
-    buildManifest("pelux-intel.xml", "core-image-pelux")
-}
-
-node("DockerCI") {
-    buildManifest("pelux-intel-qt.xml", "core-image-pelux-qt")
+// Run the different jobs in parallel, on different slaves
+parallel 'core':{
+    node("DockerCI") { buildManifest("pelux-intel.xml", "core-image-pelux") }
+},'qtauto':{
+    node("DockerCI") { buildManifest("pelux-intel-qt.xml", "core-image-pelux-qt") }
 }
