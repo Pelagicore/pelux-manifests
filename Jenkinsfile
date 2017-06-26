@@ -9,14 +9,14 @@ def buildManifest = {String manifest, String bitbake_image ->
     try {
         // Stages are subtasks that will be shown as subsections of the finished build in Jenkins.
 
-        stage('Checkout') {
+        stage("Checkout ${bitbake_image}") {
             // Checkout the git repository and refspec pointed to by jenkins
             checkout scm
             // Update the submodules in the repository.
             sh 'git submodule update --init'
         }
 
-        stage('Start Vagrant') {
+        stage("Start Vagrant ${bitbake_image}") {
             // Calculate available amount of RAM
             String gigsramStr = sh (
                 script: 'free -tg | tail -n1 | awk \'{ print $2 }\'',
@@ -37,7 +37,7 @@ def buildManifest = {String manifest, String bitbake_image ->
             }
         }
 
-        stage('Repo init') {
+        stage("Repo init ${bitbake_image}") {
             sh "pwd"
             sh "ls -la"
             sh "vagrant ssh -c \"/vagrant/ci-scripts/do_repo_init ${manifest}\""
@@ -45,7 +45,7 @@ def buildManifest = {String manifest, String bitbake_image ->
 
         String yoctoDir = "/home/vagrant/pelux_yocto"
 
-        stage('Setup bitbake and do fetchall') {
+        stage("Setup bitbake and do fetchall ${bitbake_image}") {
             // Extract the BSP part of the manifest file name.
             String bsp = manifest.split("-")[1].tokenize(".")[0]
             // Setup bitbake environment and trigger a 'fetchall'
@@ -64,6 +64,7 @@ def buildManifest = {String manifest, String bitbake_image ->
         // that the old runs are irrelevant. As such adding a stage at this point will trigger a
         // "change of the system" each time a run fails.
         println "Something went wrong!"
+        println err
         currentBuild.result = "FAILURE"
     }
 
