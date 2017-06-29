@@ -12,6 +12,8 @@ def buildManifest = {String manifest, String bitbake_image ->
         checkout scm
         // Update the submodules in the repository.
         sh 'git submodule update --init'
+
+        println env.BRANCH_NAME == "master"
     }
 
     stage("Start Vagrant ${bitbake_image}") {
@@ -34,14 +36,14 @@ def buildManifest = {String manifest, String bitbake_image ->
             sh "vagrant up"
         }
     }
-
+    
+    String yoctoDir = "/home/vagrant/pelux_yocto"
+    
     stage("Repo init ${bitbake_image}") {
         sh "pwd"
         sh "ls -la"
         sh "vagrant ssh -c \"/vagrant/ci-scripts/do_repo_init ${manifest}\""
     }
-
-    String yoctoDir = "/home/vagrant/pelux_yocto"
 
     stage("Setup bitbake and do fetchall ${bitbake_image}") {
         // Extract the BSP part of the manifest file name.
@@ -52,6 +54,22 @@ def buildManifest = {String manifest, String bitbake_image ->
 
     stage("Bitbake ${bitbake_image}") {
         sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}\""
+    }
+
+    stage("Copy images and cache ${bitbake_image}") {
+        sh "rm -rf archive"
+        sh "mkdir -p archive"
+        sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/tmp/deploy/images/ /vagrant/archive/\""
+
+        // Archive the downloads and sstate when we build the master
+        if (env.BRANCH_NAME == "master") {
+            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/downloads/ /vagrant/archive/\""
+            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/sstate-cache/ /vagrant/archive/\""
+        }
+    }
+
+    stage("Archive ${bitbake_image}") {
+        archiveArtifacts artifacts: "archive/**/*"
     }
 
     // Always try to shut down the machine
