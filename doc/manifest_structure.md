@@ -22,7 +22,7 @@ In contrast to `Base` and `Qt` there are multiple instances of `BSP` and
 `BSP + QtAS`. However, each such instance holds mappings to git repositories
 required by specific hardware target. This means that there is no one `BSP`
 or `BSP + QtAS` manifest file, but one file each per hardware target. An example
-of this are `pelux-intel.xml` and `pelux-intel-qt.xml`this which represent
+of this are `pelux-intel.xml` and `pelux-intel-qtauto.xml` which represent
 specific implementations of `BSP` and `BSP + QtAS` for the intel hardware target.
 
 Using this structure, a minimal number of manifest files needs to be created in

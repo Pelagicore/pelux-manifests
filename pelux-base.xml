@@ -32,7 +32,7 @@
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="f70db946bf59f7d81dd0b5cec9adf0f19366f06e"
+           revision="c98f573aefe4e80ccdebaf70e061e1e976cbdbaf"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 

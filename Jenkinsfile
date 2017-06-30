@@ -63,5 +63,5 @@ def buildManifest = {String manifest, String bitbake_image ->
 parallel 'core':{
     node("DockerCI") { buildManifest("pelux-intel.xml", "core-image-pelux") }
 },'qtauto':{
-    node("DockerCI") { buildManifest("pelux-intel-qt.xml", "core-image-pelux-qt") }
+    node("DockerCI") { buildManifest("pelux-intel-qtauto.xml", "core-image-pelux-qtauto") }
 }
