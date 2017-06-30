@@ -9,9 +9,9 @@
            name="meta-intel"
            path="sources/meta-intel"/>
 
-  <!-- When updating this, also update pelux-intel-qt.xml -->
+  <!-- When updating this, also update pelux-intel-qtauto.xml -->
   <project remote="github"
-           revision="c2efd3a90dd5d8bfae023dc081eb5f6f0650e82b"
+           revision="bc8064d0ca34b45ef22d4951bf066a7541bd708d"
            name="Pelagicore/meta-pelux-bsp-intel"
            path="sources/meta-pelux-bsp-intel" />
 

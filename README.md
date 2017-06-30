@@ -11,7 +11,7 @@ Building an Image
 The following manifests can be used for a build:
 
 * `pelux-intel.xml` - For building the `core-image-pelux` image for Intel
-* `pelux-intel-qt.xml` - For building the `core-image-pelux-qt` image, which is the baseline with QtAS
+* `pelux-intel-qtauto.xml` - For building the `core-image-pelux-qtauto` image, which is the baseline with Qt Automotive Suite
 * `pelux-rpi.xml` - For building the `core-image-pelux`image for Raspberry Pi 3
 
 An image build can be started using a container/virtual machine, see section
@@ -25,7 +25,7 @@ continuous integration jobs.
 Variables:
 
 * Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the PELUX reference has its own manifest describing what other git repositories are needed for the build.
-* Image, refers to what version of PELUX that should be built. Currently there are two versions: `core-image-pelux` and `core-image-pelux-qt`. The latter being a version that includes NeptuneUI and QtApplicationManager.
+* Image, refers to what version of PELUX that should be built. Currently there are two versions: `core-image-pelux` and `core-image-pelux-qtauto`. The latter being a version that includes NeptuneUI and QtApplicationManager.
 
 ### Using vagrant
 
