@@ -29,9 +29,12 @@ Where `<host-device>` is the device on the host, e.g. `/dev/sdc`, and `<target-d
 
 ### Raspberry Pi 3
 Write the generated image file to an SD-card using e.g.:
-dd if=$HOME/pelux-baseline/build/tmp/deploy/images/raspberrypi3/core-image-pelux-raspberrypi3.rpi-sdimg of=<host-device> bs=4M
 
-Where <host-device> is the SD-card device on the host, e.g. /dev/mmcblk0 or /dev/sdc.
+```
+dd if=$HOME/pelux-baseline/build/tmp/deploy/images/raspberrypi3/core-image-pelux-raspberrypi3.rpi-sdimg of=<host-device> bs=4M
+```
+
+Where `<host-device>` is the SD-card device on the host, e.g. `/dev/mmcblk0` or `/dev/sdc`.
 
 Booting on target hardware
 --------------------------
