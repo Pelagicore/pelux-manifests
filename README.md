@@ -39,33 +39,51 @@ Procedure:
 
 1. Clone the pelux-manifests git repository.
 2. Start vagrant
-```bash
-vagrant up --provider="docker"
-```
+
+    ```bash
+    vagrant up --provider="docker"
+    ```
+
 3. Set variables to be used below
-```bash
-bitbake_image="core-image-pelux"
-yoctoDir="/home/vagrant/pelux_yocto"
-```
-4. Setup bitbake with correct local.conf and bblayers.conf
-```bash
-vagrant ssh -c \"TEMPLATECONF=${yoctoDir}/sources/meta-pelux-bsp-intel/conf
-                 /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh
-                 ${yoctoDir}
-                 ${bitbake_image}
-               \"
-```
-5. Bitbake the PELUX image
-```bash
-vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh
-                 ${yoctoDir}
-                 ${bitbake_image}
-               \"
-```
-6. Move the built images to the host
-```bash
-vagrant ssh -c "cp -r ${yoctoDir}/build/tmp/deploy/images /vagrant"
-```
+
+    ```bash
+    export bitbake_image="core-image-pelux"
+    export yoctoDir="/home/vagrant/pelux_yocto"
+    export manifest="pelux-intel.xml"
+    ```
+
+4. Do repo init
+
+    ```bash
+    vagrant ssh -c "/vagrant/ci-scripts/do_repo_init ${manifest}"
+    ```
+
+5. Setup bitbake with correct local.conf and bblayers.conf
+
+    ```bash
+    vagrant ssh -c "TEMPLATECONF=${yoctoDir}/sources/meta-pelux-bsp-intel/conf \
+        /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh \
+        ${yoctoDir} \
+        ${bitbake_image}"
+    ```
+
+6. Bitbake the PELUX image
+
+    ```bash
+    vagrant ssh -c "/vagrant/vagrant-cookbook/yocto/build-images.sh \
+        ${yoctoDir} \
+        ${bitbake_image}"
+    ```
+
+7. Move the built images to the host
+
+    ```bash
+    vagrant scp :${yoctoDir}/build/tmp/deploy/images ../images
+    ```
+
+Don't put them into the source folder because then they will be syncroniced back
+into the docker instance into the `/vagrant` directory which might take a
+reasonable amount of resources to do.
 
 The container/virtual machine started via vagrant will sync the cloned git
 repository and use the manifests contained in it to set up the build
