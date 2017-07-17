@@ -22,7 +22,7 @@
            path="sources/poky"/>
 
   <project remote="github"
-           revision="37602f52e6a4353135ddcdc5584b6bd09bc38618"
+           revision="f3fab7440e205ad180ad1682b983cee00614b394"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
