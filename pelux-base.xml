@@ -17,7 +17,7 @@
            path="sources/meta-openembedded"/>
 
   <project remote="yocto"
-           revision="924e576b8930fd2268d85f0b151e5f68a3c2afce"
+           revision="fd7f2d644a94bbb951c0bed11af7deb35f1cfb22"
            name="poky"
            path="sources/poky"/>
 
