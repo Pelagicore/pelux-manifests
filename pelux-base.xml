@@ -48,4 +48,10 @@
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
+  <!-- Template layer stuff -->
+  <project remote="github"
+           revision="cc78bd32e75b4406fa05a512a86c8d0e0d1377fa"
+           name="Pelagicore/meta-template"
+           path="sources/meta-template"/>
+
 </manifest>
