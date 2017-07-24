@@ -12,8 +12,6 @@ def buildManifest = {String manifest, String bitbake_image ->
         checkout scm
         // Update the submodules in the repository.
         sh 'git submodule update --init'
-
-        println env.BRANCH_NAME == "master"
     }
 
     stage("Start Vagrant ${bitbake_image}") {
@@ -29,6 +27,14 @@ def buildManifest = {String manifest, String bitbake_image ->
         sh "pwd"
         sh "ls -la"
         sh "vagrant ssh -c \"/vagrant/ci-scripts/do_repo_init ${manifest}\""
+
+        // Setup site.conf if not building the master to do a incremental build.
+        // The YOCTO_CACHE_URL can be set globaly in Manage Jenkins -> Configure System -> Global Properties
+        // or for one job as a parameter.
+        if (env.YOCTO_CACHE_URL?.trim()) {
+           sh "vagrant ssh -c \"mkdir -p  ${yoctoDir}/build/conf/\""
+           sh "vagrant ssh -c \"sed 's|%CACHEURL%|${env.YOCTO_CACHE_URL}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf\""
+        }
     }
 
     stage("Setup bitbake and do fetchall ${bitbake_image}") {

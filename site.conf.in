@@ -1,0 +1,3 @@
+INHERIT += "own-mirrors"
+SOURCE_MIRROR_URL ?= "%CACHEURL%/downloads/"
+SSTATE_MIRRORS ?= "file://.* %CACHEURL%/sstate-cache/PATH"
