@@ -9,7 +9,7 @@
   <remove-project name="Pelagicore/meta-pelux-bsp-intel" />
   <project name="Pelagicore/meta-pelux-bsp-intel"
            remote="github"
-           revision="bc8064d0ca34b45ef22d4951bf066a7541bd708d"
+           revision="570715f36d27e1da310f9b8a4b9e7f4e9ad0eb56"
            path="sources/meta-pelux-bsp-intel">
 
       <copyfile src="conf-qt/bblayers.conf.sample"
