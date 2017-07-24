@@ -17,24 +17,10 @@ def buildManifest = {String manifest, String bitbake_image ->
     }
 
     stage("Start Vagrant ${bitbake_image}") {
-        // Calculate available amount of RAM
-        String gigsramStr = sh (
-            script: 'free -tg | tail -n1 | awk \'{ print $2 }\'',
-            returnStdout: true
-        )
-        int gigsram = gigsramStr.trim() as Integer
-        // Cap memory usage at 8GB
-        if (gigsram >= 8) {
-            gigsram = 8
-        }
-        println "Will set VAGRANT_RAM to ${gigsram}"
-
         // Start the machine (destroy it if present) and provision it
         sh "cd ${workspace}"
         sh "vagrant destroy -f || true"
-        withEnv(["VAGRANT_RAM=${gigsram}"]) {
-            sh "vagrant up"
-        }
+        sh "vagrant up"
     }
     
     String yoctoDir = "/home/vagrant/pelux_yocto"
