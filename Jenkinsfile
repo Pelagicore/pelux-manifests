@@ -61,8 +61,9 @@ def buildManifest = {String manifest, String bitbake_image ->
         sh "mkdir -p archive"
         sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/tmp/deploy/images/ /vagrant/archive/\""
 
-        // Archive the downloads and sstate when we build the master
-        if (env.BRANCH_NAME == "master") {
+        // Archive the downloads and sstate when the environment variable was set to true
+        // by the Jenkins job.
+        if (env.ARCHIVE_CACHE) {
             sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/downloads/ /vagrant/archive/\""
             sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/sstate-cache/ /vagrant/archive/\""
         }
