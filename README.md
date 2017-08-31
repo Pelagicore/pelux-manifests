@@ -117,7 +117,7 @@ The TEMPLATECONF envorinment setting tells the `oe-init-build-env` script which 
 configuration files from. Note that the example below gets the template
 configuration for the Intel BSP. Adapt the path according to your current BSP.
 ```bash
-export TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ \
+export TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ 
 source sources/poky/oe-init-build-env build
 ```
 
