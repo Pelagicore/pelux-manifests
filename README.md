@@ -1,7 +1,7 @@
 PELUX baseline manifests
 =========================
-This is the manifest repository for building the PELUX baseline for various
-hardware targets using Yocto
+This manifest repository is used for building the PELUX baseline for various
+hardware targets using the Yocto build tool.
 
 Maintained at https://github.com/pelagicore/pelux-manifests
 
@@ -16,7 +16,7 @@ The following manifests can be used for a build:
 
 An image build can be started using a container/virtual machine, see section
 "Using vagrant", or using `repo` tool directly, see section "Using Repo tool".
-Since the Repo tool approach is not boxed it is notably faster than using
+Since the Repo tool approach is not contained it is notably faster than using
 Vagrant. Therefore, the Vagrant approach is usually only used in situations
 where one does not want to depend on the host system, such as running
 continuous integration jobs.
