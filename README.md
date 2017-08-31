@@ -112,13 +112,13 @@ repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b 
 repo sync
 ```
 
-When done fetching the sources, create a build directory and set up bitbake.
-TEMPLATECONF tells the `oe-init-build-env` script which path to fetch
-configuration samples from. Note that the example below get the template
-configuration for the Intel BSP, adapt the path according to your current BSP.
+When 'repo sync' has finished fetching the sources, the next step is to create a 'build' directory and set up bitbake.
+The TEMPLATECONF envorinment setting tells the `oe-init-build-env` script which path to fetch
+configuration files from. Note that the example below gets the template
+configuration for the Intel BSP. Adapt the path according to your current BSP.
 ```bash
-TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ \
-             source sources/poky/oe-init-build-env build
+export TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ \
+source sources/poky/oe-init-build-env build
 ```
 
 The script will create configs if there are no configs present, a message about
