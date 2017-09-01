@@ -92,7 +92,7 @@ determine what version is being built. The final step will copy the image
 directory containing the built images to the directory on the host where vagrant
 was started.
 
-### Using Repo tool
+### Using the "repo" tool
 
 #### NOTE: When using this approach one should not clone this git repository, all git manipulation is handled by the repo tool.
 
@@ -130,6 +130,8 @@ information on the different images.
 ```bash
 bitbake <image>
 ```
+## Test image
+The next step is to test your image if your build was successful.
 
 Targets
 -------
@@ -138,14 +140,12 @@ information about how to use a built image with the targets, see
 [Getting started](getting-started.md).
 
 ### Pelux Intel
-Reference instance for the Intel i7 x86 platform. Examples of boards using this
-architecture include:
+Reference instance for the Intel i7 x86 platform. 
 
-* Intel NUC
-* Minnowboard
+* [https://en.wikipedia.org/wiki/Next_Unit_of_Computing](Intel NUC)
 
 ### Pelux Raspberry Pi
-Reference instance for Raspberry Pi 3
+Reference instance for Raspberry Pi 3 (coming soon)
 
 Branching
 ---------
