@@ -142,7 +142,7 @@ information about how to use a built image with the targets, see
 ### Pelux Intel
 Reference instance for the Intel i7 x86 platform. 
 
-* [https://en.wikipedia.org/wiki/Next_Unit_of_Computing](Intel NUC)
+* [Intel NUC](https://en.wikipedia.org/wiki/Next_Unit_of_Computing)
 
 ### Pelux Raspberry Pi
 Reference instance for Raspberry Pi 3 (coming soon)
