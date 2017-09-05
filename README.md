@@ -112,7 +112,7 @@ repo sync
 ```
 
 When `repo sync` has finished fetching the sources, the next step is to create a 'build' directory and set up bitbake.
-The TEMPLATECONF envorinment setting tells the `oe-init-build-env` script which path to fetch
+The TEMPLATECONF environment setting tells the `oe-init-build-env` script which path to fetch
 configuration files from. Note that the example below gets the template
 configuration for the Intel BSP. Adapt the path according to your current BSP.
 ```bash
