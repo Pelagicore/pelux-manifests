@@ -1,7 +1,7 @@
 PELUX baseline manifests
 =========================
-This is the manifest repository for building the PELUX baseline for various
-hardware targets using Yocto
+This manifest repository is used for building the PELUX baseline for various
+hardware targets using the Yocto build tool.
 
 Maintained at https://github.com/pelagicore/pelux-manifests
 
@@ -16,11 +16,10 @@ The following manifests can be used for a build:
 
 An image build can be started using a container/virtual machine, see section
 "Using vagrant", or using `repo` tool directly, see section "Using Repo tool".
-Since the Repo tool approach is not boxed it is notably faster than using
+Since the Repo tool approach is not contained it is notably faster than using
 Vagrant. Therefore, the Vagrant approach is usually only used in situations
 where one does not want to depend on the host system, such as running
 continuous integration jobs.
-
 
 Variables:
 
@@ -92,7 +91,7 @@ determine what version is being built. The final step will copy the image
 directory containing the built images to the directory on the host where vagrant
 was started.
 
-### Using Repo tool
+### Using the "repo" tool
 
 #### NOTE: When using this approach one should not clone this git repository, all git manipulation is handled by the repo tool.
 
@@ -112,13 +111,13 @@ repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b 
 repo sync
 ```
 
-When done fetching the sources, create a build directory and set up bitbake.
-TEMPLATECONF tells the `oe-init-build-env` script which path to fetch
-configuration samples from. Note that the example below get the template
-configuration for the Intel BSP, adapt the path according to your current BSP.
+When `repo sync` has finished fetching the sources, the next step is to create a 'build' directory and set up bitbake.
+The TEMPLATECONF environment setting tells the `oe-init-build-env` script which path to fetch
+configuration files from. Note that the example below gets the template
+configuration for the Intel BSP. Adapt the path according to your current BSP.
 ```bash
-TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ \
-             source sources/poky/oe-init-build-env build
+export TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ 
+source sources/poky/oe-init-build-env build
 ```
 
 The script will create configs if there are no configs present, a message about
@@ -130,6 +129,8 @@ information on the different images.
 ```bash
 bitbake <image>
 ```
+## Test image
+The next step is to test your image if your build was successful.
 
 Targets
 -------
@@ -137,19 +138,18 @@ Below is a description of the currently supported hardware targets. For more
 information about how to use a built image with the targets, see
 [Getting started](getting-started.md).
 
-### Pelux Intel
-Reference instance for the Intel i7 x86 platform. Examples of boards using this
-architecture include:
+### PELUX Intel
+Reference instance for the Intel i7 x86 platform using [Yocto's BSP](https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64) 
 
-* Intel NUC
-* Minnowboard
+* [Intel NUC](https://en.wikipedia.org/wiki/Next_Unit_of_Computing)
+* Minnowboard Max, Turbot
 
-### Pelux Raspberry Pi
-Reference instance for Raspberry Pi 3
+### PELUX Raspberry Pi 3
+Reference instance for Raspberry Pi 3 (coming soon)
 
 Branching
 ---------
-This repository will follow the yocto release system. Whenever a new yocto
+This repository will follow yocto releases. Whenever a new yocto
 release has been released, a new branch with the same name will be created
 from the master branch.
 All feature growth should happen first on the master branch, but will also be
