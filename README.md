@@ -140,12 +140,12 @@ information about how to use a built image with the targets, see
 [Getting started](getting-started.md).
 
 ### PELUX Intel
-Reference instance for the Intel i7 x86 platform using [Yocto's BSP:] (https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64) 
+Reference instance for the Intel i7 x86 platform using [Yocto's BSP](https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64) 
 
 * [Intel NUC](https://en.wikipedia.org/wiki/Next_Unit_of_Computing)
 * Minnowboard Max, Turbot
 
-### PELUX Raspberry Pi
+### PELUX Raspberry Pi 3
 Reference instance for Raspberry Pi 3 (coming soon)
 
 Branching
