@@ -21,7 +21,6 @@ Vagrant. Therefore, the Vagrant approach is usually only used in situations
 where one does not want to depend on the host system, such as running
 continuous integration jobs.
 
-
 Variables:
 
 * Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the PELUX reference has its own manifest describing what other git repositories are needed for the build.
@@ -112,7 +111,7 @@ repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b 
 repo sync
 ```
 
-When 'repo sync' has finished fetching the sources, the next step is to create a 'build' directory and set up bitbake.
+When `repo sync` has finished fetching the sources, the next step is to create a 'build' directory and set up bitbake.
 The TEMPLATECONF envorinment setting tells the `oe-init-build-env` script which path to fetch
 configuration files from. Note that the example below gets the template
 configuration for the Intel BSP. Adapt the path according to your current BSP.
