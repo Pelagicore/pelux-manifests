@@ -139,17 +139,18 @@ Below is a description of the currently supported hardware targets. For more
 information about how to use a built image with the targets, see
 [Getting started](getting-started.md).
 
-### Pelux Intel
-Reference instance for the Intel i7 x86 platform. 
+### PELUX Intel
+Reference instance for the Intel i7 x86 platform using [Yocto's BSP:] (https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64) 
 
 * [Intel NUC](https://en.wikipedia.org/wiki/Next_Unit_of_Computing)
+* Minnowboard Max, Turbot
 
-### Pelux Raspberry Pi
+### PELUX Raspberry Pi
 Reference instance for Raspberry Pi 3 (coming soon)
 
 Branching
 ---------
-This repository will follow the yocto release system. Whenever a new yocto
+This repository will follow yocto releases. Whenever a new yocto
 release has been released, a new branch with the same name will be created
 from the master branch.
 All feature growth should happen first on the master branch, but will also be
