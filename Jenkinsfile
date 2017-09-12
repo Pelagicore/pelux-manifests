@@ -48,23 +48,6 @@ def buildManifest = {String manifest, String bitbake_image ->
         sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}\""
     }
 
-    stage("Copy images and cache ${bitbake_image}") {
-        sh "rm -rf archive"
-        sh "mkdir -p archive"
-        sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/tmp/deploy/images/ /vagrant/archive/\""
-
-        // Archive the downloads and sstate when the environment variable was set to true
-        // by the Jenkins job.
-        if (env.ARCHIVE_CACHE) {
-            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/downloads/ /vagrant/archive/\""
-            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/sstate-cache/ /vagrant/archive/\""
-        }
-    }
-
-    stage("Archive ${bitbake_image}") {
-        archiveArtifacts artifacts: "archive/**/*"
-    }
-
     // Always try to shut down the machine
     // Shutdown the machine
     sh "vagrant destroy -f || true"
