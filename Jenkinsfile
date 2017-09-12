@@ -20,9 +20,9 @@ def buildManifest = {String manifest, String bitbake_image ->
         sh "vagrant destroy -f || true"
         sh "vagrant up"
     }
-    
+
     String yoctoDir = "/home/vagrant/pelux_yocto"
-    
+
     stage("Repo init ${bitbake_image}") {
         sh "pwd"
         sh "ls -la"
