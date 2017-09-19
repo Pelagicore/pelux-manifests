@@ -63,8 +63,12 @@ def buildManifest = {String manifest, String bitbake_image ->
 }
 
 // Run the different jobs in parallel, on different slaves
-parallel 'core':{
+parallel 'intel-core':{
     node("DockerCI") { buildManifest("pelux-intel.xml", "core-image-pelux") }
-},'qtauto':{
+},'intel-qtauto':{
     node("DockerCI") { buildManifest("pelux-intel-qtauto.xml", "core-image-pelux-qtauto") }
+},'rpi-core':{
+    node("DockerCI") { buildManifest("pelux-rpi.xml", "core-image-pelux") }
+},'rpi-qtauto':{
+    node("DockerCI") { buildManifest("pelux-rpi-qtauto.xml", "core-image-pelux-qtauto") }
 }
