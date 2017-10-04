@@ -5,14 +5,8 @@
 
   <!-- Target stuff -->
   <project remote="yocto"
-           revision="6add41510412ca196efb3e4f949d403a8b6f35d7"
+           revision="63de2abadfa8164e28575e412e2bd9c315840ddb"
            name="meta-intel"
            path="sources/meta-intel"/>
-
-  <!-- When updating this, also update pelux-intel-qtauto.xml -->
-  <project remote="github"
-           revision="cc6cc05a4bbe9a7154f21b1d23c59c097adbb5fa"
-           name="Pelagicore/meta-pelux-bsp-intel"
-           path="sources/meta-pelux-bsp-intel" />
 
 </manifest>

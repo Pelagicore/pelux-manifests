@@ -2,7 +2,7 @@
 <manifest>
 
   <!-- Settings -->
-  <default sync-j="4" revision="morty" />
+  <default sync-j="4" revision="pyro" />
 
   <!-- Remotes -->
   <remote fetch="git://git.openembedded.org"    name="oe"/>
@@ -12,45 +12,45 @@
 
   <!-- Base stuff -->
   <project remote="oe"
-           revision="fe5c83312de11e80b85680ef237f8acb04b4b26e"
+           revision="5e82995148a2844c6f483ae5ddd1438d87ea9fb7"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <project remote="yocto"
-           revision="fd7f2d644a94bbb951c0bed11af7deb35f1cfb22"
+           revision="717303e6fbcbbe181ad9645d762eb5a85d934523"
            name="poky"
            path="sources/poky"/>
 
   <project remote="github"
-           revision="f3fab7440e205ad180ad1682b983cee00614b394"
+           revision="2c7899b9f71ce614a253d7875fe64e170159281a"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="yocto"
-           revision="1beb18840539f0366b6a5f20bcff98c99534c496"
+           revision="dd49614c70364a11dc50798f32f1b2ffa3d0409e"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="117753182f0167c1bfd487d6e495ba1ed510261a"
+           revision="4861f6d58042909e6c79cb301c6eb39c349011bf"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           revision="df824ccfb821a38f2e83b1d1ac75a4601a5b738b"
+           revision="cedd2c737b45f5a9f3ef39b7f330c427fc10a839"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
   <!-- Qt Support stuff -->
   <project remote="code.qt"
-           revision="5df9d273194e89498ea7fa93ac4ec987007253d2"
+           revision="88a25de90d720d824b8a4e932ff2ff8faa2b6615"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <!-- Template layer stuff -->
   <project remote="github"
-           revision="cc78bd32e75b4406fa05a512a86c8d0e0d1377fa"
+           revision="b01c6e3a59a2f6962200b71c70c698ea2273b714"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
