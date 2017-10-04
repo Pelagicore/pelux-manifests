@@ -1,7 +1,7 @@
 #!/usr/bin/groovy
 
 // Copyright (C) Pelagicore AB 2017
-def buildManifest = {String manifest, String bitbake_image ->
+def buildManifest = {String manifest, String bitbake_image, String bsp, boolean qtauto ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
 
@@ -38,10 +38,13 @@ def buildManifest = {String manifest, String bitbake_image ->
     }
 
     stage("Setup bitbake and do fetchall ${bitbake_image}") {
-        // Extract the BSP part of the manifest file name.
-        String bsp = manifest.split("-")[1].tokenize(".")[0]
         // Setup bitbake environment and trigger a 'fetchall'
-        sh "vagrant ssh -c \"TEMPLATECONF=${yoctoDir}/sources/meta-pelux-bsp-${bsp}/conf /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
+        confdir = "conf"
+        if (qtauto) {
+            confdir += "-qt"
+        }
+        templateconf="${yoctoDir}/sources/meta-pelux/meta-${bsp}-extras/${confdir} "
+        sh "vagrant ssh -c \"TEMPLATECONF=${templateconf} /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
     }
 
     stage("Bitbake ${bitbake_image}") {
@@ -63,8 +66,10 @@ def buildManifest = {String manifest, String bitbake_image ->
 }
 
 // Run the different jobs in parallel, on different slaves
-parallel 'core':{
-    node("DockerCI") { buildManifest("pelux-intel.xml", "core-image-pelux") }
-},'qtauto':{
-    node("DockerCI") { buildManifest("pelux-intel-qtauto.xml", "core-image-pelux-qtauto") }
+parallel 'intel':{
+    node("DockerCI") { buildManifest("pelux-intel.xml", "core-image-pelux-minimal", "intel", false) }
+},'intel-qtauto':{
+    node("DockerCI") { buildManifest("pelux-intel-qtauto.xml", "core-image-pelux-qtauto-neptune", "intel", true) }
+},'rpi':{
+    node("DockerCI") { buildManifest("pelux-rpi.xml", "core-image-pelux-minimal", "rpi", false) }
 }
