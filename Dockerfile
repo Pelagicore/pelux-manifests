@@ -7,7 +7,7 @@ RUN apt-get update
 RUN apt-get install -y openssh-server sudo
 
 # Required by bitbake
-RUN apt-get install -y cpio
+RUN apt-get install -y cpio iputils-ping
 
 # en_US.utf8 is required by Yocto sanity check
 RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
