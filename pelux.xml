@@ -42,16 +42,32 @@
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
-  <!-- Qt Support stuff -->
+  <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
            revision="88a25de90d720d824b8a4e932ff2ff8faa2b6615"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
+
+  <project remote="code.qt"
+           revision="41b0b462c88f3aa5831a14c928c58dcb0233668f"
+           name="yocto/meta-boot2qt"
+           path="sources/meta-boot2qt"/>
 
   <!-- Template layer stuff -->
   <project remote="github"
            revision="b01c6e3a59a2f6962200b71c70c698ea2273b714"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
+
+  <!-- BSP layers for Intel and rPi -->
+  <project remote="yocto"
+           revision="63de2abadfa8164e28575e412e2bd9c315840ddb"
+           name="meta-intel"
+           path="sources/meta-intel"/>
+
+  <project remote="yocto"
+           revision="ed3b254454494b36d4205818e369f59718704e60"
+           name="meta-raspberrypi"
+           path="sources/meta-raspberrypi"/>
 
 </manifest>

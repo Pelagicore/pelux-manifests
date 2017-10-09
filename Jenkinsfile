@@ -1,7 +1,7 @@
 #!/usr/bin/groovy
 
 // Copyright (C) Pelagicore AB 2017
-def buildManifest = {String manifest, String bitbake_image, String bsp, boolean qtauto ->
+def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
 
@@ -24,6 +24,7 @@ def buildManifest = {String manifest, String bitbake_image, String bsp, boolean 
     String yoctoDir = "/home/vagrant/pelux_yocto"
 
     stage("Repo init ${bitbake_image}") {
+        String manifest = "pelux.xml"
         sh "pwd"
         sh "ls -la"
         sh "vagrant ssh -c \"/vagrant/ci-scripts/do_repo_init ${manifest}\""
@@ -67,9 +68,9 @@ def buildManifest = {String manifest, String bitbake_image, String bsp, boolean 
 
 // Run the different jobs in parallel, on different slaves
 parallel 'intel':{
-    node("DockerCI") { buildManifest("pelux-intel.xml", "core-image-pelux-minimal", "intel", false) }
+    node("DockerCI") { buildManifest("core-image-pelux-minimal", "intel", false) }
 },'intel-qtauto':{
-    node("DockerCI") { buildManifest("pelux-intel-qtauto.xml", "core-image-pelux-qtauto-neptune", "intel", true) }
+    node("DockerCI") { buildManifest("core-image-pelux-qtauto-neptune", "intel", true) }
 },'rpi':{
-    node("DockerCI") { buildManifest("pelux-rpi.xml", "core-image-pelux-minimal", "rpi", false) }
+    node("DockerCI") { buildManifest("core-image-pelux-minimal", "rpi", false) }
 }
