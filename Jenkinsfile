@@ -1,7 +1,7 @@
 #!/usr/bin/groovy
 
 // Copyright (C) Pelagicore AB 2017
-def buildManifest = {String manifest, String bitbake_image ->
+def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
 
@@ -20,10 +20,11 @@ def buildManifest = {String manifest, String bitbake_image ->
         sh "vagrant destroy -f || true"
         sh "vagrant up"
     }
-    
+
     String yoctoDir = "/home/vagrant/pelux_yocto"
-    
+
     stage("Repo init ${bitbake_image}") {
+        String manifest = "pelux.xml"
         sh "pwd"
         sh "ls -la"
         sh "vagrant ssh -c \"/vagrant/ci-scripts/do_repo_init ${manifest}\""
@@ -38,14 +39,26 @@ def buildManifest = {String manifest, String bitbake_image ->
     }
 
     stage("Setup bitbake and do fetchall ${bitbake_image}") {
-        // Extract the BSP part of the manifest file name.
-        String bsp = manifest.split("-")[1].tokenize(".")[0]
         // Setup bitbake environment and trigger a 'fetchall'
-        sh "vagrant ssh -c \"TEMPLATECONF=${yoctoDir}/sources/meta-pelux-bsp-${bsp}/conf /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
+        confdir = "conf"
+        if (qtauto) {
+            confdir += "-qt"
+        }
+        templateconf="${yoctoDir}/sources/meta-pelux/meta-${bsp}-extras/${confdir} "
+        sh "vagrant ssh -c \"TEMPLATECONF=${templateconf} /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
     }
 
     stage("Bitbake ${bitbake_image}") {
         sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}\""
+    }
+
+    stage("Copy downloads and cache ${bitbake_image}") {
+        // Archive the downloads and sstate when the environment variable was set to true
+        // by the Jenkins job.
+        if (env.ARCHIVE_CACHE) {
+            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/downloads/ /vagrant/archive/\""
+            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/sstate-cache/ /vagrant/archive/\""
+        }
     }
 
     // Always try to shut down the machine
@@ -55,7 +68,9 @@ def buildManifest = {String manifest, String bitbake_image ->
 
 // Run the different jobs in parallel, on different slaves
 parallel 'core':{
-    node("DockerCI") { buildManifest("pelux-intel.xml", "core-image-pelux") }
+    node("DockerCI") { buildManifest("core-image-pelux-minimal", "intel", false) }
 },'qtauto':{
-    node("DockerCI") { buildManifest("pelux-intel-qtauto.xml", "core-image-pelux-qtauto") }
+    node("DockerCI") { buildManifest("core-image-pelux-qtauto-neptune", "intel", true) }
+},'rpi':{
+    node("DockerCI") { buildManifest("core-image-pelux-minimal", "rpi", false) }
 }

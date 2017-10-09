@@ -1,31 +1,30 @@
 PELUX baseline manifests
 =========================
-This is the manifest repository for building the PELUX baseline for various
-hardware targets using Yocto
+This manifest repository is used for building the PELUX baseline for various
+hardware targets using the Yocto project.
 
 Maintained at https://github.com/pelagicore/pelux-manifests
+
+Full documentation of PELUX is available at http://pelux.io/software-factory/
 
 Building an Image
 -----------------
 
-The following manifests can be used for a build:
-
-* `pelux-intel.xml` - For building the `core-image-pelux` image for Intel
-* `pelux-intel-qtauto.xml` - For building the `core-image-pelux-qtauto` image, which is the baseline with Qt Automotive Suite
-* `pelux-rpi.xml` - For building the `core-image-pelux`image for Raspberry Pi 3
+Use `pelux.xml` for building. It will download all layers needed for both Intel
+and Raspberry Pi 3.
 
 An image build can be started using a container/virtual machine, see section
 "Using vagrant", or using `repo` tool directly, see section "Using Repo tool".
-Since the Repo tool approach is not boxed it is notably faster than using
+Since the Repo tool approach is not contained it is notably faster than using
 Vagrant. Therefore, the Vagrant approach is usually only used in situations
 where one does not want to depend on the host system, such as running
 continuous integration jobs.
 
-
-Variables:
-
-* Manifest, refers to what `<manifest-name>.xml` file you want to use, for example `pelux-intel.xml`. Each hardware platform targeted by the PELUX reference has its own manifest describing what other git repositories are needed for the build.
-* Image, refers to what version of PELUX that should be built. Currently there are two versions: `core-image-pelux` and `core-image-pelux-qtauto`. The latter being a version that includes NeptuneUI and QtApplicationManager.
+Available images
+^^^^^^^^^^^^^^^^
+There are two different images available: `core-image-pelux-minimal` and
+`core-image-pelux-qtauto-neptune`. The latter being a version that includes
+NeptuneUI and QtApplicationManager.
 
 ### Using vagrant
 
@@ -108,22 +107,23 @@ Instruct repo tool to fetch a manifest using the command `repo init`. In this
 context, branch denotes what branch of git repo `pelux-manifests` to use. Then
 make repo tool fetch all sources using the command `repo sync`.
 ```bash
-repo init -u https://github.com/Pelagicore/pelux-manifests.git -m <manifest> -b <branch>
+repo init -u https://github.com/Pelagicore/pelux-manifests.git -m pelux.xml -b <branch>
 repo sync
 ```
 
-When done fetching the sources, create a build directory and set up bitbake.
-TEMPLATECONF tells the `oe-init-build-env` script which path to fetch
-configuration samples from. Note that the example below get the template
-configuration for the Intel BSP, adapt the path according to your current BSP.
+When `repo sync` has finished fetching the sources, the next step is to create a
+'build' directory and set up bitbake.  The TEMPLATECONF environment setting
+tells the `oe-init-build-env` script which path to fetch configuration files
+from. Note that the example below gets the template configuration for the Intel
+BSP (without QtAS). Adapt the path according to your current BSP.
+
 ```bash
-TEMPLATECONF=`pwd`/sources/meta-pelux-bsp-intel/conf/ \
-             source sources/poky/oe-init-build-env build
+export TEMPLATECONF=`pwd`/sources/meta-pelux/meta-intel-extras/conf/
+source sources/poky/oe-init-build-env build
 ```
 
 The script will create configs if there are no configs present, a message about
 created `conf/local.conf` and `conf/bblayers.conf` files is normal.
-
 
 Finally, build the desired image. See the variables description above for
 information on the different images.
@@ -137,19 +137,19 @@ Below is a description of the currently supported hardware targets. For more
 information about how to use a built image with the targets, see
 [Getting started](getting-started.md).
 
-### Pelux Intel
-Reference instance for the Intel i7 x86 platform. Examples of boards using this
-architecture include:
+### PELUX Intel
+Reference instance for the Intel i7 x86 platform using [Yocto's
+BSP](https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64)
 
-* Intel NUC
-* Minnowboard
+* [Intel NUC](https://en.wikipedia.org/wiki/Next_Unit_of_Computing)
+* Minnowboard Max, Turbot
 
-### Pelux Raspberry Pi
-Reference instance for Raspberry Pi 3
+### PELUX Raspberry Pi 3
+Reference instance for Raspberry Pi 3 (coming soon)
 
 Branching
 ---------
-This repository will follow the yocto release system. Whenever a new yocto
+This repository will follow yocto releases. Whenever a new yocto
 release has been released, a new branch with the same name will be created
 from the master branch.
 All feature growth should happen first on the master branch, but will also be

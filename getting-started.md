@@ -2,10 +2,10 @@ Getting started
 ===============
 This section describes how to get started using a PELUX baseline build.
 
-The general procedure involves writing the built image to e.g. a USB-stick
-or SD-card and booting up a target using that. The following sections are divided
-in the steps involved, and have sub-sections where there is a difference
-between the hardware targets.
+The general procedure involves writing the built image to e.g. a USB-stick or
+SD-card and booting up a target using that. The following sections are divided
+in the steps involved, and have sub-sections where there is a difference between
+the hardware targets.
 
 These instructions assume there is an image built according to the
 [README.md](README.md), with the following additional assumptions:
@@ -40,7 +40,8 @@ Booting on target hardware
 --------------------------
 
 ### NUC
-Plug in the USB-stick and boot the NUC, make sure to configure EFI to boot from USB. No other actions should be needed.
+Plug in the USB-stick and boot the NUC, make sure to configure EFI to boot from
+USB. No other actions should be needed.
 
 Login as user `root`.
 
