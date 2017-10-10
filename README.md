@@ -5,6 +5,8 @@ hardware targets using the Yocto project.
 
 Maintained at https://github.com/pelagicore/pelux-manifests
 
+Full documentation of PELUX is available at http://pelux.io/software-factory/
+
 Building an Image
 -----------------
 
