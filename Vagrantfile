@@ -33,6 +33,12 @@ Vagrant.configure(2) do |config|
         configOverride.vm.box = "debian/jessie64"
     end
 
+    # If an archive path for the yocto cache is given, we mount it into the vm
+    # using the same path as on the host.
+    unless ENV['YOCTO_CACHE_ARCHIVE_PATH'].to_s.strip.empty?
+        config.vm.synced_folder ENV['YOCTO_CACHE_ARCHIVE_PATH'], ENV['YOCTO_CACHE_ARCHIVE_PATH']
+    end
+
 
     # On some hosts, the network stack needs to be kicked alive
     config.vm.provision "shell", privileged: false, inline: <<-SHELL
