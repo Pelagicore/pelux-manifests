@@ -5,6 +5,12 @@ def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
 
+    // These could be empty, so check for that when using them.
+    environment {
+        YOCTO_CACHE_URL = "${env.YOCTO_CACHE_URL}"
+        YOCTO_CACHE_ARCHIVE_PATH = "${env.YOCTO_CACHE_ARCHIVE_PATH}"
+    }
+
     // Stages are subtasks that will be shown as subsections of the finished build in Jenkins.
 
     stage("Checkout ${bitbake_image}") {
@@ -55,9 +61,9 @@ def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
     stage("Copy downloads and cache ${bitbake_image}") {
         // Archive the downloads and sstate when the environment variable was set to true
         // by the Jenkins job.
-        if (env.ARCHIVE_CACHE) {
-            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/downloads/ /vagrant/archive/\""
-            sh "vagrant ssh -c \"cp -a ${yoctoDir}/build/sstate-cache/ /vagrant/archive/\""
+        if (env.ARCHIVE_CACHE && env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
+            sh "vagrant ssh -c \"rsync -trpg ${yoctoDir}/build/downloads/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/downloads/\""
+            sh "vagrant ssh -c \"rsync -trpg ${yoctoDir}/build/sstate-cache/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/sstate-cache\""
         }
     }
 
@@ -67,9 +73,9 @@ def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
 }
 
 // Run the different jobs in parallel, on different slaves
-parallel 'core':{
+parallel 'intel':{
     node("DockerCI") { buildManifest("core-image-pelux-minimal", "intel", false) }
-},'qtauto':{
+},'intel-qtauto':{
     node("DockerCI") { buildManifest("core-image-pelux-qtauto-neptune", "intel", true) }
 },'rpi':{
     node("DockerCI") { buildManifest("core-image-pelux-minimal", "rpi", false) }
