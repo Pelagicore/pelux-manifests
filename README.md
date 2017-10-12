@@ -20,8 +20,8 @@ Vagrant. Therefore, the Vagrant approach is usually only used in situations
 where one does not want to depend on the host system, such as running
 continuous integration jobs.
 
-Available images
-^^^^^^^^^^^^^^^^
+### Available images
+
 There are two different images available: `core-image-pelux-minimal` and
 `core-image-pelux-qtauto-neptune`. The latter being a version that includes
 NeptuneUI and QtApplicationManager.
