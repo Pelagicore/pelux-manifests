@@ -1,9 +1,20 @@
 #!/usr/bin/groovy
 
 // Copyright (C) Pelagicore AB 2017
-def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
+
+/*
+ * Supported values for bsp are "intel" or "rpi"
+ * Supported values for qtauto are true or false
+ */
+def buildManifest = {String bsp, boolean qtauto ->
     // Store the directory we are executed in as our workspace.
     String workspace = pwd()
+    String yoctoDir = "/home/vagrant/pelux_yocto"
+
+    // From BSP name and qtauto values we can deduce what image to build
+    String bitbake_image = "core-image-pelux-" + (qtauto ? "qtauto-neptune" : "minimal")
+    // And how to present it in Jenkins
+    String stage_name = bsp + (qtauto ? "-qtauto" : "")
 
     // These could be empty, so check for that when using them.
     environment {
@@ -13,23 +24,21 @@ def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
 
     // Stages are subtasks that will be shown as subsections of the finished build in Jenkins.
 
-    stage("Checkout ${bitbake_image}") {
+    stage("Checkout ${stage_name}") {
         // Checkout the git repository and refspec pointed to by jenkins
         checkout scm
         // Update the submodules in the repository.
         sh 'git submodule update --init'
     }
 
-    stage("Start Vagrant ${bitbake_image}") {
+    stage("Start Vagrant ${stage_name}") {
         // Start the machine (destroy it if present) and provision it
         sh "cd ${workspace}"
         sh "vagrant destroy -f || true"
         sh "vagrant up"
     }
 
-    String yoctoDir = "/home/vagrant/pelux_yocto"
-
-    stage("Repo init ${bitbake_image}") {
+    stage("Repo init ${stage_name}") {
         String manifest = "pelux.xml"
         sh "pwd"
         sh "ls -la"
@@ -44,7 +53,7 @@ def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
         }
     }
 
-    stage("Setup bitbake and do fetchall ${bitbake_image}") {
+    stage("Setup bitbake and do fetchall ${stage_name}") {
         // Setup bitbake environment and trigger a 'fetchall'
         confdir = "conf"
         if (qtauto) {
@@ -54,11 +63,11 @@ def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
         sh "vagrant ssh -c \"TEMPLATECONF=${templateconf} /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
     }
 
-    stage("Bitbake ${bitbake_image}") {
+    stage("Bitbake ${stage_name}") {
         sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}\""
     }
 
-    stage("Copy downloads and cache ${bitbake_image}") {
+    stage("Archive cache ${stage_name}") {
         // Archive the downloads and sstate when the environment variable was set to true
         // by the Jenkins job.
         if (env.ARCHIVE_CACHE && env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
@@ -74,9 +83,9 @@ def buildManifest = {String bitbake_image, String bsp, boolean qtauto ->
 
 // Run the different jobs in parallel, on different slaves
 parallel 'intel':{
-    node("DockerCI") { buildManifest("core-image-pelux-minimal", "intel", false) }
+    node("DockerCI") { buildManifest("intel", false) }
 },'intel-qtauto':{
-    node("DockerCI") { buildManifest("core-image-pelux-qtauto-neptune", "intel", true) }
+    node("DockerCI") { buildManifest("intel", true) }
 },'rpi':{
-    node("DockerCI") { buildManifest("core-image-pelux-minimal", "rpi", false) }
+    node("DockerCI") { buildManifest("rpi", false) }
 }
