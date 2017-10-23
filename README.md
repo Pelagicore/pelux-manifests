@@ -28,11 +28,14 @@ NeptuneUI and QtApplicationManager.
 
 ### Using vagrant
 
+Please note that we only run this setup in a GNU/Linux system at Pelagicore. It
+should still work under Windows or OSX, we haven't tried it.
+
 Dependencies:
 
 * Vagrant
-* Docker or VirtualBox
-* virtualization enabled in bios
+* Docker
+* Virtualization enabled in BIOS
 
 Procedure:
 
@@ -40,7 +43,7 @@ Procedure:
 2. Start vagrant
 
     ```bash
-    vagrant up --provider="docker"
+    vagrant up
     ```
 
 3. Set variables to be used below
