@@ -20,19 +20,22 @@ Vagrant. Therefore, the Vagrant approach is usually only used in situations
 where one does not want to depend on the host system, such as running
 continuous integration jobs.
 
-Available images
-^^^^^^^^^^^^^^^^
+### Available images
+
 There are two different images available: `core-image-pelux-minimal` and
 `core-image-pelux-qtauto-neptune`. The latter being a version that includes
 NeptuneUI and QtApplicationManager.
 
 ### Using vagrant
 
+Please note that we only run this setup in a GNU/Linux system at Pelagicore. It
+should still work under Windows or OSX, we haven't tried it.
+
 Dependencies:
 
 * Vagrant
-* Docker or VirtualBox
-* virtualization enabled in bios
+* Docker
+* Virtualization enabled in BIOS
 
 Procedure:
 
@@ -40,7 +43,7 @@ Procedure:
 2. Start vagrant
 
     ```bash
-    vagrant up --provider="docker"
+    vagrant up
     ```
 
 3. Set variables to be used below

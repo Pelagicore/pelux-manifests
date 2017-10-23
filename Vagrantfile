@@ -1,19 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Path to extra disk
-disk_name = 'yocto_disk.vdi'
-disk_size_gb = 200
-
-# System resources
-ram = 16 #GB
-cpus = 6
-
 Vagrant.configure(2) do |config|
-
-    # Prefer docker over virtualbox since it is listed first
-    # meaning that docker should run if no '--provider' is supplied
-    # when calling vagrant up
     config.vm.provider "docker" do |d, configOverride|
         d.build_dir = "."
         d.pull = true
@@ -25,20 +13,11 @@ Vagrant.configure(2) do |config|
         configOverride.ssh.password = "vagrant"
     end
 
-    config.vm.provider "virtualbox" do |vb, configOverride|
-        vb.memory = ram * 1024
-        vb.cpus = cpus
-
-        # Overrides for 'configs' unique for virtualbox
-        configOverride.vm.box = "debian/jessie64"
-    end
-
     # If an archive path for the yocto cache is given, we mount it into the vm
     # using the same path as on the host.
     unless ENV['YOCTO_CACHE_ARCHIVE_PATH'].to_s.strip.empty?
         config.vm.synced_folder ENV['YOCTO_CACHE_ARCHIVE_PATH'], ENV['YOCTO_CACHE_ARCHIVE_PATH']
     end
-
 
     # On some hosts, the network stack needs to be kicked alive
     config.vm.provision "shell", privileged: false, inline: <<-SHELL
