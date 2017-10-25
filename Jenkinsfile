@@ -69,6 +69,10 @@ def buildManifest = {String variant_name, boolean bitbake_image ->
             vagrant("/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}")
         }
 
+        stage("Build SDK ${variant_name}") {
+            vagrant("/vagrant/vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}")
+        }
+
         stage("Archive cache ${variant_name}") {
             // Archive the downloads and sstate when the environment variable was set to true
             // by the Jenkins job.
