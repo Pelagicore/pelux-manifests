@@ -53,14 +53,21 @@ def buildManifest = {String bsp, boolean qtauto ->
         }
     }
 
-    stage("Setup bitbake and do fetchall ${stage_name}") {
-        // Setup bitbake environment and trigger a 'fetchall'
+    stage("Setup bitbake ${stage_name}") {
+        // Setup bitbake environment
         confdir = "conf"
         if (qtauto) {
             confdir += "-qt"
         }
         templateconf="${yoctoDir}/sources/meta-pelux/meta-${bsp}-extras/${confdir} "
-        sh "vagrant ssh -c \"TEMPLATECONF=${templateconf} /vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
+        sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateconf}\""
+    }
+
+    stage("Do fetchall ${stage_name}") {
+        // Without cache access, we do want to do fetchall, but only then.
+        if (!env.YOCTO_CACHE_URL?.trim()) {
+            sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
+        }
     }
 
     stage("Bitbake ${stage_name}") {
