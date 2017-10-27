@@ -14,7 +14,7 @@ def buildManifest = {String bsp, boolean qtauto ->
     // From BSP name and qtauto values we can deduce what image to build
     String bitbake_image = "core-image-pelux-" + (qtauto ? "qtauto-neptune" : "minimal")
     // And how to present it in Jenkins
-    String stage_name = bsp + (qtauto ? "-qtauto" : "")
+    String variant_name = bsp + (qtauto ? "-qtauto" : "")
 
     // These could be empty, so check for that when using them.
     environment {
@@ -24,21 +24,21 @@ def buildManifest = {String bsp, boolean qtauto ->
 
     // Stages are subtasks that will be shown as subsections of the finished build in Jenkins.
 
-    stage("Checkout ${stage_name}") {
+    stage("Checkout ${variant_name}") {
         // Checkout the git repository and refspec pointed to by jenkins
         checkout scm
         // Update the submodules in the repository.
         sh 'git submodule update --init'
     }
 
-    stage("Start Vagrant ${stage_name}") {
+    stage("Start Vagrant ${variant_name}") {
         // Start the machine (destroy it if present) and provision it
         sh "cd ${workspace}"
         sh "vagrant destroy -f || true"
         sh "vagrant up"
     }
 
-    stage("Repo init ${stage_name}") {
+    stage("Repo init ${variant_name}") {
         String manifest = "pelux.xml"
         sh "pwd"
         sh "ls -la"
@@ -53,28 +53,24 @@ def buildManifest = {String bsp, boolean qtauto ->
         }
     }
 
-    stage("Setup bitbake ${stage_name}") {
+    stage("Setup bitbake ${variant_name}") {
         // Setup bitbake environment
-        confdir = "conf"
-        if (qtauto) {
-            confdir += "-qt"
-        }
-        templateconf="${yoctoDir}/sources/meta-pelux/meta-${bsp}-extras/${confdir} "
+        templateconf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
         sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateconf}\""
     }
 
-    stage("Do fetchall ${stage_name}") {
+    stage("Do fetchall ${variant_name}") {
         // Without cache access, we do want to do fetchall, but only then.
         if (!env.YOCTO_CACHE_URL?.trim()) {
             sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}\""
         }
     }
 
-    stage("Bitbake ${stage_name}") {
+    stage("Bitbake ${variant_name}") {
         sh "vagrant ssh -c \"/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}\""
     }
 
-    stage("Archive cache ${stage_name}") {
+    stage("Archive cache ${variant_name}") {
         // Archive the downloads and sstate when the environment variable was set to true
         // by the Jenkins job.
         if (env.ARCHIVE_CACHE && env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
