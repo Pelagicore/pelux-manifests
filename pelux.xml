@@ -22,7 +22,7 @@
            path="sources/poky"/>
 
   <project remote="github"
-           revision="2c7899b9f71ce614a253d7875fe64e170159281a"
+           revision="a0aafe27af9cdc0d5a9b1310c10f8c4e8596492b"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
@@ -32,13 +32,13 @@
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="228a30dfc4441d4b50c4dff01033d5114707f25c"
+           revision="2d929c6138169accaf2fdd966f49b527d1e84395"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           revision="cedd2c737b45f5a9f3ef39b7f330c427fc10a839"
+           revision="41d7ea6b533f0d1ec86590ab42e27f05c894dede"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
