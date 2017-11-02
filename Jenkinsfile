@@ -11,15 +11,10 @@ def vagrant = {String command ->
  * Supported values for bsp are "intel" or "rpi"
  * Supported values for qtauto are true or false
  */
-def buildManifest = {String bsp, boolean qtauto ->
+def buildManifest = {String variant_name, boolean bitbake_image ->
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/vagrant/pelux_yocto"
     String manifest = "pelux.xml"
-
-    // From BSP name and qtauto values we can deduce what image to build
-    String bitbake_image = "core-image-pelux-" + (qtauto ? "qtauto-neptune" : "minimal")
-    // And how to present it in Jenkins
-    String variant_name = bsp + (qtauto ? "-qtauto" : "")
 
     // Everything we run here runs in a docker container handled by Vagrant
     node("DockerCI") {
@@ -91,8 +86,8 @@ def buildManifest = {String bsp, boolean qtauto ->
 
 // Run the different variants in parallel, on different slaves (if possible)
 parallel (
-    'intel':        { buildManifest("intel", false) },
-    'intel-qtauto': { buildManifest("intel", true) },
-    'rpi':          { buildManifest("rpi", false) },
-    'rpi-qtauto':   { buildManifest("rpi", true) }
+    'intel':        { buildManifest("intel",        "core-image-pelux-minimal") },
+    'intel-qtauto': { buildManifest("intel-qtauto", "core-image-pelux-qtauto-neptune") },
+    'rpi':          { buildManifest("rpi",          "core-image-pelux-minimal") },
+    'rpi-qtauto':   { buildManifest("rpi-qtauto",   "core-image-pelux-qtauto-neptune") }
 )
