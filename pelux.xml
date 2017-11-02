@@ -55,7 +55,7 @@
 
   <!-- Template layer stuff -->
   <project remote="github"
-           revision="b01c6e3a59a2f6962200b71c70c698ea2273b714"
+           revision="06eae9a716a978f9917b2de8d22b28ec4d4b8d21"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
