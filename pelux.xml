@@ -39,23 +39,26 @@
   <!-- GENIVI stuff -->
   <project remote="github"
            revision="41d7ea6b533f0d1ec86590ab42e27f05c894dede"
+           upstream="13.0"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           revision="88a25de90d720d824b8a4e932ff2ff8faa2b6615"
+           revision="e7aad4d4cd29bb8912c40abe8cf2c0a1bac36283"
+           upstream="5.9"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
            revision="41b0b462c88f3aa5831a14c928c58dcb0233668f"
+           upstream="pyro"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- Template layer stuff -->
   <project remote="github"
-           revision="06eae9a716a978f9917b2de8d22b28ec4d4b8d21"
+           revision="b01c6e3a59a2f6962200b71c70c698ea2273b714"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
