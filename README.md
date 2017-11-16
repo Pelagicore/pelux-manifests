@@ -22,13 +22,14 @@ BSP](https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64)
 * Minnowboard Max, Turbot
 
 ### PELUX Raspberry Pi 3
-Reference instance for Raspberry Pi 3 (coming soon)
+Reference instance for Raspberry Pi 3. Currently targets 32-bit mode.
 
 Branching
 ---------
 This repository will follow yocto releases. Whenever a new yocto
 release has been released, a new branch with the same name will be created
 from the master branch.
+
 All feature growth should happen first on the master branch, but will also be
 cherry picked back to the latest yocto release branch. Security and bug fixes
 will be evaluated case by case and backported as necessary. The ambition is to
