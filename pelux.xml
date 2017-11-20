@@ -23,6 +23,7 @@
 
   <project remote="github"
            revision="a0aafe27af9cdc0d5a9b1310c10f8c4e8596492b"
+           upstream="pyro"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
@@ -32,7 +33,8 @@
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="2d929c6138169accaf2fdd966f49b527d1e84395"
+           revision="5161936c1feb0950ca7f9ba21451e96ed8de80b5"
+           upstream="pyro"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
