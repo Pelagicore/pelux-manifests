@@ -22,7 +22,8 @@
            path="sources/poky"/>
 
   <project remote="github"
-           revision="f3fab7440e205ad180ad1682b983cee00614b394"
+           revision="a55096dd95d953e9304bd35e49919abef00eb664"
+           upstream="morty"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
@@ -32,41 +33,47 @@
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="117753182f0167c1bfd487d6e495ba1ed510261a"
+           revision="2179b3bcfff6861ba4c5cbbbc26ee4c9ae1b74d6"
+           upstream="morty"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           revision="df824ccfb821a38f2e83b1d1ac75a4601a5b738b"
+           revision="7135517c22ba3e912cee49ca694693fb76194d07"
+           upstream="12.0"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
-  <!-- Qt + Qt Automotive support stuff -->
+  <!-- Qt Support stuff -->
   <project remote="code.qt"
-           revision="5df9d273194e89498ea7fa93ac4ec987007253d2"
+           revision="18fc887ad1695f93623699b0a7a730b5d0adc305"
+           upstream="5.9"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
+  <!-- Qt and Appman -->
   <project remote="code.qt"
-           revision="41b0b462c88f3aa5831a14c928c58dcb0233668f"
+           revision="a9e35b7be8144b7a470f0274abd820e1ad041eed"
+           upstream="morty"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- Template layer stuff -->
   <project remote="github"
-           revision="cc78bd32e75b4406fa05a512a86c8d0e0d1377fa"
+           revision="06eae9a716a978f9917b2de8d22b28ec4d4b8d21"
+           upstream="morty"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
   <!-- BSP layers for Intel and rPi -->
   <project remote="yocto"
-           revision="63de2abadfa8164e28575e412e2bd9c315840ddb"
+           revision="6add41510412ca196efb3e4f949d403a8b6f35d7"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
-           revision="ed3b254454494b36d4205818e369f59718704e60"
+           revision="28d4404f89eb59d406b4976c0e3f5ca19137ba74"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
