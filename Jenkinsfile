@@ -71,10 +71,12 @@ def buildManifest = {String variant_name, boolean bitbake_image ->
 
         stage("Bitbake ${variant_name}") {
             vagrant("/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}")
+            vagrant("/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}-dev")
         }
 
         stage("Build SDK ${variant_name}") {
             vagrant("/vagrant/vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}")
+            vagrant("/vagrant/vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}-dev")
         }
 
         stage("Archive cache ${variant_name}") {
