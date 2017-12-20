@@ -22,8 +22,8 @@
            path="sources/poky"/>
 
   <project remote="github"
-           revision="a0aafe27af9cdc0d5a9b1310c10f8c4e8596492b"
-           upstream="pyro"
+           revision="28f52b1451c6bebe46224b81dc6849babf286ce1"
+           upstream="master"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
@@ -33,8 +33,8 @@
            path="sources/meta-virtualization"/>
 
   <project remote="github"
-           revision="5161936c1feb0950ca7f9ba21451e96ed8de80b5"
-           upstream="pyro"
+           revision="f9a6e84b161436e6d260da22bbf92100237dacee"
+           upstream="master"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
@@ -60,7 +60,7 @@
 
   <!-- Template layer stuff -->
   <project remote="github"
-           revision="b01c6e3a59a2f6962200b71c70c698ea2273b714"
+           revision="2841810fe46089dd064f14b0327ce36065feb4dd"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
