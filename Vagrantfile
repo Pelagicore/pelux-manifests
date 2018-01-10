@@ -6,11 +6,10 @@ Vagrant.configure(2) do |config|
         d.build_dir = "."
         d.pull = true
         d.has_ssh = true
-        d.build_args = ['--build-arg', 'userid=' + `id -u`.strip]
 
         # Overrides for 'config' unique for docker
-        configOverride.ssh.username = "vagrant"
-        configOverride.ssh.password = "vagrant"
+        configOverride.ssh.username = "yoctouser"
+        configOverride.ssh.password = "yoctouser"
     end
 
     # If an archive path for the yocto cache is given, we mount it into the vm
@@ -23,9 +22,6 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", privileged: false, inline: <<-SHELL
         ping google.com &> /dev/null &
     SHELL
-
-    # Install dependencies for BitBake
-    config.vm.provision "shell", path: "vagrant-cookbook/deps/yocto.sh"
 
     # Set UTF-8 for BitBake python
     config.vm.provision "shell", privileged: false, inline: <<-SHELL

@@ -13,7 +13,7 @@ def vagrant = {String command ->
  */
 def buildManifest = {String variant_name, boolean bitbake_image ->
     // Store the directory we are executed in as our workspace.
-    String yoctoDir = "/home/vagrant/pelux_yocto"
+    String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
 
     // Everything we run here runs in a docker container handled by Vagrant
