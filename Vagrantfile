@@ -35,7 +35,7 @@ Vagrant.configure(2) do |config|
     # Configure username and password in git
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/system-config/vagrant-ssh-user.sh"
 
-    # Configure username and password in git
+    # Download and set up the repo tool
     config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/yocto/initialize-repo-tool.sh"
 
 end
