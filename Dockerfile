@@ -1,13 +1,13 @@
-FROM ubuntu:16.04
+FROM crops/yocto:ubuntu-16.04-base
 
-ARG userid=1000
+USER root
 
 RUN mkdir /var/run/sshd
 
 # Install dependencies in one command to avoid potential use of previous cache
 # like explained here: https://stackoverflow.com/a/37727984
 RUN apt-get update \
-    && apt-get install -y openssh-server sudo cpio inetutils-ping locales
+    && apt-get install -y openssh-server inetutils-ping cvs subversion python-pysqlite2 help2man libxml2-utils libsdl1.2-dev graphviz qemu-user g++-multilib curl
     
 RUN rm -rf /var/lib/apt/lists/*
     
@@ -15,10 +15,8 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
-RUN useradd --uid $userid vagrant --create-home --user-group --groups sudo
-RUN echo 'vagrant:vagrant' | chpasswd
-
-RUN echo 'vagrant ALL=(ALL) NOPASSWD:SETENV: ALL' > /etc/sudoers.d/vagrant
+RUN echo 'yoctouser:yoctouser' | chpasswd
+RUN echo 'yoctouser ALL=(ALL) NOPASSWD:SETENV: ALL' > /etc/sudoers.d/yoctouser
 
 EXPOSE 22
 CMD  ["/usr/sbin/sshd", "-D"]
