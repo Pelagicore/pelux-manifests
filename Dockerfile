@@ -1,5 +1,7 @@
 FROM crops/yocto:ubuntu-16.04-base
 
+ARG userid=1000
+
 USER root
 
 RUN mkdir /var/run/sshd
@@ -15,6 +17,7 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
+RUN usermod --uid $userid yoctouser
 RUN echo 'yoctouser:yoctouser' | chpasswd
 RUN echo 'yoctouser ALL=(ALL) NOPASSWD:SETENV: ALL' > /etc/sudoers.d/yoctouser
 

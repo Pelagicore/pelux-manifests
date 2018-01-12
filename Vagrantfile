@@ -6,6 +6,7 @@ Vagrant.configure(2) do |config|
         d.build_dir = "."
         d.pull = true
         d.has_ssh = true
+        d.build_args = ['--build-arg', 'userid=' + `id -u`.strip]
 
         # Overrides for 'config' unique for docker
         configOverride.ssh.username = "yoctouser"
