@@ -9,8 +9,11 @@ RUN mkdir /var/run/sshd
 # Install dependencies in one command to avoid potential use of previous cache
 # like explained here: https://stackoverflow.com/a/37727984
 RUN apt-get update \
-    && apt-get install -y openssh-server inetutils-ping cvs subversion python-pysqlite2 help2man libxml2-utils libsdl1.2-dev graphviz qemu-user g++-multilib curl
-    
+    && apt-get install -y openssh-server inetutils-ping iptables cvs subversion coreutils python3-pip libfdt1 python-pysqlite2 help2man libxml2-utils libsdl1.2-dev graphviz qemu-user g++-multilib curl
+
+# For Yocto bitbake -c testimage XML reporting
+RUN pip3 install unittest-xml-reporting
+
 RUN rm -rf /var/lib/apt/lists/*
     
 # en_US.utf8 is required by Yocto sanity check
