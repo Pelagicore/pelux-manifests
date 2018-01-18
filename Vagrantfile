@@ -18,22 +18,5 @@ Vagrant.configure(2) do |config|
     unless ENV['YOCTO_CACHE_ARCHIVE_PATH'].to_s.strip.empty?
         config.vm.synced_folder ENV['YOCTO_CACHE_ARCHIVE_PATH'], ENV['YOCTO_CACHE_ARCHIVE_PATH']
     end
-
-    # On some hosts, the network stack needs to be kicked alive
-    config.vm.provision "shell", privileged: false, inline: <<-SHELL
-        ping google.com &> /dev/null &
-    SHELL
-
-    # Set UTF-8 for BitBake python
-    config.vm.provision "shell", privileged: false, inline: <<-SHELL
-        echo 'export LC_ALL="en_US.UTF-8"' >> .profile
-    SHELL
-
-    # Configure username and password in git
-    config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/system-config/vagrant-ssh-user.sh"
-
-    # Download and set up the repo tool
-    config.vm.provision "shell", privileged: false, path: "vagrant-cookbook/yocto/initialize-repo-tool.sh"
-
 end
 
