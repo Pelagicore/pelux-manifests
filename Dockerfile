@@ -33,7 +33,7 @@ RUN pip3 install unittest-xml-reporting
 
 # Remove all apt lists to avoid build caching
 RUN rm -rf /var/lib/apt/lists/*
-    
+
 # en_US.utf8 is required by Yocto sanity check
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 RUN echo 'export LC_ALL="en_US.UTF-8"' >> /etc/profile
@@ -52,6 +52,7 @@ ADD --chown=yoctouser:yoctouser vagrant-cookbook /tmp/vagrant-cookbook/
 RUN /tmp/vagrant-cookbook/system-config/vagrant-ssh-user.sh
 # Download and put repo in PATH
 RUN /tmp/vagrant-cookbook/yocto/initialize-repo-tool.sh
+ENV PATH /home/yoctouser/bin:$PATH
 
 # SSH settings
 USER root

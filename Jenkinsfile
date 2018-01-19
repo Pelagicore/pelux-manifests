@@ -2,99 +2,89 @@
 
 // Copyright (C) Pelagicore AB 2017
 
-// Helper function to run commands through vagrant
-def vagrant = {String command ->
-    sh "vagrant ssh -c \"${command}\""
-}
-
 /*
- * Supported values for bsp are "intel" or "rpi"
- * Supported values for qtauto are true or false
+ * For supported variant names, see conf/variants/ in meta-pelux
  */
-def buildManifest = {String variant_name, boolean bitbake_image ->
-    // Store the directory we are executed in as our workspace.
-    String yoctoDir = "/home/yoctouser/pelux_yocto"
-    String manifest = "pelux.xml"
+void buildManifest(String variant_name, String bitbake_image) {
 
-    // Everything we run here runs in a docker container handled by Vagrant
     node("DockerCI") {
 
-        // These could be empty, so check for that when using them.
-        environment {
-            YOCTO_CACHE_URL = "${env.YOCTO_CACHE_URL}"
-            YOCTO_CACHE_ARCHIVE_PATH = "${env.YOCTO_CACHE_ARCHIVE_PATH}"
-        }
-
-        // Stages are subtasks that will be shown as subsections of the finished
-        // build in Jenkins.
+        // We are going to need these later
+        String homeDir = "/home/yoctouser"
+        String yoctoDir = "${homeDir}/pelux_yocto"
+        String manifest = "pelux.xml"
 
         stage("Checkout ${variant_name}") {
-            // Checkout the git repository and refspec pointed to by jenkins
             checkout scm
-            // Update the submodules in the repository.
             sh 'git submodule update --init'
         }
 
-        stage("Start Vagrant ${variant_name}") {
-            // Start the machine (destroy it if present) and provision it
-            sh "vagrant destroy -f || true"
-            sh "vagrant up"
+        stage("Docker build ${variant_name}") {
+            // Build image from local Dockerfile with specified uid.
+            String uid = sh(returnStdout: true, script: "id -u").trim()
+            image = docker.build("pelux", "--build-arg userid=${uid} .")
         }
 
-        stage("Repo init ${variant_name}") {
-            vagrant("/vagrant/ci-scripts/do_repo_init ${manifest}")
+        // When starting our container, we want to run as the yoctouser, and if we
+        // have a yocto cache set up, we want it mounted.
+        String dockerArgs = "-u yoctouser"
+        if (env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
+            String cachePath = env.YOCTO_CACHE_ARCHIVE_PATH.trim()
+            dockerArgs += " -v ${cachePath}:${cachePath}"
         }
 
-        stage("Setup bitbake ${variant_name}") {
-            // Setup bitbake environment
-            templateconf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
-            vagrant("/vagrant/vagrant-cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateconf}")
-
-            // Fixes a bug in bitbake that causes file copy to directories to
-            // fail. https://patchwork.openembedded.org/patch/144399/
-            vagrant("patch -d ${yoctoDir}/sources/poky -p1 < ${yoctoDir}/sources/meta-bistro/recipes-temporary-patches/bitbake/0001-bitbake-lib-bb-utils-fix-movefile-copy-to-dir-fallba.patch")
-
-            // Setup site.conf if not building the master to do a incremental build.
-            // The YOCTO_CACHE_URL can be set globally in Manage Jenkins -> Configure System -> Global Properties
-            // or for one job as a parameter.
-            if (env.YOCTO_CACHE_URL?.trim()) {
-                vagrant("sed 's|%CACHEURL%|${env.YOCTO_CACHE_URL}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
+        // From here on, we run these commands inside the docker container. The
+        // default pwd inside is the path to the Jenkins workspace.
+        image.inside(dockerArgs) {
+            stage("Repo init/sync ${variant_name}") {
+                String syncDir = sh(returnStdout: true, script: "pwd").trim()
+                sh "cd $homeDir && ${syncDir}/ci-scripts/do_repo_init ${manifest} ${syncDir}"
             }
-        }
 
-        stage("Fetchall ${variant_name}") {
-            // Without cache access, we do want to do fetchall, but only then.
+            stage("oe-init-build-env ${variant_name}") {
+                templateconf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
+                sh "vagrant-cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateconf}"
+
+                // Fixes a bug in bitbake that causes file copy to directories to
+                // fail. https://patchwork.openembedded.org/patch/144399/
+                sh "patch -d ${yoctoDir}/sources/poky -p1 < ${yoctoDir}/sources/meta-bistro/recipes-temporary-patches/bitbake/0001-bitbake-lib-bb-utils-fix-movefile-copy-to-dir-fallba.patch"
+
+                // Setup site.conf if not building the master to do a incremental build.
+                // The YOCTO_CACHE_URL can be set globally in Manage Jenkins -> Configure System -> Global Properties
+                // or for one job as a parameter.
+                if (env.YOCTO_CACHE_URL?.trim()) {
+                    sh "sed 's|%CACHEURL%|${env.YOCTO_CACHE_URL}|g' site.conf.in > ${yoctoDir}/build/conf/site.conf"
+                }
+            }
+
+            // Only run the fetchall step if we are building without a Yocto cache
             if (!env.YOCTO_CACHE_URL?.trim()) {
-                vagrant("/vagrant/vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}")
+                stage("Fetchall ${variant_name}") {
+                    sh "vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}"
+                }
             }
-        }
 
-        stage("Bitbake ${variant_name}") {
-            vagrant("/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}")
-            vagrant("/vagrant/vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}-dev")
-        }
+            stage("Bitbake ${variant_name}") {
+                sh "vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}"
+                sh "vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}-dev"
+            }
 
-        stage("Build SDK ${variant_name}") {
-            vagrant("/vagrant/vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}")
-            vagrant("/vagrant/vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}-dev")
-        }
+            stage("Build SDK ${variant_name}") {
+                sh "vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}"
+                sh "vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}-dev"
+            }
 
-        stage("Archive cache ${variant_name}") {
-            // Archive the downloads and sstate when the environment variable was set to true
-            // by the Jenkins job.
+            // Only run the archiving if we have the cache flags set.
             if (env.ARCHIVE_CACHE && env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
-                vagrant("rsync -trpg ${yoctoDir}/build/downloads/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/downloads/")
-                vagrant("rsync -trpg ${yoctoDir}/build/sstate-cache/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/sstate-cache")
+                stage("Archive cache ${variant_name}") {
+                    sh "rsync -trpg ${yoctoDir}/build/downloads/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/downloads/"
+                    sh "rsync -trpg ${yoctoDir}/build/sstate-cache/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/sstate-cache"
+                }
             }
         }
-
-        // Always try to shut down the machine
-        // Shutdown the machine
-        sh "vagrant destroy -f || true"
     }
 }
 
-// Run the different variants in parallel, on different slaves (if possible)
 parallel (
     'intel':        { buildManifest("intel",        "core-image-pelux-minimal") },
     'intel-qtauto': { buildManifest("intel-qtauto", "core-image-pelux-qtauto-neptune") },
