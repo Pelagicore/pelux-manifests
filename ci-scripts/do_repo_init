@@ -20,16 +20,20 @@
 
 
 MANIFEST="$1"
-SYNC_DIR="$2"
 
-if [ "${MANIFEST}" = "" ];
-then
+if [ "${MANIFEST}" = "" ]; then
     echo "Missing argument 1: manifest"
     exit -1
 fi
 
+# Parameter expansion with default values
+SYNC_DIR="${2:-$(pwd)}"
+YOCTO_DIR="${3:-pelux_yocto}"
+
 echo "Running repo init with the following settings:"
-echo "manifest=${MANIFEST}\n"
+echo "manifest=${MANIFEST}"
+echo "sync dir=${SYNC_DIR}"
+echo "yocto dir=${YOCTO_DIR}"
 
 # In order to get repo tool to be able to init from pull-requests, there
 # has to be a branch available in /refs/heads. This is facilitated by
@@ -55,7 +59,7 @@ cd -
 # Manifest is provided via environment variables set at running vagrant up.
 
 # Clone recipes
-mkdir pelux_yocto
-cd pelux_yocto
+mkdir "$YOCTO_DIR"
+cd "$YOCTO_DIR"
 time repo init -u ${COPY_DIR} -m ${MANIFEST} -b master
 time repo sync
