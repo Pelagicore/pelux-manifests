@@ -16,5 +16,5 @@ Adding issues
 -------------
 Please provide the following information when filing issues:
 
-1. Did you run on your host system or did you use the vagrant setup?
+1. Did you run on your host system or did you use the Docker setup?
 2. Print relevant system information of the system you used.
