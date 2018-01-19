@@ -19,7 +19,8 @@
 #
 
 
-MANIFEST=$1
+MANIFEST="$1"
+SYNC_DIR="$2"
 
 if [ "${MANIFEST}" = "" ];
 then
@@ -37,7 +38,6 @@ echo "manifest=${MANIFEST}\n"
 # host already fetched the correct refs via the Jenkinsfile.
 
 # Copy the host repo to ensure that no later git commands destroy anything.
-SYNC_DIR="/vagrant"
 COPY_DIR="/tmp/git_repo"
 cp -r ${SYNC_DIR} ${COPY_DIR}
 
