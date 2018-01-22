@@ -43,7 +43,7 @@ void buildManifest(String variant_name, String bitbake_image) {
 
             stage("oe-init-build-env ${variant_name}") {
                 templateconf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
-                sh "vagrant-cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateconf}"
+                sh "cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateconf}"
 
                 // Fixes a bug in bitbake that causes file copy to directories to
                 // fail. https://patchwork.openembedded.org/patch/144399/
@@ -60,18 +60,18 @@ void buildManifest(String variant_name, String bitbake_image) {
             // Only run the fetchall step if we are building without a Yocto cache
             if (!env.YOCTO_CACHE_URL?.trim()) {
                 stage("Fetchall ${variant_name}") {
-                    sh "vagrant-cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}"
+                    sh "cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}"
                 }
             }
 
             stage("Bitbake ${variant_name}") {
-                sh "vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}"
-                sh "vagrant-cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}-dev"
+                sh "cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}"
+                sh "cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}-dev"
             }
 
             stage("Build SDK ${variant_name}") {
-                sh "vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}"
-                sh "vagrant-cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}-dev"
+                sh "cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}"
+                sh "cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}-dev"
             }
 
             // Only run the archiving if we have the cache flags set.

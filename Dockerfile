@@ -47,11 +47,11 @@ RUN echo 'yoctouser ALL=(ALL) NOPASSWD:SETENV: ALL' > /etc/sudoers.d/yoctouser
 
 # Set up git and repo
 USER yoctouser
-ADD --chown=yoctouser:yoctouser vagrant-cookbook /tmp/vagrant-cookbook/
+ADD --chown=yoctouser:yoctouser cookbook /tmp/cookbook/
 # Set up git config --global stuff
-RUN /tmp/vagrant-cookbook/system-config/vagrant-ssh-user.sh
+RUN /tmp/cookbook/system-config/vagrant-ssh-user.sh
 # Download and put repo in PATH
-RUN /tmp/vagrant-cookbook/yocto/initialize-repo-tool.sh
+RUN /tmp/cookbook/yocto/initialize-repo-tool.sh
 ENV PATH /home/yoctouser/bin:$PATH
 
 # SSH settings
