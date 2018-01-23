@@ -12,66 +12,73 @@
 
   <!-- Base stuff -->
   <project remote="oe"
-           revision="5e82995148a2844c6f483ae5ddd1438d87ea9fb7"
+           upstream="rocko"
+           revision="6e3fc5b8d904d06e3aa77e9ec9968ab37a798188"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <project remote="yocto"
-           revision="717303e6fbcbbe181ad9645d762eb5a85d934523"
+           upstream="rocko"
+           revision="a03c452917842b15451ad7098c1216eaec09cd2b"
            name="poky"
            path="sources/poky"/>
 
   <project remote="github"
-           revision="28f52b1451c6bebe46224b81dc6849babf286ce1"
-           upstream="pyro"
+           upstream="rocko"
+           revision="7404235400b8e4de2d85c07ec5d4c6b8ac56e97d"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
-  <project remote="yocto"
-           revision="dd49614c70364a11dc50798f32f1b2ffa3d0409e"
-           name="meta-virtualization"
-           path="sources/meta-virtualization"/>
-
   <project remote="github"
-           revision="51b5400625a4ddb6ea81d6f8466add9265750f62"
-           upstream="pyro"
+           upstream="rocko"
+           revision="8a70d30678db94f62d71e38427e0c93283e7c36b"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
-  <!-- GENIVI stuff -->
+  <project remote="yocto"
+           upstream="rocko"
+           revision="4277759428e96605b8dbe95a43891e217ae8d399"
+           name="meta-virtualization"
+           path="sources/meta-virtualization"/>
+
+  <!-- GENIVI stuff, update the upstream from master to 14.0 when possible-->
   <project remote="github"
-           revision="41d7ea6b533f0d1ec86590ab42e27f05c894dede"
-           upstream="13.0"
+           upstream="master"
+           revision="5243d83ac2ef13d117065edae8e4f484e7e4f373"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           revision="e7aad4d4cd29bb8912c40abe8cf2c0a1bac36283"
-           upstream="5.9"
+           upstream="5.10"
+           revision="bc0625e7a03f9f04fdae3a89137812a216e977cd"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
+  <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
-           revision="41b0b462c88f3aa5831a14c928c58dcb0233668f"
            upstream="pyro"
+           revision="8513b63910eb9046c79ab3fb3df02a4e665f05b5"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- Template layer stuff -->
   <project remote="github"
+           upstream="rocko"
            revision="2841810fe46089dd064f14b0327ce36065feb4dd"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
   <!-- BSP layers for Intel and rPi -->
   <project remote="yocto"
-           revision="63de2abadfa8164e28575e412e2bd9c315840ddb"
+           upstream="rocko"
+           revision="aa246ba9855d35d454ddcf041578310cbaa90250"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
-           revision="ed3b254454494b36d4205818e369f59718704e60"
+           upstream="rocko"
+           revision="510009f0c825cd7992d2d37e9ed0007f6c3be723"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
