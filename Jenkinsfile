@@ -50,10 +50,6 @@ def buildManifest = {String variant_name, boolean bitbake_image ->
             templateconf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
             vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateconf}")
 
-            // Fixes a bug in bitbake that causes file copy to directories to
-            // fail. https://patchwork.openembedded.org/patch/144399/
-            vagrant("patch -d ${yoctoDir}/sources/poky -p1 < ${yoctoDir}/sources/meta-bistro/recipes-temporary-patches/bitbake/0001-bitbake-lib-bb-utils-fix-movefile-copy-to-dir-fallba.patch")
-
             // Setup site.conf if not building the master to do a incremental build.
             // The YOCTO_CACHE_URL can be set globally in Manage Jenkins -> Configure System -> Global Properties
             // or for one job as a parameter.
