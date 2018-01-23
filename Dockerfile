@@ -26,7 +26,8 @@ RUN apt-get update && apt-get install -y \
         graphviz \
         qemu-user \
         g++-multilib \
-        curl
+        curl \
+        repo
 
 # For Yocto bitbake -c testimage XML reporting
 RUN pip3 install unittest-xml-reporting
@@ -50,9 +51,6 @@ USER yoctouser
 ADD --chown=yoctouser:yoctouser cookbook /tmp/cookbook/
 # Set up git config --global stuff
 RUN /tmp/cookbook/system-config/vagrant-ssh-user.sh
-# Download and put repo in PATH
-RUN /tmp/cookbook/yocto/initialize-repo-tool.sh
-ENV PATH /home/yoctouser/bin:$PATH
 
 # SSH settings
 USER root
