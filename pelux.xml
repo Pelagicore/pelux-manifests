@@ -24,28 +24,28 @@
            path="sources/poky"/>
 
   <project remote="github"
-           upstream="rocko"
-           revision="7404235400b8e4de2d85c07ec5d4c6b8ac56e97d"
+           upstream="master"
+           revision="b84bd307bb93bcb10f19de04a2b04d26cdce2ea7"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           upstream="rocko"
-           revision="8a70d30678db94f62d71e38427e0c93283e7c36b"
+           revision="01d4e9b4f3ab5595f5fbf22f726513693b84b82b"
+           upstream="master"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
-
-  <project remote="yocto"
-           upstream="rocko"
-           revision="4277759428e96605b8dbe95a43891e217ae8d399"
-           name="meta-virtualization"
-           path="sources/meta-virtualization"/>
 
   <project remote="github"
            revision="00ff53a574bf03bed29d80945f5e589879d3e2b2"
            upstream="rocko"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
+
+  <project remote="yocto"
+           upstream="rocko"
+           revision="4277759428e96605b8dbe95a43891e217ae8d399"
+           name="meta-virtualization"
+           path="sources/meta-virtualization"/>
 
   <!-- GENIVI stuff, update the upstream from master to 14.0 when possible-->
   <project remote="github"
