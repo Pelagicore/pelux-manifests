@@ -27,7 +27,8 @@ RUN apt-get update && apt-get install -y \
         qemu-user \
         g++-multilib \
         curl \
-        repo
+        repo \
+        rsync
 
 # For Yocto bitbake -c testimage XML reporting
 RUN pip3 install unittest-xml-reporting
