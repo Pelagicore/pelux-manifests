@@ -41,6 +41,12 @@
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
+  <project remote="github"
+           revision="00ff53a574bf03bed29d80945f5e589879d3e2b2"
+           upstream="rocko"
+           name="sbabic/meta-swupdate"
+           path="sources/meta-swupdate" />
+
   <!-- GENIVI stuff, update the upstream from master to 14.0 when possible-->
   <project remote="github"
            upstream="master"
