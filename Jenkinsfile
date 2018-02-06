@@ -56,6 +56,9 @@ void buildManifest(String variant_name, String bitbake_image) {
             if (env.YOCTO_CACHE_URL?.trim()) {
                 vagrant("sed 's|%CACHEURL%|${env.YOCTO_CACHE_URL}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
             }
+
+            // Add other settings that are CI specific to the local.conf
+            vagrant("cat /vagrant/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
         }
 
         stage("Fetchall ${variant_name}") {

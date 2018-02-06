@@ -1,0 +1,3 @@
+
+# Settings that we want in the CI environment
+INHERIT += "rm_work"
