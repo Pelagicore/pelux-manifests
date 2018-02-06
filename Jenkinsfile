@@ -3,7 +3,7 @@
 // Copyright (C) Pelagicore AB 2017
 
 // Helper function to run commands through vagrant
-def vagrant = {String command ->
+void vagrant(String command) {
     sh "vagrant ssh -c \"${command}\""
 }
 
@@ -11,7 +11,7 @@ def vagrant = {String command ->
  * Supported values for bsp are "intel" or "rpi"
  * Supported values for qtauto are true or false
  */
-def buildManifest = {String variant_name, boolean bitbake_image ->
+void buildManifest(String variant_name, String bitbake_image) {
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
