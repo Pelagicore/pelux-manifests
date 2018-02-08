@@ -17,7 +17,7 @@ void buildManifest(String variant_name, String bitbake_image) {
     String manifest = "pelux.xml"
 
     // Everything we run here runs in a docker container handled by Vagrant
-    node("DockerCI") {
+    node("Yocto") {
 
         // These could be empty, so check for that when using them.
         environment {
