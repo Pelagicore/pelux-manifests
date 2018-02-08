@@ -1,4 +1,4 @@
-FROM crops/yocto:ubuntu-17.10-base
+FROM crops/yocto:ubuntu-16.04-base
 
 LABEL description="PELUX Yocto build environment"
 LABEL maintainer="tobias.olausson@pelagicore.com"
