@@ -82,8 +82,9 @@ void buildManifest(String variant_name, String bitbake_image) {
             // Archive the downloads and sstate when the environment variable was set to true
             // by the Jenkins job.
             if (env.ARCHIVE_CACHE && env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
-                vagrant("rsync -trpg ${yoctoDir}/build/downloads/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/downloads/")
-                vagrant("rsync -trpg ${yoctoDir}/build/sstate-cache/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/sstate-cache")
+                String targetPrefix = "${env.YOCTO_CACHE_SSH_HOST}:${env.YOCTO_CACHE_ARCHIVE_PATH}"
+                sh "rsync -trpge ssh ${yoctoDir}/build/downloads/ ${targetPrefix}/downloads/"
+                sh "rsync -trpge ssh ${yoctoDir}/build/sstate-cache/ ${targetPrefix}/sstate-cache"
             }
         }
 
