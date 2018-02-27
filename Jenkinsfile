@@ -91,6 +91,21 @@ void buildManifest(String variant_name, String bitbake_image) {
             }
         }
 
+        if (env.NIGHTLY_BUILD) {
+            stage("Archive artifacts ${variant_name}") {
+                String artifactDir = "artifacts_${variant_name}"
+
+                sh "rm -rf ${artifactDir}"
+                sh "mkdir ${artifactDir}"
+
+                // Copy images and SDK to the synced directory
+                vagrant("/vagrant/ci-scripts/copy_to_archive ${yoctoDir}/build /vagrant/${artifactDir}")
+
+                // And save them in Jenkins
+                archiveArtifacts "${artifactDir}/**"
+            }
+        }
+
         // Always try to shut down the machine
         // Shutdown the machine
         sh "vagrant destroy -f || true"
