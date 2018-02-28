@@ -68,22 +68,26 @@ void buildManifest(String variant_name, String bitbake_image) {
             }
         }
 
-        stage("Bitbake ${variant_name}") {
-            vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}")
-            vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}-dev")
-        }
+        try {
 
-        stage("Build SDK ${variant_name}") {
-            vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}")
-            vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}-dev")
-        }
+            stage("Bitbake ${variant_name}") {
+                vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}")
+                vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${bitbake_image}-dev")
+            }
 
-        stage("Archive cache ${variant_name}") {
-            // Archive the downloads and sstate when the environment variable was set to true
-            // by the Jenkins job.
-            if (env.ARCHIVE_CACHE && env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
-                vagrant("rsync -trpg ${yoctoDir}/build/downloads/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/downloads/")
-                vagrant("rsync -trpg ${yoctoDir}/build/sstate-cache/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/sstate-cache")
+            stage("Build SDK ${variant_name}") {
+                vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}")
+                vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${bitbake_image}-dev")
+            }
+        } finally { // Archive cache even if there were errors.
+
+            stage("Archive cache ${variant_name}") {
+                // Archive the downloads and sstate when the environment variable was set to true
+                // by the Jenkins job.
+                if (env.ARCHIVE_CACHE && env.YOCTO_CACHE_ARCHIVE_PATH?.trim()) {
+                    vagrant("rsync -trpg ${yoctoDir}/build/downloads/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/downloads/")
+                    vagrant("rsync -trpg ${yoctoDir}/build/sstate-cache/ ${env.YOCTO_CACHE_ARCHIVE_PATH}/sstate-cache")
+                }
             }
         }
 
