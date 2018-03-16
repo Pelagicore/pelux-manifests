@@ -1,4 +1,7 @@
 # Enable testing
+
+IMAGE_INSTALL_remove_qemux86-64 += "swupdate"
+
 INHERIT += " \
 	testimage \
 	testexport \
