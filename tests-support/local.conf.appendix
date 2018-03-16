@@ -1,0 +1,12 @@
+# Enable testing
+INHERIT += " \
+	testimage \
+	testexport \
+"
+
+# All test suites to run
+TEST_SUITES = " \
+	ping \
+	ssh \
+	auto \
+"
