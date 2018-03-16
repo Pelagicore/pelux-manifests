@@ -101,7 +101,7 @@ void buildManifest(String variant_name, String bitbake_image) {
         if (variant_name == "qemu-x86-64_nogfx") {
             try {
                 stage("Perform smoke testing") {
-                    vagrant("/vagrant/vagrant-cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${bitbake_image}")
+                    vagrant("/vagrant/vagrant-cookbook/yocto/runquemu-smoke-test.sh ${yoctoDir} ${bitbake_image}")
                 }
             } catch(e) {
                echo "There were failing tests"
