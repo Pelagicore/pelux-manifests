@@ -15,6 +15,7 @@ void buildManifest(String variant_name, String bitbake_image) {
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
+    String archive_directory = "archive_" + bitbake_image + "-" + variant_name
 
     // Everything we run here runs in a docker container handled by Vagrant
     node("Yocto") {
