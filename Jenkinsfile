@@ -54,9 +54,9 @@ void buildManifest(String variant_name, String bitbake_image) {
             // Setup site.conf if not building the master to do a incremental build.
             // The YOCTO_CACHE_URL can be set globally in Manage Jenkins -> Configure System -> Global Properties
             // or for one job as a parameter.
-            if (env.YOCTO_CACHE_URL?.trim()) {
-                vagrant("sed 's|%CACHEURL%|${env.YOCTO_CACHE_URL}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
-            }
+            //if (env.YOCTO_CACHE_URL?.trim()) {
+            //    vagrant("sed 's|%CACHEURL%|${env.YOCTO_CACHE_URL}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
+            //}
 
             // Add other settings that are CI specific to the local.conf
             vagrant("cat /vagrant/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
