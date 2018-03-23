@@ -1,0 +1,22 @@
+# Enable testing
+
+# Can't build swupdate for QEMU
+IMAGE_INSTALL_remove_qemux86-64 += "swupdate"
+
+
+# Needed since a bbappend in meta-ivi adds libusb PACKAGECONFIG which is 
+# broken for some weird reason
+BBMASK .= "|meta-ivi/recipes-devtools/qemu/"
+
+# Extra classes needed for testing
+INHERIT += " \
+	testimage \
+	testexport \
+"
+
+# All test suites to run
+TEST_SUITES = " \
+	ping \
+	ssh \
+	auto \
+"
