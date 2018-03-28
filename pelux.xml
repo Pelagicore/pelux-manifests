@@ -2,7 +2,7 @@
 <manifest>
 
   <!-- Settings -->
-  <default sync-j="4" revision="pyro" />
+  <default sync-j="4" revision="rocko" />
 
   <!-- Remotes -->
   <remote fetch="git://git.openembedded.org"    name="oe"/>
