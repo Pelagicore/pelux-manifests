@@ -25,7 +25,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="b84bd307bb93bcb10f19de04a2b04d26cdce2ea7"
+           revision="1588619f627ef1bf40f9b93660c0f05a96a69cb9"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
