@@ -19,15 +19,8 @@ void buildManifest(String variant_name, String bitbake_image) {
     // Everything we run here runs in a docker container handled by Vagrant
     node("Yocto") {
 
-        // These could be empty, so check for that when using them.
-        environment {
-            YOCTO_CACHE_URL = "${env.YOCTO_CACHE_URL}"
-            YOCTO_CACHE_ARCHIVE_PATH = "${env.YOCTO_CACHE_ARCHIVE_PATH}"
-        }
-
         // Stages are subtasks that will be shown as subsections of the finished
         // build in Jenkins.
-
         try {
 
             stage("Checkout ${variant_name}") {
@@ -55,7 +48,7 @@ void buildManifest(String variant_name, String bitbake_image) {
                 // Setup site.conf if not building the master to do a incremental build.
                 // The YOCTO_CACHE_URL can be set globally in Manage Jenkins -> Configure System -> Global Properties
                 // or for one job as a parameter.
-                if (env.YOCTO_CACHE_URL?.trim()) {
+                if (env.YOCTO_CACHE_URL && env.YOCTO_CACHE_URL?.trim()) {
                     vagrant("sed 's|%CACHEURL%|${env.YOCTO_CACHE_URL}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
                 }
 
@@ -65,7 +58,7 @@ void buildManifest(String variant_name, String bitbake_image) {
 
             stage("Fetchall ${variant_name}") {
                 // Without cache access, we do want to do fetchall, but only then.
-                if (!env.YOCTO_CACHE_URL?.trim()) {
+                if (!env.YOCTO_CACHE_URL) {
                     vagrant("/vagrant/cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}")
                 }
             }
@@ -91,7 +84,7 @@ void buildManifest(String variant_name, String bitbake_image) {
                     }
                 }
 
-                if (env.NIGHTLY_BUILD) {
+                if (env.NIGHTLY_BUILD?.trim()) {
                     stage("Archive artifacts ${variant_name}") {
                         String artifactDir = "artifacts_${variant_name}"
 
