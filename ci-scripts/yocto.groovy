@@ -111,7 +111,7 @@ void archiveArtifacts(String yoctoDir, String suffix) {
     }
 }
 
-void buildElsewhere(String variant_name, String bitbake_image, manifestFun = { }) {
+void buildWithLayer(String variant_name, String bitbake_image, String layer, String layerPath) {
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
@@ -124,7 +124,7 @@ void buildElsewhere(String variant_name, String bitbake_image, manifestFun = { }
         startVagrant()
         repoInit(manifest)
 
-        manifestFun()
+        replaceLayer(yoctoDir, layer, layerPath)
 
         // Setup yocto
         templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
@@ -163,8 +163,6 @@ void buildManifest(String variant_name, String bitbake_image) {
         // Initialize vagrant and repo manifest
         startVagrant()
         repoInit(manifest)
-
-        manifestFun()
 
         // Setup yocto
         templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
