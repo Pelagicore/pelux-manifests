@@ -127,7 +127,7 @@ void buildWithLayer(String variant_name, String bitbake_image, String layer, Str
         replaceLayer(yoctoDir, layer, layerPath)
 
         // Setup yocto
-        templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
+        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
         setupBitbake(yoctoDir, templateConf)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
@@ -165,7 +165,7 @@ void buildManifest(String variant_name, String bitbake_image) {
         repoInit(manifest)
 
         // Setup yocto
-        templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
+        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
         setupBitbake(yoctoDir, templateConf)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
