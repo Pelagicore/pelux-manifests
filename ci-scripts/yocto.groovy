@@ -88,7 +88,7 @@ void buildImageAndSDK(String yoctoDir, String imageName, boolean dev=true) {
 }
 
 void archiveCache(String yoctoDir, boolean archive, String archivePath) {
-    if (archive) {
+    if (archive && archivePath?.trim()) {
         stage("Archive cache") {
             vagrant("rsync -trpg ${yoctoDir}/build/downloads/ ${archivePath}/downloads/")
             vagrant("rsync -trpg ${yoctoDir}/build/sstate-cache/ ${archivePath}/sstate-cache")
@@ -135,11 +135,8 @@ void buildWithLayer(String variant_name, String bitbake_image, String layer, Str
         try {
             buildImageAndSDK(yoctoDir, bitbake_image)
         } finally { // Archive cache even if there were errors.
-            archiveCache(yoctoDir, env.ARCHIVE_CACHE, env.YOCTO_CACHE_ARCHIVE_PATH)
-
-            if (env.NIGHTLY_BUILD) {
-                archiveArtifacts(yoctoDir, variant_name)
-            }
+            boolean archive = env.ARCHIVE_CACHE == "true"
+            archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
         }
     } finally {
         shutdownVagrant()
@@ -173,9 +170,12 @@ void buildManifest(String variant_name, String bitbake_image) {
         try {
             buildImageAndSDK(yoctoDir, bitbake_image)
         } finally { // Archive cache even if there were errors.
-            archiveCache(yoctoDir, env.ARCHIVE_CACHE, env.YOCTO_CACHE_ARCHIVE_PATH)
+            boolean archive = env.ARCHIVE_CACHE == "true"
+            archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
 
-            if (env.NIGHTLY_BUILD) {
+            // If nightly build, we store the artifacts as well
+            boolean nightly = env.NIGHTLY_BUILD == "true"
+            if (nightly) {
                 archiveArtifacts(yoctoDir, variant_name)
             }
         }
