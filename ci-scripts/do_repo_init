@@ -27,7 +27,7 @@ if [ "${MANIFEST}" = "" ]; then
 fi
 
 # Parameter expansion with default values
-SYNC_DIR="${2:-$(pwd)}"
+SYNC_DIR="${2:-/vagrant}"
 YOCTO_DIR="${3:-pelux_yocto}"
 
 echo "Running repo init with the following settings:"
@@ -42,7 +42,6 @@ echo "yocto dir=${YOCTO_DIR}"
 # host already fetched the correct refs via the Jenkinsfile.
 
 # Copy the host repo to ensure that no later git commands destroy anything.
-SYNC_DIR="/vagrant"
 COPY_DIR="/tmp/git_repo"
 cp -r ${SYNC_DIR} ${COPY_DIR}
 
