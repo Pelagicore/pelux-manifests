@@ -76,7 +76,7 @@ void buildImageAndSDK(String yoctoDir, String imageName, boolean dev=true) {
     // means we should do a fetchall.
     if (vagrant("test -f ${yoctoDir}/build/conf/site.conf", true) != 0) {
         stage("Fetch sources") {
-            vagrant("/vagrant/cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${bitbake_image}")
+            vagrant("/vagrant/cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${imageName}")
         }
     }
 
@@ -138,7 +138,7 @@ void archiveArtifacts(String yoctoDir, String suffix) {
     }
 }
 
-void buildWithLayer(String variant_name, String bitbake_image, String layer, String layerPath) {
+void buildWithLayer(String variantName, String imageName, String layer, String layerPath) {
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
@@ -154,13 +154,13 @@ void buildWithLayer(String variant_name, String bitbake_image, String layer, Str
         replaceLayer(yoctoDir, layer, layerPath)
 
         // Setup yocto
-        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
+        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
         setupBitbake(yoctoDir, templateConf)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
         // Build the images
         try {
-            buildImageAndSDK(yoctoDir, bitbake_image)
+            buildImageAndSDK(yoctoDir, imageName)
         } finally { // Archive cache even if there were errors.
             boolean archive = env.ARCHIVE_CACHE == "true"
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
@@ -176,7 +176,7 @@ void replaceLayer(String yoctoDir, String layerName, String newPath) {
     vagrant("mv /vagrant/${layerName} ${yoctoDir}/sources/")
 }
 
-void buildManifest(String variant_name, String bitbake_image, boolean smokeTests=false) {
+void buildManifest(String variantName, String imageName, boolean smokeTests=false) {
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
@@ -189,15 +189,15 @@ void buildManifest(String variant_name, String bitbake_image, boolean smokeTests
         repoInit(manifest)
 
         // Setup yocto
-        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
+        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
         setupBitbake(yoctoDir, templateConf, smokeTests)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
         // Build the images
         try {
-            buildImageAndSDK(yoctoDir, bitbake_image)
+            buildImageAndSDK(yoctoDir, imageName)
             if (smokeTests) {
-                runSmokeTests(yoctoDir, bitbake_image)
+                runSmokeTests(yoctoDir, imageName)
             }
         } finally { // Archive cache even if there were errors.
             boolean archive = env.ARCHIVE_CACHE == "true"
@@ -206,7 +206,7 @@ void buildManifest(String variant_name, String bitbake_image, boolean smokeTests
             // If nightly build, we store the artifacts as well
             boolean nightly = env.NIGHTLY_BUILD == "true"
             if (nightly) {
-                archiveArtifacts(yoctoDir, variant_name)
+                archiveArtifacts(yoctoDir, variantName)
             }
         }
     } finally {
