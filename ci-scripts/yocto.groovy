@@ -41,12 +41,20 @@ void repoInit(String manifest) {
     }
 }
 
-void setupBitbake(String yoctoDir, String templateConf) {
+void setupBitbake(String yoctoDir, String templateConf, boolean smokeTests) {
     stage("Setup bitbake") {
         vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}")
 
         // Add other settings that are CI specific to the local.conf
         vagrant("cat /vagrant/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
+
+        // Add settings for smoke testing if needed
+        if (smokeTests) {
+            stage("Setup local conf for smoke testing and tests export") {
+                vagrant("echo '' >> ${yoctoDir}/build/conf/local.conf")
+                vagrant("cat /vagrant/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
+            }
+        }
     }
 }
 
@@ -83,6 +91,25 @@ void buildImageAndSDK(String yoctoDir, String imageName, boolean dev=true) {
         vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
         if (dev) {
             vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}-dev")
+        }
+    }
+}
+
+void runSmokeTests(String yoctoDir, String imageName) {
+    String archiveDir = "testReports-" + imageName
+
+    try {
+        stage("Perform smoke testing") {
+            vagrant("/vagrant/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}")
+        }
+    } catch(e) {
+        echo "There were failing tests"
+    } finally {
+        stage("Publish smoke test results") {
+            reportsDir="/vagrant/${archiveDir}/test_reports/${imageName}/"
+            vagrant("mkdir -p ${reportsDir}")
+            vagrant("cp -a ${yoctoDir}/build/TestResults* ${reportsDir}")
+            junit "${archiveDir}/test_reports/${imageName}/TestResults*/*.xml"
         }
     }
 }
@@ -149,7 +176,7 @@ void replaceLayer(String yoctoDir, String layerName, String newPath) {
     vagrant("mv /vagrant/${layerName} ${yoctoDir}/sources/")
 }
 
-void buildManifest(String variant_name, String bitbake_image) {
+void buildManifest(String variant_name, String bitbake_image, boolean smokeTests=false) {
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
@@ -163,12 +190,15 @@ void buildManifest(String variant_name, String bitbake_image) {
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variant_name}"
-        setupBitbake(yoctoDir, templateConf)
+        setupBitbake(yoctoDir, templateConf, smokeTests)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
         // Build the images
         try {
             buildImageAndSDK(yoctoDir, bitbake_image)
+            if (smokeTests) {
+                runSmokeTests(yoctoDir, bitbake_image)
+            }
         } finally { // Archive cache even if there were errors.
             boolean archive = env.ARCHIVE_CACHE == "true"
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
