@@ -38,6 +38,16 @@ parallel (
             def manifests = load "ci-scripts/yocto.groovy"
             manifests.buildManifest("rpi-qtauto", "core-image-pelux-qtauto-neptune")
         }
+    },
+    'qemu': {
+        node("Yocto") {
+            boolean nightly = env.NIGHTLY_BUILD == "true"
+            boolean smokeTests = env.SMOKE_TEST == "true"
+            if (nightly) {
+                checkout scm
+                def manifests = load "ci-scripts/yocto.groovy"
+                manifests.buildManifest("qemu-x86-64_nogfx", "core-image-pelux-minimal", smokeTests)
+            }
+        }
     }
 )
-
