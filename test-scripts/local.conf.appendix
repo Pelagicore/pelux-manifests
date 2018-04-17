@@ -1,0 +1,15 @@
+# Target Static IP address. Needed for ssh and ping test.
+STATIC_IP_ADDRESS = "192.168.7.2"
+
+# Enable testing
+INHERIT += " \
+    testimage \
+    testexport \
+"
+
+# All test suites to run
+TEST_SUITES = " \
+    ping \
+    ssh \
+    auto \
+"
