@@ -104,6 +104,7 @@ void runSmokeTests(String yoctoDir, String imageName) {
         }
     } catch(e) {
         echo "There were failing tests"
+        println(e.getMessage())
     } finally {
         stage("Publish smoke test results") {
             reportsDir="/vagrant/${archiveDir}/test_reports/${imageName}/"
