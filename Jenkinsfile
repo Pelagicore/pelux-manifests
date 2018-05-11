@@ -49,5 +49,21 @@ parallel (
                 manifests.buildManifest("qemu-x86-64_nogfx", "core-image-pelux-minimal", smokeTests)
             }
         }
+    },
+
+    'arp': {
+        node("Yocto") {
+            checkout scm
+            def manifests = load "ci-scripts/yocto.groovy"
+            manifests.buildManifest("arp", "core-image-pelux-minimal")
+        }
+    },
+
+    'arp-qtauto': {
+        node("Yocto") {
+            checkout scm
+            def manifests = load "ci-scripts/yocto.groovy"
+            manifests.buildManifest("arp-qtauto", "core-image-pelux-qtauto-neptune")
+        }
     }
 )
