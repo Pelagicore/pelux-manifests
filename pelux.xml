@@ -88,4 +88,10 @@
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
+  <project remote="github"
+           upstream="master"
+           revision="87c50b4d37a30c6b438dd4ffec33a2da492e5105"
+           name="Pelagicore/meta-arp"
+           path="sources/meta-arp"/>
+
 </manifest>
