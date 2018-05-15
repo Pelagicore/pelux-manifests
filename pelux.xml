@@ -47,10 +47,10 @@
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
-  <!-- GENIVI stuff, update the upstream from master to 14.0 when possible-->
+  <!-- GENIVI stuff -->
   <project remote="github"
            upstream="master"
-           revision="5243d83ac2ef13d117065edae8e4f484e7e4f373"
+           revision="8efbab9130de3fedd62ef5ac6ad6fe138df610d9"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
