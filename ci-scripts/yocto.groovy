@@ -41,7 +41,7 @@ void repoInit(String manifest) {
     }
 }
 
-void setupBitbake(String yoctoDir, String templateConf, boolean smokeTests) {
+void setupBitbake(String yoctoDir, String templateConf, boolean smokeTests=false) {
     stage("Setup bitbake") {
         vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}")
 
