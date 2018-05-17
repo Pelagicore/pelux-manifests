@@ -30,7 +30,7 @@
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="a5e324f149b21ec38116402163626c17a2e13c39"
+           revision="3d7b05600a7b9f8b759904415e0314657a1b9013"
            upstream="master"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
