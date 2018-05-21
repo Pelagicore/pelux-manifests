@@ -1,6 +1,2 @@
-# Needed since a bbappend in meta-ivi adds libusb PACKAGECONFIG which is
-# broken for some weird reason
-BBMASK .= "|meta-ivi/recipes-devtools/qemu/"
-
 # Settings that we want in the CI environment
 INHERIT += "rm_work"
