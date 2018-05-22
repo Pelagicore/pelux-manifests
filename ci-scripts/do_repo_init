@@ -51,7 +51,7 @@ cp -r ${SYNC_DIR} ${COPY_DIR}
 
 # Make sure there is a master branch and that it is pointing to the latest commit.
 cd ${COPY_DIR}
-git branch -D master || true
+git branch -D master 2> /dev/null || true
 git checkout -b master
 cd -
 
