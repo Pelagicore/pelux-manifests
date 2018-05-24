@@ -56,15 +56,15 @@
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="5.10"
-           revision="bc0625e7a03f9f04fdae3a89137812a216e977cd"
+           upstream="5.11"
+           revision="70f30e724d6057b99b8a9749b1cf8d9155fbab5f"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
-           upstream="pyro"
-           revision="8513b63910eb9046c79ab3fb3df02a4e665f05b5"
+           upstream="pyro-5.11"
+           revision="cabaf4ef690ab5dcde901822edfd4fe5067497ac"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
