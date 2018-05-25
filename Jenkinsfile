@@ -7,75 +7,58 @@
 // We could do a single "checkout scm" and load the groovy script, but to do
 // that one has to allocate a node first, which would stay busy until the end of
 // the parallel pipeline
+
+void buildOnYoctoNode(String variant, String image, boolean checkSmokeTests = false) {
+    node("Yocto") {
+        boolean smokeTests = false
+
+        if (checkSmokeTests) {
+            smokeTests = env.SMOKE_TEST == "true"
+        }
+
+        checkout scm
+        def manifests = load "ci-scripts/yocto.groovy"
+        manifests.buildManifest(variant, image, smokeTests)
+    }
+}
+
+void buildOnYoctoNodeNightly(String variant, String image, boolean checkSmokeTests = false) {
+    boolean nightlyBuild = env.NIGHTLY_BUILD == "true"
+
+    if (nightlyBuild) {
+        buildOnYoctoNode(variant, image, checkSmokeTests)
+    } else {
+        println("Nothing to do for " + variant)
+    }
+}
+
+
 parallel (
     'intel': {
-        node("Yocto") {
-            checkout scm
-            def manifests = load "ci-scripts/yocto.groovy"
-            manifests.buildManifest("intel", "core-image-pelux-minimal")
-        }
+        buildOnYoctoNode("intel", "core-image-pelux-minimal")
     },
 
     'intel-qtauto': {
-        node("Yocto") {
-            checkout scm
-            def manifests = load "ci-scripts/yocto.groovy"
-            manifests.buildManifest("intel-qtauto", "core-image-pelux-qtauto-neptune")
-        }
+        buildOnYoctoNode("intel-qtauto", "core-image-pelux-qtauto-neptune")
     },
 
     'rpi': {
-        node("Yocto") {
-            checkout scm
-            def manifests = load "ci-scripts/yocto.groovy"
-            manifests.buildManifest("rpi", "core-image-pelux-minimal")
-        }
+        buildOnYoctoNode("rpi", "core-image-pelux-minimal")
     },
 
     'rpi-qtauto': {
-        node("Yocto") {
-            checkout scm
-            def manifests = load "ci-scripts/yocto.groovy"
-            manifests.buildManifest("rpi-qtauto", "core-image-pelux-qtauto-neptune")
-        }
+        buildOnYoctoNode("rpi-qtauto", "core-image-pelux-qtauto-neptune")
     },
+
     'qemu': {
-        node("Yocto") {
-            boolean nightly = env.NIGHTLY_BUILD == "true"
-            boolean smokeTests = env.SMOKE_TEST == "true"
-            if (nightly) {
-                checkout scm
-                def manifests = load "ci-scripts/yocto.groovy"
-                manifests.buildManifest("qemu-x86-64_nogfx", "core-image-pelux-minimal", smokeTests)
-            } else {
-                println("Nothing to do for qemu")
-            }
-        }
+        buildOnYoctoNodeNightly("qemu", "core-image-pelux-minimal", true)
     },
 
     'arp': {
-        node("Yocto") {
-            boolean nightly = env.NIGHTLY_BUILD == "true"
-            if (nightly) {
-                checkout scm
-                def manifests = load "ci-scripts/yocto.groovy"
-                manifests.buildManifest("arp", "core-image-pelux-minimal")
-            }else {
-                println("Nothing to do for arp")
-            }
-        }
+        buildOnYoctoNodeNightly("arp", "core-image-pelux-minimal")
     },
 
     'arp-qtauto': {
-        node("Yocto") {
-            boolean nightly = env.NIGHTLY_BUILD == "true"
-            if (nightly) {
-                checkout scm
-                def manifests = load "ci-scripts/yocto.groovy"
-                manifests.buildManifest("arp-qtauto", "core-image-pelux-qtauto-neptune")
-            }else {
-                println("Nothing to do for arp-qtauto")
-            }
-        }
+        buildOnYoctoNodeNightly("arp-qtauto", "core-image-pelux-qtauto-neptune")
     }
 )
