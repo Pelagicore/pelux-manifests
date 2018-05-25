@@ -47,23 +47,35 @@ parallel (
                 checkout scm
                 def manifests = load "ci-scripts/yocto.groovy"
                 manifests.buildManifest("qemu-x86-64_nogfx", "core-image-pelux-minimal", smokeTests)
+            } else {
+                println("Nothing to do for qemu")
             }
         }
     },
 
     'arp': {
         node("Yocto") {
-            checkout scm
-            def manifests = load "ci-scripts/yocto.groovy"
-            manifests.buildManifest("arp", "core-image-pelux-minimal")
+            boolean nightly = env.NIGHTLY_BUILD == "true"
+            if (nightly) {
+                checkout scm
+                def manifests = load "ci-scripts/yocto.groovy"
+                manifests.buildManifest("arp", "core-image-pelux-minimal")
+            }else {
+                println("Nothing to do for arp")
+            }
         }
     },
 
     'arp-qtauto': {
         node("Yocto") {
-            checkout scm
-            def manifests = load "ci-scripts/yocto.groovy"
-            manifests.buildManifest("arp-qtauto", "core-image-pelux-qtauto-neptune")
+            boolean nightly = env.NIGHTLY_BUILD == "true"
+            if (nightly) {
+                checkout scm
+                def manifests = load "ci-scripts/yocto.groovy"
+                manifests.buildManifest("arp-qtauto", "core-image-pelux-qtauto-neptune")
+            }else {
+                println("Nothing to do for arp-qtauto")
+            }
         }
     }
 )
