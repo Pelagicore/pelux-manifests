@@ -65,29 +65,31 @@ void setupCache(String yoctoDir, String url) {
         // or for one job as a parameter.
         if (url?.trim()) {
             vagrant("sed 's|%CACHEURL%|${url}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
+            echo "Cache set up"
         } else {
             echo "No cache setup"
         }
     }
 }
 
-void buildImageAndSDK(String yoctoDir, String imageName, boolean update=false,  boolean dev=true) {
+void buildImageAndSDK(String yoctoDir, String imageName, boolean update=false) {
     // If we have a site.conf, that means we have caching, if we don't that
     // means we should do a fetchall.
     if (vagrant("test -f ${yoctoDir}/build/conf/site.conf", true) != 0) {
         stage("Fetch sources") {
             vagrant("/vagrant/cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${imageName}")
         }
+    } else {
+        echo "\'site.conf\' exists, using cache"
     }
 
     stage("Bitbake ${imageName}") {
         vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")
-        if (dev) {
-            vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev")
-        }
+        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev")
+
         if (update) {
-            vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update")
-            if (dev) {
+            stage("Bitbake Update ${imageName}") {
+                vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update")
                 vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev-update")
             }
         }
@@ -95,9 +97,7 @@ void buildImageAndSDK(String yoctoDir, String imageName, boolean update=false,  
 
     stage("Build SDK ${imageName}") {
         vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
-        if (dev) {
-            vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}-dev")
-        }
+        vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}-dev")
     }
 }
 
@@ -167,7 +167,7 @@ void buildWithLayer(String variantName, String imageName, String layer, String l
 
         // Build the images
         try {
-            boolean buildUpdate = variant_name.startsWith("rpi")
+            boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, buildUpdate)
         } finally { // Archive cache even if there were errors.
             boolean archive = env.ARCHIVE_CACHE == "true"
@@ -203,7 +203,7 @@ void buildManifest(String variantName, String imageName, boolean smokeTests=fals
 
         // Build the images
         try {
-            boolean buildUpdate = variant_name.startsWith("rpi")
+            boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, buildUpdate)
             if (smokeTests) {
                 runSmokeTests(yoctoDir, imageName)
