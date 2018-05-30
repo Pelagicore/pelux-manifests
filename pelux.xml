@@ -30,9 +30,9 @@
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="4e32cd50fd3afbeaa1301b1c97060f298320fd73"
-           upstream="master"
-           name="Pelagicore/meta-pelux"
+           revision="afa2d63c6a78542b9cecd10d204e0d965db509ce"
+           upstream="topic/qt5.11"
+           name="thenor/meta-pelux"
            path="sources/meta-pelux" />
 
   <project remote="github"
