@@ -30,8 +30,8 @@
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="4e32cd50fd3afbeaa1301b1c97060f298320fd73"
-           upstream="master"
+           revision="a9bf8e245ac5f33aa0b334f87f2e6561cf6c2f93"
+           upstream="topic/qt5.11"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
@@ -63,8 +63,8 @@
 
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
-           upstream="pyro-5.11"
-           revision="cabaf4ef690ab5dcde901822edfd4fe5067497ac"
+           upstream="pyro"
+           revision="6c019b0297eabc5e18b8b65646e1edfea08e2c92"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
