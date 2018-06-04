@@ -23,6 +23,12 @@ void startVagrant(boolean kill=true) {
             shutdownVagrant()
         }
 
+        // Pull Docker container from Docker Hub
+        sh "docker pull pelagicore/pelux_ubuntu1604"
+
+        // Tag container as 'pelux'
+        sh "docker tag pelagicore/pelux_ubuntu1604 pelux"
+
         sh "vagrant up"
     }
 }
