@@ -2,11 +2,11 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-    config.vm.provider "docker" do |d, configOverride|
-        d.build_dir = "."
-        d.has_ssh = true
-        d.build_args = ['--build-arg', 'userid=' + `id -u`.strip]
-        d.create_args = ['--cap-add=NET_ADMIN', '--device=/dev/net/tun']
+    images: ["pelagicore/pelux_ubuntu1604"]
+#        d.build_dir = "."
+#        d.has_ssh = true
+#        d.build_args = ['--build-arg', 'userid=' + `id -u`.strip]
+#        d.create_args = ['--cap-add=NET_ADMIN', '--device=/dev/net/tun']
 
         # Overrides for 'config' unique for docker
         configOverride.ssh.username = "yoctouser"
