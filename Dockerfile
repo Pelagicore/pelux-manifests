@@ -34,13 +34,8 @@ RUN apt-get update && apt-get install -y \
 RUN pip3 install unittest-xml-reporting
 
 # For git-lfs
-RUN build_deps="curl ca-certificates" && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ${build_deps} && \
-    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git-lfs && \
-    git lfs install && \
-    DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove ${build_deps} && \
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+RUN apt-get install -y git-lfs
 
 # Remove all apt lists to avoid build caching
 RUN rm -rf /var/lib/apt/lists/*
