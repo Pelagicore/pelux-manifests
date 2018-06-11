@@ -33,6 +33,10 @@ RUN apt-get update && apt-get install -y \
 # For Yocto bitbake -c testimage XML reporting
 RUN pip3 install unittest-xml-reporting
 
+# For git-lfs
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+RUN apt-get install -y git-lfs
+
 # Remove all apt lists to avoid build caching
 RUN rm -rf /var/lib/apt/lists/*
 
