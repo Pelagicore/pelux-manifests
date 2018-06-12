@@ -30,7 +30,7 @@
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="4e32cd50fd3afbeaa1301b1c97060f298320fd73"
+           revision="a072b62997b3672ff42f65ab5091acefa6ff9c0d"
            upstream="master"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
@@ -90,7 +90,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="c1609b2c3d327bce3b571ea5f7f1232cb7185efc"
+           revision="3fdf5b15de028c2f7226bcf19cb7a08aa31e0f4d"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
