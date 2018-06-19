@@ -9,7 +9,15 @@ INHERIT += " \
 
 # All test suites to run
 TEST_SUITES = " \
+    date \
     ping \
     ssh \
+    scp \
+    df \
+    parselogs \
+    systemd.SystemdBasicTests.test_systemd_basic \
+    systemd.SystemdBasicTests.test_systemd_failed \
+    systemd.SystemdBasicTests.test_systemd_list \
+    systemd.SystemdJournalTests.test_systemd_journal \
     auto \
 "
