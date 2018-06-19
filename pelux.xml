@@ -12,38 +12,38 @@
 
   <!-- Base stuff -->
   <project remote="oe"
-           upstream="rocko"
-           revision="dacfa2b1920e285531bec55cd2f08743390aaf57"
+           upstream="sumo"
+           revision="a19aa29f7fa336cd075b72c496fe1102e6e5422b"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <project remote="yocto"
-           upstream="rocko"
-           revision="6b744113ad3e564d1cb05411816b103d99fd84dc"
+           upstream="sumo"
+           revision="4b6ff20a44bdc468878c140d117add01056328cb"
            name="poky"
            path="sources/poky"/>
 
   <project remote="github"
-           upstream="master"
-           revision="a1582fd46860e9c9440e0a53d4e02e8351c31799"
+           upstream="sumo"
+           revision="caee0a0476c9ecdefa12acc1da48353ae2985480"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="4e32cd50fd3afbeaa1301b1c97060f298320fd73"
-           upstream="master"
+           revision="a618e10e6ce97e024624167e242839f1f8fb3586"
+           upstream="sumo"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
   <project remote="github"
-           revision="00ff53a574bf03bed29d80945f5e589879d3e2b2"
-           upstream="rocko"
+           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
+           upstream="sumo"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
 
   <project remote="yocto"
-           upstream="rocko"
-           revision="bd77388f31929f38e7d4cc9c711f0f83f563007e"
+           upstream="sumo"
+           revision="2e8e06363369675c8cc15de418967392543a18a5"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
@@ -70,21 +70,21 @@
 
   <!-- Template layer stuff -->
   <project remote="github"
-           upstream="rocko"
+           upstream="sumo"
            revision="2841810fe46089dd064f14b0327ce36065feb4dd"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
   <!-- BSP layers for Intel and rPi -->
   <project remote="yocto"
-           upstream="rocko"
-           revision="92d66730fba1fdc71d2548332c8ff57160e31b05"
+           upstream="sumo"
+           revision="ee056df6137c3318a6decda246e676aedcd35f38"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
-           upstream="rocko"
-           revision="b58ccfc696e4fa6b680ae5ca79960312676d7af9"
+           upstream="sumo"
+           revision="f2e2a4376e84dec6e5efeabaa86a4406fddf7dcd"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
