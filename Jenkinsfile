@@ -51,7 +51,9 @@ parallel (
     },
 
     'qemu': {
-        buildOnYoctoNodeNightly("qemu", "core-image-pelux-minimal", true)
+        // Check if smoke tests should be run, only possible to run on qemu for now
+        boolean checkSmokeTests = true
+        buildOnYoctoNodeNightly("qemu-x86-64_nogfx", "core-image-pelux-minimal", checkSmokeTests)
     },
 
     'arp': {
