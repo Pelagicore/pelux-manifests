@@ -1,16 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
-
 Vagrant.configure(2) do |config|
-    config.vm.provider "docker" do |docker, configOverride|
-        docker.image = "pelux"
-
-        docker.privileged = true
-        docker.has_ssh = true
-        docker.build_args = ['--build-arg', 'userid=' + `id -u`.strip]
-        docker.create_args = ['--cap-add=NET_ADMIN', '--device=/dev/net/tun']
+    config.vm.provider "docker" do |d, configOverride|
+        d.build_dir = "."
+        d.has_ssh = true
+        d.build_args = ['--build-arg', 'userid=' + `id -u`.strip]
+        d.create_args = ['--cap-add=NET_ADMIN', '--device=/dev/net/tun']
 
         # Overrides for 'config' unique for docker
         configOverride.ssh.username = "yoctouser"
@@ -23,3 +19,4 @@ Vagrant.configure(2) do |config|
         config.vm.synced_folder ENV['YOCTO_CACHE_ARCHIVE_PATH'], ENV['YOCTO_CACHE_ARCHIVE_PATH']
     end
 end
+
