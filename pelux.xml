@@ -24,8 +24,8 @@
            path="sources/poky"/>
 
   <project remote="github"
-           upstream="master"
-           revision="a1582fd46860e9c9440e0a53d4e02e8351c31799"
+           upstream="rocko"
+           revision="a1c2b85682ee3ed74f5760d73e7974446ba2a2ae"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
@@ -71,7 +71,7 @@
   <!-- Template layer stuff -->
   <project remote="github"
            upstream="rocko"
-           revision="2841810fe46089dd064f14b0327ce36065feb4dd"
+           revision="1a53a265b4f150fceabdfb719ca570d18fb96230"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
