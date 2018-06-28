@@ -30,8 +30,8 @@
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="cc3c53270623b41c40750fb5adedbf63cf0eb6e9"
-           upstream="master"
+           revision="5076c3c5129fc269a9752e54e40940ca03da3873"
+           upstream="rocko"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
@@ -89,7 +89,7 @@
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           upstream="master"
+           upstream="rocko"
            revision="3fdf5b15de028c2f7226bcf19cb7a08aa31e0f4d"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
