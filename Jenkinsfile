@@ -22,10 +22,21 @@ void buildOnYoctoNode(String variant, String image, boolean checkSmokeTests = fa
     }
 }
 
-void buildOnYoctoNodeNightly(String variant, String image, boolean checkSmokeTests = false) {
+void buildNightlyOrWeekly(String variant, String image, boolean checkSmokeTests = false) {
     boolean nightlyBuild = env.NIGHTLY_BUILD == "true"
+    boolean weeklyBuild = env.WEEKLY_BUILD == "true"
 
-    if (nightlyBuild) {
+    if (nightlyBuild || weekly) {
+        buildOnYoctoNode(variant, image, checkSmokeTests)
+    } else {
+        println("Nothing to do for " + variant)
+    }
+}
+
+void buildWeekly(String variant, String image, boolean checkSmokeTests = false) {
+    boolean weeklyBuild = env.WEEKLY_BUILD == "true"
+
+    if (weeklyBuild) {
         buildOnYoctoNode(variant, image, checkSmokeTests)
     } else {
         println("Nothing to do for " + variant)
@@ -53,14 +64,17 @@ parallel (
     'qemu': {
         // Check if smoke tests should be run, only possible to run on qemu for now
         boolean checkSmokeTests = true
-        buildOnYoctoNodeNightly("qemu-x86-64_nogfx", "core-image-pelux-minimal", checkSmokeTests)
+        // Qemu builds are run nightly and weekly
+        buildNightlyOrWeekly("qemu-x86-64_nogfx", "core-image-pelux-minimal", checkSmokeTests)
     },
 
     'arp': {
-        buildOnYoctoNodeNightly("arp", "core-image-pelux-minimal")
+        // ARP builds are run weekly
+        buildWeekly("arp", "core-image-pelux-minimal")
     },
 
     'arp-qtauto': {
-        buildOnYoctoNodeNightly("arp-qtauto", "core-image-pelux-qtauto-neptune")
+        // ARP builds are run weekly
+        buildWeekly("arp-qtauto", "core-image-pelux-qtauto-neptune")
     }
 )
