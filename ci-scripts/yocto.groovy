@@ -101,9 +101,13 @@ void buildImageAndSDK(String yoctoDir, String imageName, boolean update=false) {
         }
     }
 
-    stage("Build SDK ${imageName}") {
-        vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
-        vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}-dev")
+    boolean nightly = env.NIGHTLY_BUILD == "true"
+    boolean weekly = env.WEEKLY_BUILD == "true"
+    if (nightly || weekly) {
+        stage("Build SDK ${imageName}") {
+            vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
+            vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}-dev")
+        }
     }
 }
 
