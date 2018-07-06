@@ -26,7 +26,7 @@ void buildNightlyOrWeekly(String variant, String image, boolean checkSmokeTests 
     boolean nightlyBuild = env.NIGHTLY_BUILD == "true"
     boolean weeklyBuild = env.WEEKLY_BUILD == "true"
 
-    if (nightlyBuild || weekly) {
+    if (nightlyBuild || weeklyBuild) {
         buildOnYoctoNode(variant, image, checkSmokeTests)
     } else {
         println("Nothing to do for " + variant)
