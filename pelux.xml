@@ -11,18 +11,19 @@
   <remote fetch="git://code.qt.io/"             name="code.qt"/>
 
   <!-- Base stuff -->
-  <project remote="oe"
-           upstream="rocko"
-           revision="dacfa2b1920e285531bec55cd2f08743390aaf57"
-           name="meta-openembedded"
-           path="sources/meta-openembedded"/>
-
   <project remote="yocto"
            upstream="rocko"
            revision="9ed1178c87afce997d5a21cadae7461fb6bb48da"
            name="poky"
            path="sources/poky"/>
 
+  <project remote="oe"
+           upstream="rocko"
+           revision="dacfa2b1920e285531bec55cd2f08743390aaf57"
+           name="meta-openembedded"
+           path="sources/meta-openembedded"/>
+
+  <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
            revision="a1582fd46860e9c9440e0a53d4e02e8351c31799"
@@ -35,6 +36,13 @@
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
+  <project remote="github"
+           upstream="rocko"
+           revision="2841810fe46089dd064f14b0327ce36065feb4dd"
+           name="Pelagicore/meta-template"
+           path="sources/meta-template"/>
+
+  <!-- 3rd-party stuff -->
   <project remote="github"
            revision="00ff53a574bf03bed29d80945f5e589879d3e2b2"
            upstream="rocko"
@@ -68,14 +76,7 @@
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
-  <!-- Template layer stuff -->
-  <project remote="github"
-           upstream="rocko"
-           revision="2841810fe46089dd064f14b0327ce36065feb4dd"
-           name="Pelagicore/meta-template"
-           path="sources/meta-template"/>
-
-  <!-- BSP layers for Intel and rPi -->
+  <!-- BSP layers -->
   <project remote="yocto"
            upstream="rocko"
            revision="92d66730fba1fdc71d2548332c8ff57160e31b05"
