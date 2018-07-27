@@ -13,13 +13,13 @@
   <!-- Base stuff -->
   <project remote="oe"
            upstream="sumo"
-           revision="a19aa29f7fa336cd075b72c496fe1102e6e5422b"
+           revision="a001e465293b36c03d4ca4500857fe0a67d13e20"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <project remote="yocto"
            upstream="sumo"
-           revision="4b6ff20a44bdc468878c140d117add01056328cb"
+           revision="86aaecf94852c8893770c86183bd6db4d4c61241"
            name="poky"
            path="sources/poky"/>
 
