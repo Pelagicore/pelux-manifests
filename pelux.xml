@@ -13,7 +13,7 @@
   <!-- Base stuff -->
   <project remote="oe"
            upstream="sumo"
-           revision="a001e465293b36c03d4ca4500857fe0a67d13e20"
+           revision="b0950aeff5b630256bb5e25ca15f4d59c115e7c1"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
@@ -49,8 +49,8 @@
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           upstream="master"
-           revision="8efbab9130de3fedd62ef5ac6ad6fe138df610d9"
+           upstream="14.x-sumo"
+           revision="b414c071be4f690f4aa1ac2ef549af6d44d0bf9e"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
