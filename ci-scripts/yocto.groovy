@@ -131,6 +131,27 @@ void runSmokeTests(String yoctoDir, String imageName) {
     }
 }
 
+void runBitbakeTests(String yoctoDir) {
+    String archiveDir = "bitbake_TestReport"
+
+    try {
+        stage("Perform Bitbake Testing"){
+            vagrant("/vagrant/cookbook/yocto/runqemu-bitbake-test.sh)
+        }
+    } catch (e){
+	   echo "Bitbake tests failed"
+	   println(e.getMessage())
+    } finally{
+        stage("Publish smoke test results") {
+            reportsDir="/vagrant/${archiveDir}/test_reports/bitbake_tests/"
+            vagrant("mkdir -p ${reportsDir}")
+            vagrant("cp -a ${yoctoDir}/build/TestResults* ${reportsDir}")
+            junit "${archiveDir}/test_reports/bitbake_Tests/TestResults*/*.xml"
+        }
+    }
+}
+
+
 void archiveCache(String yoctoDir, boolean archive, String archivePath) {
     if (archive && archivePath?.trim()) {
         stage("Archive cache") {
@@ -216,8 +237,13 @@ void buildManifest(String variantName, String imageName, boolean smokeTests=fals
             boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, buildUpdate)
             if (smokeTests) {
+                boolean weekly = env.WEEKLY_BUILD == "true"
                 runSmokeTests(yoctoDir, imageName)
+                if(weekly) {
+                    runBitbakeTests(yoctoDir)
+                }				
             }
+
         } finally { // Archive cache even if there were errors.
             boolean archive = env.ARCHIVE_CACHE == "true"
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
