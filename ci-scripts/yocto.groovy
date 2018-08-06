@@ -115,6 +115,7 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
     }
 }
 
+// In order to run smoke tests, the -dev image should be specified because of the dependencies
 void runSmokeTests(String yoctoDir, String imageName) {
     String archiveDir = "testReports-" + imageName
 
@@ -134,6 +135,21 @@ void runSmokeTests(String yoctoDir, String imageName) {
         }
     }
 }
+
+void runBitbakeTests(String yoctoDir) {
+    stage("Perform Bitbake Testing"){
+        vagrant("/vagrant/cookbook/yocto/run-bitbake-tests.sh ${yoctoDir} ")
+    }
+    
+    //stage("Publish bitbake test results") {
+    //    reportsDir="/vagrant/${archiveDir}/test_reports/bitbake_tests/"
+    //    vagrant("mkdir -p ${reportsDir}")
+    //    vagrant("cp -a ${yoctoDir}/build/TestResults* ${reportsDir}")
+    //    junit "${archiveDir}/test_reports/bitbake_Tests/TestResults*/*.xml"
+    //}
+    
+}
+
 
 void archiveCache(String yoctoDir, boolean archive, String archivePath) {
     if (archive && archivePath?.trim()) {
@@ -203,8 +219,13 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
             boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
             if (smokeTests) {
+                boolean weekly = env.WEEKLY_BUILD == "true"
                 runSmokeTests(yoctoDir, imageName)
+                if(weekly) {
+                    runBitbakeTests(yoctoDir)
+                }
             }
+
         } finally { // Archive cache even if there were errors.
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
             // If nightly build, we store the artifacts as well
