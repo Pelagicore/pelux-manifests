@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y \
         gcc-multilib \
         curl \
         repo \
-        rsync
+        rsync \
+        m4
 
 # For Yocto bitbake -c testimage XML reporting
 RUN pip3 install unittest-xml-reporting
