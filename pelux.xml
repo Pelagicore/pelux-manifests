@@ -50,7 +50,7 @@
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="14.x-sumo"
-           revision="b414c071be4f690f4aa1ac2ef549af6d44d0bf9e"
+           revision="d128485c9730c9c71c270565327f8ec16f588edc"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
