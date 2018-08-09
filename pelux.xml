@@ -31,7 +31,7 @@
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="7ced17fe20a69c35737fa794f696e4f9d5c00a19"
+           revision="5615875683d0e5216ffaf150c27ccf54bca18ef6"
            upstream="master"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
@@ -79,7 +79,7 @@
   <!-- BSP layers -->
   <project remote="yocto"
            upstream="rocko"
-           revision="92d66730fba1fdc71d2548332c8ff57160e31b05"
+           revision="9baa0974b397a8520d548a5f7b768db1acc34177"
            name="meta-intel"
            path="sources/meta-intel"/>
 
