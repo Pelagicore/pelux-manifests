@@ -78,13 +78,13 @@
   <!-- BSP layers for Intel and rPi -->
   <project remote="yocto"
            upstream="sumo"
-           revision="ee056df6137c3318a6decda246e676aedcd35f38"
+           revision="5f170ba9d8963f90a93293a9a698813c92c7cfb1"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
            upstream="sumo"
-           revision="f2e2a4376e84dec6e5efeabaa86a4406fddf7dcd"
+           revision="05f21adb99f97140e874fa2a4ed66d5e3554cd33"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
