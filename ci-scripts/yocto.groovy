@@ -142,7 +142,7 @@ void runBitbakeTests(String yoctoDir) {
 	   echo "Bitbake tests failed"
 	   println(e.getMessage())
     } finally{
-        stage("Publish smoke test results") {
+        stage("Publish bitbake test results") {
             reportsDir="/vagrant/${archiveDir}/test_reports/bitbake_tests/"
             vagrant("mkdir -p ${reportsDir}")
             vagrant("cp -a ${yoctoDir}/build/TestResults* ${reportsDir}")
