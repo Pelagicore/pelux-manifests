@@ -19,19 +19,19 @@
 
   <project remote="oe"
            upstream="rocko"
-           revision="dacfa2b1920e285531bec55cd2f08743390aaf57"
+           revision="352531015014d1957d6444d114f4451e241c4d23"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="a1582fd46860e9c9440e0a53d4e02e8351c31799"
+           revision="eece6d9880676ad0e20fd200b248633b96efbee2"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="5615875683d0e5216ffaf150c27ccf54bca18ef6"
+           revision="7ee84f8f65c6d4733929ccffd35547d4ffd7c436"
            upstream="master"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
