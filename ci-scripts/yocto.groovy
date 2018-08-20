@@ -116,7 +116,7 @@ void runSmokeTests(String yoctoDir, String imageName) {
 
     try {
         stage("Perform smoke testing") {
-            vagrant("/vagrant/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}")
+            vagrant("/vagrant/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}-dev")
         }
     } catch(e) {
         echo "There were failing tests"
@@ -136,7 +136,7 @@ void runBitbakeTests(String yoctoDir) {
 
     try {
         stage("Perform Bitbake Testing"){
-            vagrant("/vagrant/cookbook/yocto/run-bitbake-tests.sh")
+            vagrant("/vagrant/cookbook/yocto/run-bitbake-tests.sh ${yoctoDir} ")
         }
     } catch (e){
 	   echo "Bitbake tests failed"
