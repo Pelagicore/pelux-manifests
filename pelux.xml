@@ -19,7 +19,7 @@
 
   <project remote="yocto"
            upstream="sumo"
-           revision="24a833f40d837407baa4e8192f372d998a776b6c"
+           revision="bb91b2ae3ee5cf108aa2f9b78abb14d5aa00831d"
            name="poky"
            path="sources/poky"/>
 
@@ -30,7 +30,7 @@
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="a618e10e6ce97e024624167e242839f1f8fb3586"
+           revision="5f66436cb5f4e6f42cdbce9cc119b12113afebf1"
            upstream="sumo"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
@@ -43,28 +43,28 @@
 
   <project remote="yocto"
            upstream="sumo"
-           revision="2e8e06363369675c8cc15de418967392543a18a5"
+           revision="dd32e94c88550d7629aa696acb565c1597954603"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="14.x-sumo"
-           revision="d128485c9730c9c71c270565327f8ec16f588edc"
+           revision="e5db24b9776378baaf67a8a400ec778ac801b9ea"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="5.10"
-           revision="bc0625e7a03f9f04fdae3a89137812a216e977cd"
+           upstream="sumo"
+           revision="c429cedc9d6babf41feb70211285662356c4125d"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
-           upstream="pyro"
-           revision="8513b63910eb9046c79ab3fb3df02a4e665f05b5"
+           upstream="sumo"
+           revision="0d81ebc4f4f6d1fe0b6103860a37eacf62ffa589"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
