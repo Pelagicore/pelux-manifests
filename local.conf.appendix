@@ -1,6 +1,6 @@
 # Settings that we want in the CI environment
 INHERIT += "rm_work"
 
-SOURCE_MIRROR_URL ?= "http://pelux.io/source-mirror/"
+SOURCE_MIRROR_URL ?= "file:////var/yocto-cache/source-mirror/"
 INHERIT += "own-mirrors"
 BB_GENERATE_MIRROR_TARBALLS = "1" 
