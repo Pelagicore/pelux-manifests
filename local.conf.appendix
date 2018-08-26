@@ -3,3 +3,7 @@ INHERIT += "rm_work"
 
 PARALLEL_MAKE = "-j 2"
 BB_NUMBER_THREADS = "2"
+
+SOURCE_MIRROR_URL ?= "http://pelux.io/source-mirror/"
+INHERIT += "own-mirrors"
+BB_GENERATE_MIRROR_TARBALLS = "1" 
