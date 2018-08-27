@@ -29,6 +29,7 @@ RUN apt-get update && apt-get install -y \
         curl \
         repo \
         rsync \
+        strace \
         m4
 
 # For Yocto bitbake -c testimage XML reporting
