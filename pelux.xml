@@ -25,12 +25,12 @@
 
   <project remote="github"
            upstream="sumo"
-           revision="caee0a0476c9ecdefa12acc1da48353ae2985480"
+           revision="4b25e519cde9a4d3f459fefb9ce692089324115d"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="5f66436cb5f4e6f42cdbce9cc119b12113afebf1"
+           revision="88379880f8fe80379a6559686dd774dc6817b550"
            upstream="sumo"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
@@ -64,21 +64,21 @@
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
            upstream="sumo"
-           revision="0d81ebc4f4f6d1fe0b6103860a37eacf62ffa589"
+           revision="75d2b5afa3b7243f439930f95b677b2678fc7e3d"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- Template layer stuff -->
   <project remote="github"
            upstream="sumo"
-           revision="2841810fe46089dd064f14b0327ce36065feb4dd"
+           revision="852954ccaa4645bfbb438d183ff8b45e83b8b809"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
-  <!-- BSP layers for Intel and rPi -->
+  <!-- BSP layers for Intel and RPi -->
   <project remote="yocto"
            upstream="sumo"
-           revision="5f170ba9d8963f90a93293a9a698813c92c7cfb1"
+           revision="4da0ebea8d6d7423d734e80c0d9450ed16b62fbb"
            name="meta-intel"
            path="sources/meta-intel"/>
 
