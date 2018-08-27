@@ -56,7 +56,7 @@
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="sumo"
+           upstream="upstream/sumo"
            revision="c429cedc9d6babf41feb70211285662356c4125d"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
