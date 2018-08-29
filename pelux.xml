@@ -24,26 +24,26 @@
            path="sources/poky"/>
 
   <project remote="github"
-           upstream="rocko"
-           revision="a1c2b85682ee3ed74f5760d73e7974446ba2a2ae"
+           upstream="master"
+           revision="9f947597d10aff0ca7f68b57b463c1e77011bd67"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="5076c3c5129fc269a9752e54e40940ca03da3873"
+           revision="a6a36a3742a0fb4bbdffb71738149f75e8695f25"
            upstream="rocko"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
   <project remote="github"
-           revision="00ff53a574bf03bed29d80945f5e589879d3e2b2"
+           revision="6e4eab4f475b0129d6510815a3bbc4748c97dbbe"
            upstream="rocko"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
 
   <project remote="yocto"
            upstream="rocko"
-           revision="bd77388f31929f38e7d4cc9c711f0f83f563007e"
+           revision="b704c689b67639214b9568a3d62e82df27e9434f"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
@@ -56,15 +56,15 @@
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="5.10"
-           revision="bc0625e7a03f9f04fdae3a89137812a216e977cd"
+           upstream="5.11"
+           revision="70f30e724d6057b99b8a9749b1cf8d9155fbab5f"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
            upstream="pyro"
-           revision="8513b63910eb9046c79ab3fb3df02a4e665f05b5"
+           revision="a59b6abf6af58751aa50142a9dcb57b5c5a92581"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
@@ -84,7 +84,7 @@
 
   <project remote="yocto"
            upstream="rocko"
-           revision="b58ccfc696e4fa6b680ae5ca79960312676d7af9"
+           revision="18ab0e981ba81886d3b8e101a60b9ce40956c8fa"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
