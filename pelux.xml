@@ -12,80 +12,80 @@
 
   <!-- Base stuff -->
   <project remote="yocto"
-           upstream="rocko"
-           revision="9ed1178c87afce997d5a21cadae7461fb6bb48da"
+           upstream="sumo"
+           revision="45ef387cc54a0584807e05a952e1e4681ec4c664"
            name="poky"
            path="sources/poky"/>
 
   <project remote="oe"
-           upstream="rocko"
-           revision="352531015014d1957d6444d114f4451e241c4d23"
+           upstream="sumo"
+           revision="b0950aeff5b630256bb5e25ca15f4d59c115e7c1"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="eece6d9880676ad0e20fd200b248633b96efbee2"
+           revision="d22d0986914fa2ee72fe53fdf4311e86dd0f1037"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="7ee84f8f65c6d4733929ccffd35547d4ffd7c436"
            upstream="master"
+           revision="73c3163ef521f4fab51a15d62a8b636f8108f5c1"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
   <project remote="github"
-           upstream="rocko"
-           revision="2841810fe46089dd064f14b0327ce36065feb4dd"
+           upstream="sumo"
+           revision="852954ccaa4645bfbb438d183ff8b45e83b8b809"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
   <!-- 3rd-party stuff -->
   <project remote="github"
-           revision="00ff53a574bf03bed29d80945f5e589879d3e2b2"
-           upstream="rocko"
+           upstream="sumo"
+           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
 
   <project remote="yocto"
-           upstream="rocko"
-           revision="bd77388f31929f38e7d4cc9c711f0f83f563007e"
+           upstream="sumo"
+           revision="dd32e94c88550d7629aa696acb565c1597954603"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           upstream="master"
-           revision="8efbab9130de3fedd62ef5ac6ad6fe138df610d9"
+           upstream="14.x-sumo"
+           revision="e5db24b9776378baaf67a8a400ec778ac801b9ea"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="5.11"
-           revision="b84881444814a361fcc17e7eb34407fb175541da"
+           upstream="upstream/sumo"
+           revision="c429cedc9d6babf41feb70211285662356c4125d"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
-           upstream="pyro"
-           revision="a59b6abf6af58751aa50142a9dcb57b5c5a92581"
+           upstream="sumo"
+           revision="75d2b5afa3b7243f439930f95b677b2678fc7e3d"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- BSP layers -->
   <project remote="yocto"
-           upstream="rocko"
-           revision="9baa0974b397a8520d548a5f7b768db1acc34177"
+           upstream="sumo"
+           revision="4da0ebea8d6d7423d734e80c0d9450ed16b62fbb"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
-           upstream="rocko"
-           revision="b58ccfc696e4fa6b680ae5ca79960312676d7af9"
+           upstream="sumo"
+           revision="05f21adb99f97140e874fa2a4ed66d5e3554cd33"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
