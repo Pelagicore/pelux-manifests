@@ -134,8 +134,8 @@ void runSmokeTests(String yoctoDir, String imageName) {
 void archiveCache(String yoctoDir, boolean archive, String archivePath) {
     if (archive && archivePath?.trim()) {
         stage("Archive cache") {
-            vagrant("rsync -trpg ${yoctoDir}/build/downloads/ ${archivePath}/downloads/")
-            vagrant("rsync -trpg ${yoctoDir}/build/sstate-cache/ ${archivePath}/sstate-cache")
+            vagrant("rsync -trpgOl ${yoctoDir}/build/downloads/ ${archivePath}/downloads/")
+            vagrant("rsync -trpgOl ${yoctoDir}/build/sstate-cache/ ${archivePath}/sstate-cache")
         }
     }
 }
