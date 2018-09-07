@@ -13,7 +13,7 @@
   <!-- Base stuff -->
   <project remote="oe"
            upstream="sumo"
-           revision="b0950aeff5b630256bb5e25ca15f4d59c115e7c1"
+           revision="be79b8b111a968efdbe5e1482d0c246d0b24763e"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
@@ -25,12 +25,12 @@
 
   <project remote="github"
            upstream="sumo"
-           revision="4b25e519cde9a4d3f459fefb9ce692089324115d"
+           revision="6b3078a5c3e6e1ec9e449988e94d5ec5cece5e31"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="88379880f8fe80379a6559686dd774dc6817b550"
+           revision="81eb9dbe7611f671155d32fb7a14105c0802454f"
            upstream="sumo"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
