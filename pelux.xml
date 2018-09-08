@@ -13,13 +13,13 @@
   <!-- Base stuff -->
   <project remote="oe"
            upstream="rocko"
-           revision="dacfa2b1920e285531bec55cd2f08743390aaf57"
+           revision="eae996301d9c097bcbeb8046f08041dc82bb62f8"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <project remote="yocto"
            upstream="rocko"
-           revision="6b744113ad3e564d1cb05411816b103d99fd84dc"
+           revision="66550feb26f091f645d9e25ad0febef6d3d8f2eb"
            name="poky"
            path="sources/poky"/>
 
@@ -84,7 +84,7 @@
 
   <project remote="yocto"
            upstream="rocko"
-           revision="18ab0e981ba81886d3b8e101a60b9ce40956c8fa"
+           revision="8e4c537d84fdde8e3b4642d0dda2c0f4af76d52f"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
