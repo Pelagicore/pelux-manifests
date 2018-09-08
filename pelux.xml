@@ -19,19 +19,19 @@
 
   <project remote="yocto"
            upstream="rocko"
-           revision="66550feb26f091f645d9e25ad0febef6d3d8f2eb"
+           revision="05711ba18587aaaf4a9c465a1dd4537f27ceda93"
            name="poky"
            path="sources/poky"/>
 
   <project remote="github"
-           upstream="master"
+           upstream="rocko"
            revision="9f947597d10aff0ca7f68b57b463c1e77011bd67"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
-           revision="a6a36a3742a0fb4bbdffb71738149f75e8695f25"
            upstream="rocko"
+           revision="13bf4020097d2d4b2539113d9b08533f4a4d2df1"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
