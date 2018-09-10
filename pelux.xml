@@ -49,7 +49,7 @@
 
   <!-- GENIVI stuff -->
   <project remote="github"
-           upstream="14.x"
+           upstream="14.x-rocko"
            revision="cd291c45ea45c38d4ac74c9c7755cd6fc47b8d3d"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
