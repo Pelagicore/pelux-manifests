@@ -19,7 +19,7 @@
 
   <project remote="oe"
            upstream="sumo"
-           revision="b0950aeff5b630256bb5e25ca15f4d59c115e7c1"
+           revision="be79b8b111a968efdbe5e1482d0c246d0b24763e"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
@@ -85,7 +85,7 @@
 
   <project remote="yocto"
            upstream="sumo"
-           revision="05f21adb99f97140e874fa2a4ed66d5e3554cd33"
+           revision="ade31d6d01b5cb37d6ae163ae75d390b15e95860"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
