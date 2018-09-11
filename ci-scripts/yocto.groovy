@@ -116,7 +116,7 @@ void runSmokeTests(String yoctoDir, String imageName) {
 
     try {
         stage("Perform smoke testing") {
-            vagrant("/vagrant/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}")
+            vagrant("/vagrant/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}-dev")
         }
     } catch(e) {
         echo "There were failing tests"
