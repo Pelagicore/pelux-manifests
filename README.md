@@ -19,6 +19,7 @@ Reference instance for the Intel i7 x86 platform using [Yocto's
 BSP](https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64)
 
 * [Intel NUC](https://en.wikipedia.org/wiki/Next_Unit_of_Computing)
+* [Automotive Reference Platform](https://www.youtube.com/watch?v=bPsZKolovQM)
 * Minnowboard Max, Turbot
 
 ### PELUX Raspberry Pi 3
@@ -39,6 +40,7 @@ this fashion.
 License and Copyright
 ---------------------
 Copyright (C) 2015-2017 Pelagicore AB
+Copyright (C) 2017-2018 Luxoft Sweden AB
 
 All metadata is MIT licensed unless otherwise stated. Source code included
 in tree for individual recipes is under the LICENSE stated in the associated
