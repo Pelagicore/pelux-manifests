@@ -45,7 +45,7 @@
   <!-- 3rd-party stuff -->
   <project remote="github"
            upstream="sumo"
-           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
+           revision="f2d65d87485ada5a2d3a744fd7b9e46ec7e6b9f2"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
 
@@ -85,7 +85,7 @@
 
   <project remote="yocto"
            upstream="sumo"
-           revision="ade31d6d01b5cb37d6ae163ae75d390b15e95860"
+           revision="2d40b000021bc8a9ef7f329ed0ad410f8d227b97"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
