@@ -64,15 +64,15 @@
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="upstream/sumo"
-           revision="c429cedc9d6babf41feb70211285662356c4125d"
+           upstream="5.11"
+           revision="3439f344fbb4c1ee2b13ddb54435716c53d79be2"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
            upstream="sumo"
-           revision="75d2b5afa3b7243f439930f95b677b2678fc7e3d"
+           revision="4c88bae4e51c1ac8b4e14a999cbc1dbab7111f80"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
