@@ -1,5 +1,5 @@
 # Settings that we want in the CI environment
 INHERIT += "rm_work"
 
-PARALLEL_MAKE = "-j 2"
-BB_NUMBER_THREADS = "2"
+PARALLEL_MAKE = "-j 4"
+BB_NUMBER_THREADS = "4"
