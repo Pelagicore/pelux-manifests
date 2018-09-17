@@ -78,7 +78,7 @@ void setupCache(String yoctoDir, String url) {
     }
 }
 
-void buildImageAndSDK(String yoctoDir, String imageName, boolean update=false) {
+void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boolean update=false) {
     // If we have a site.conf, that means we have caching, if we don't that
     // means we should do a fetchall.
     if (vagrant("test -f ${yoctoDir}/build/conf/site.conf", true) != 0) {
@@ -89,12 +89,12 @@ void buildImageAndSDK(String yoctoDir, String imageName, boolean update=false) {
         echo "\'site.conf\' exists, using cache"
     }
 
-    stage("Bitbake ${imageName}") {
+    stage("Bitbake ${imageName} for ${variantName}") {
         vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")
         vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev")
 
         if (update) {
-            stage("Bitbake Update ${imageName}") {
+            stage("Bitbake Update ${imageName} for ${variantName}") {
                 vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update")
                 vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev-update")
             }
@@ -178,7 +178,7 @@ void buildWithLayer(String variantName, String imageName, String layer, String l
         // Build the images
         try {
             boolean buildUpdate = variantName.startsWith("rpi")
-            buildImageAndSDK(yoctoDir, imageName, buildUpdate)
+            buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
         } finally { // Archive cache even if there were errors.
             boolean archive = env.ARCHIVE_CACHE == "true"
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
@@ -214,7 +214,7 @@ void buildManifest(String variantName, String imageName, boolean smokeTests=fals
         // Build the images
         try {
             boolean buildUpdate = variantName.startsWith("rpi")
-            buildImageAndSDK(yoctoDir, imageName, buildUpdate)
+            buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
             if (smokeTests) {
                 runSmokeTests(yoctoDir, imageName)
             }
