@@ -11,18 +11,19 @@
   <remote fetch="git://code.qt.io/"             name="code.qt"/>
 
   <!-- Base stuff -->
-  <project remote="oe"
-           upstream="sumo"
-           revision="be79b8b111a968efdbe5e1482d0c246d0b24763e"
-           name="meta-openembedded"
-           path="sources/meta-openembedded"/>
-
   <project remote="yocto"
            upstream="sumo"
            revision="45ef387cc54a0584807e05a952e1e4681ec4c664"
            name="poky"
            path="sources/poky"/>
 
+  <project remote="oe"
+           upstream="sumo"
+           revision="be79b8b111a968efdbe5e1482d0c246d0b24763e"
+           name="meta-openembedded"
+           path="sources/meta-openembedded"/>
+
+  <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="sumo"
            revision="6b3078a5c3e6e1ec9e449988e94d5ec5cece5e31"
@@ -36,8 +37,15 @@
            path="sources/meta-pelux" />
 
   <project remote="github"
-           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
            upstream="sumo"
+           revision="852954ccaa4645bfbb438d183ff8b45e83b8b809"
+           name="Pelagicore/meta-template"
+           path="sources/meta-template"/>
+
+  <!-- 3rd-party stuff -->
+  <project remote="github"
+           upstream="sumo"
+           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
 
@@ -50,32 +58,24 @@
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="14.x-sumo"
-           revision="e5db24b9776378baaf67a8a400ec778ac801b9ea"
+           revision="26ebdc2331db2e74a6f61e92751a78c188162dd6"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="upstream/sumo"
-           revision="c429cedc9d6babf41feb70211285662356c4125d"
+           upstream="5.11"
+           revision="3439f344fbb4c1ee2b13ddb54435716c53d79be2"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
-  <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
            upstream="sumo"
-           revision="75d2b5afa3b7243f439930f95b677b2678fc7e3d"
+           revision="4c88bae4e51c1ac8b4e14a999cbc1dbab7111f80"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
-  <!-- Template layer stuff -->
-  <project remote="github"
-           upstream="sumo"
-           revision="852954ccaa4645bfbb438d183ff8b45e83b8b809"
-           name="Pelagicore/meta-template"
-           path="sources/meta-template"/>
-
-  <!-- BSP layers for Intel and RPi -->
+  <!-- BSP layers -->
   <project remote="yocto"
            upstream="sumo"
            revision="4da0ebea8d6d7423d734e80c0d9450ed16b62fbb"
@@ -84,13 +84,13 @@
 
   <project remote="yocto"
            upstream="sumo"
-           revision="05f21adb99f97140e874fa2a4ed66d5e3554cd33"
+           revision="2d40b000021bc8a9ef7f329ed0ad410f8d227b97"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
            upstream="master"
-           revision="c1609b2c3d327bce3b571ea5f7f1232cb7185efc"
+           revision="3fdf5b15de028c2f7226bcf19cb7a08aa31e0f4d"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
