@@ -13,7 +13,7 @@
   <!-- Base stuff -->
   <project remote="yocto"
            upstream="sumo"
-           revision="51872d3f99e38f9d883ab0a8782ceecb41822fd0"
+           revision="45ef387cc54a0584807e05a952e1e4681ec4c664"
            name="poky"
            path="sources/poky"/>
 
@@ -32,7 +32,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="938f270f643a19671c89aeeda46a86085ebf95f6"
+           revision="0224737f45fb59a870bef3c5c27ff9999e073247"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
@@ -45,7 +45,7 @@
   <!-- 3rd-party stuff -->
   <project remote="github"
            upstream="sumo"
-           revision="f2d65d87485ada5a2d3a744fd7b9e46ec7e6b9f2"
+           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
 
@@ -58,7 +58,7 @@
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="14.x-sumo"
-           revision="e5db24b9776378baaf67a8a400ec778ac801b9ea"
+           revision="26ebdc2331db2e74a6f61e92751a78c188162dd6"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi" />
 
@@ -69,7 +69,6 @@
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
-  <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
            upstream="sumo"
            revision="4c88bae4e51c1ac8b4e14a999cbc1dbab7111f80"
