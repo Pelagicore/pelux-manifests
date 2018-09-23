@@ -31,7 +31,7 @@
 
   <project remote="github"
            upstream="rocko"
-           revision="13bf4020097d2d4b2539113d9b08533f4a4d2df1"
+           revision="b54269155f2f109eb3d36b9f832300fa03154fac"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
@@ -57,14 +57,14 @@
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
            upstream="5.11"
-           revision="70f30e724d6057b99b8a9749b1cf8d9155fbab5f"
+           revision="3439f344fbb4c1ee2b13ddb54435716c53d79be2"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <!-- Boot2QT has no rocko branch -->
   <project remote="code.qt"
            upstream="pyro"
-           revision="a59b6abf6af58751aa50142a9dcb57b5c5a92581"
+           revision="03ae81ecf5aa75073f80de4c2f317014c013ce86"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
