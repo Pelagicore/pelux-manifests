@@ -78,7 +78,7 @@
   <!-- BSP layers for Intel and rPi -->
   <project remote="yocto"
            upstream="rocko"
-           revision="92d66730fba1fdc71d2548332c8ff57160e31b05"
+           revision="4ee8ff5ebe0657bd376d7a79703a21ec070ee779"
            name="meta-intel"
            path="sources/meta-intel"/>
 
