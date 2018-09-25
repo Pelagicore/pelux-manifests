@@ -1,0 +1,2 @@
+#Causes tarballs of the Git repositories, including the Git metadata, to be placed in the DL_DIR directory.
+BB_GENERATE_MIRROR_TARBALLS = "1"
