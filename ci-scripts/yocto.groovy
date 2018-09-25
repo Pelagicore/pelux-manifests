@@ -47,7 +47,7 @@ void repoInit(String manifest) {
     }
 }
 
-void setupBitbake(String yoctoDir, String templateConf, boolean smokeTests=false) {
+void setupBitbake(String yoctoDir, String templateConf, boolean archive, boolean smokeTests=false) {
     stage("Setup bitbake") {
         vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}")
 
@@ -60,6 +60,11 @@ void setupBitbake(String yoctoDir, String templateConf, boolean smokeTests=false
                 vagrant("echo '' >> ${yoctoDir}/build/conf/local.conf")
                 vagrant("cat /vagrant/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
             }
+        }
+        if (archive){
+            //Mirror git repositories
+            vagrant("cat /vagrant/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf")
+
         }
     }
 }
@@ -172,7 +177,8 @@ void buildWithLayer(String variantName, String imageName, String layer, String l
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
-        setupBitbake(yoctoDir, templateConf)
+        boolean archive = env.ARCHIVE_CACHE == "true"
+        setupBitbake(yoctoDir, templateConf, archive)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
         // Build the images
@@ -180,7 +186,6 @@ void buildWithLayer(String variantName, String imageName, String layer, String l
             boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
         } finally { // Archive cache even if there were errors.
-            boolean archive = env.ARCHIVE_CACHE == "true"
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
         }
     } finally {
@@ -208,7 +213,8 @@ void buildManifest(String variantName, String imageName, boolean smokeTests=fals
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
-        setupBitbake(yoctoDir, templateConf, smokeTests)
+        boolean archive = env.ARCHIVE_CACHE == "true"
+        setupBitbake(yoctoDir, templateConf, archive, smokeTests)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
         // Build the images
@@ -219,9 +225,7 @@ void buildManifest(String variantName, String imageName, boolean smokeTests=fals
                 runSmokeTests(yoctoDir, imageName)
             }
         } finally { // Archive cache even if there were errors.
-            boolean archive = env.ARCHIVE_CACHE == "true"
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
-
             // If nightly build, we store the artifacts as well
             boolean nightly = env.NIGHTLY_BUILD == "true"
             if (nightly) {
