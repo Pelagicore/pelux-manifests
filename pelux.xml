@@ -32,7 +32,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="0224737f45fb59a870bef3c5c27ff9999e073247"
+           revision="fe2ce6fb25a34d07f7dbbb86ff8f28641b7b6269"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
@@ -71,7 +71,7 @@
 
   <project remote="code.qt"
            upstream="sumo"
-           revision="4c88bae4e51c1ac8b4e14a999cbc1dbab7111f80"
+           revision="168f62cc6d06b205a3ddcb941570103e7910e14d"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
