@@ -39,9 +39,10 @@ void shutdownVagrant() {
     }
 }
 
-void repoInit(String manifest) {
+void repoInit(String manifest, String yoctoDir) {
     stage("Repo init") {
-        vagrant("/vagrant/ci-scripts/do_repo_init ${manifest}")
+        syncDir = "/vagrant"
+        vagrant("/vagrant/ci-scripts/do_repo_init ${manifest} ${syncDir} ${yoctoDir}")
     }
 }
 
@@ -177,7 +178,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
     try {
         // Initialize vagrant and repo manifest
         startVagrant()
-        repoInit(manifest)
+        repoInit(manifest, yoctoDir)
 
         if (layerToReplace != "" && newLayerPath != "") {
             replaceLayer(yoctoDir, layerToReplace, newLayerPath)
