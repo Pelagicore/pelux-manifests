@@ -199,7 +199,7 @@ void replaceLayer(String yoctoDir, String layerName, String newPath) {
     vagrant("mv /vagrant/${layerName} ${yoctoDir}/sources/")
 }
 
-void buildManifest(String variantName, String imageName, boolean smokeTests=false) {
+void buildManifest(String variantName, String imageName) {
     // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
@@ -214,6 +214,7 @@ void buildManifest(String variantName, String imageName, boolean smokeTests=fals
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
         boolean archive = env.ARCHIVE_CACHE == "true"
+        boolean smokeTests = env.SMOKE_TEST == "true"
         setupBitbake(yoctoDir, templateConf, archive, smokeTests)
         setupCache(yoctoDir, env.YOCTO_CACHE_URL)
 
