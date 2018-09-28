@@ -169,8 +169,15 @@ void replaceLayer(String yoctoDir, String layerName, String newPath) {
     vagrant("mv /vagrant/${layerName} ${yoctoDir}/sources/")
 }
 
+void deleteYoctoBuildDir(String buildDir) {
+    stage("Deleting Yocto build directory") {
+        sh "rm -rf ${buildDir}"
+    }
+}
+
 void buildManifest(String variantName, String imageName, String layerToReplace="", String newLayerPath="") {
-    String yoctoDir = "/home/yoctouser/pelux_yocto"
+    String yoctoDirInWorkspace = "pelux_yocto"
+    String yoctoDir = "/vagrant/${yoctoDirInWorkspace}" // On bind mount to avoid overlay2 fs.
     String manifest = "pelux.xml"
 
     gitSubmoduleUpdate()
@@ -208,6 +215,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         }
     } finally {
         shutdownVagrant()
+        deleteYoctoBuildDir("${yoctoDirInWorkspace}")
     }
 }
 
