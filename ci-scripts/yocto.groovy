@@ -159,7 +159,6 @@ void archiveArtifacts(String yoctoDir, String suffix) {
 }
 
 void buildWithLayer(String variantName, String imageName, String layer, String layerPath) {
-    // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
 
@@ -197,7 +196,6 @@ void replaceLayer(String yoctoDir, String layerName, String newPath) {
 }
 
 void buildManifest(String variantName, String imageName) {
-    // Store the directory we are executed in as our workspace.
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
 
