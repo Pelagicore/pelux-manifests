@@ -2,8 +2,9 @@ FROM crops/yocto:ubuntu-16.04-base
 
 LABEL description="PELUX Yocto build environment"
 
-# Enables us to overwrite the user ID for the yoctouser. See below
+# Enables us to overwrite the user and group ID for the yoctouser. See below
 ARG userid=1000
+ARG groupid=1000
 
 USER root
 
@@ -46,9 +47,10 @@ RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 RUN echo 'export LC_ALL="en_US.UTF-8"' >> /etc/profile
 ENV LANG en_US.utf8
 
-# Make sure the userID matches the UID given to Docker. This is so that mounted
+# Make sure the user/groupID matches the UID/GID given to Docker. This is so that mounted
 # dirs will get the correct permissions
 RUN usermod --uid $userid yoctouser
+RUN groupmod --gid $groupid yoctouser
 RUN echo 'yoctouser:yoctouser' | chpasswd
 RUN echo 'yoctouser ALL=(ALL) NOPASSWD:SETENV: ALL' > /etc/sudoers.d/yoctouser
 
