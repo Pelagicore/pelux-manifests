@@ -7,11 +7,9 @@ int vagrant(String command, boolean saveStatus=false) {
     sh returnStatus: saveStatus, script: "vagrant ssh -c \"${command}\""
 }
 
-// Helper to do checkout and update submodules
-void checkoutWithSubmodules() {
-    // Checkout the git repository and refspec pointed to by jenkins
-    stage("Checkout") {
-        checkout scm
+// Helper to do checkout and update of submodules.
+void gitSubmoduleUpdate() {
+    stage("Update submodules") {
         sh "git submodule update --init"
     }
 }
@@ -165,9 +163,8 @@ void buildWithLayer(String variantName, String imageName, String layer, String l
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
 
-    // We can't do "checkout scm" here since pelux-manifests is not the
-    // canonical repo here.
-    sh "git submodule update --init"
+    gitSubmoduleUpdate()
+
     try {
         // Initialize vagrant and repo manifest
         startVagrant()
@@ -204,8 +201,8 @@ void buildManifest(String variantName, String imageName) {
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
 
-    // Initialize code
-    checkoutWithSubmodules()
+    gitSubmoduleUpdate()
+
     try {
         // Initialize vagrant and repo manifest
         startVagrant()
