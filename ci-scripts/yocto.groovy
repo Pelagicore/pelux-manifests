@@ -159,34 +159,7 @@ void archiveArtifacts(String yoctoDir, String suffix) {
 }
 
 void buildWithLayer(String variantName, String imageName, String layer, String layerPath) {
-    String yoctoDir = "/home/yoctouser/pelux_yocto"
-    String manifest = "pelux.xml"
-
-    gitSubmoduleUpdate()
-
-    try {
-        // Initialize vagrant and repo manifest
-        startVagrant()
-        repoInit(manifest)
-
-        replaceLayer(yoctoDir, layer, layerPath)
-
-        // Setup yocto
-        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
-        boolean archive = env.ARCHIVE_CACHE == "true"
-        setupBitbake(yoctoDir, templateConf, archive)
-        setupCache(yoctoDir, env.YOCTO_CACHE_URL)
-
-        // Build the images
-        try {
-            boolean buildUpdate = variantName.startsWith("rpi")
-            buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
-        } finally { // Archive cache even if there were errors.
-            archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
-        }
-    } finally {
-        shutdownVagrant()
-    }
+    buildManifest(variantName, imageName, layerToReplace=layer, newLayerPath=layerPath)
 }
 
 void replaceLayer(String yoctoDir, String layerName, String newPath) {
@@ -195,7 +168,7 @@ void replaceLayer(String yoctoDir, String layerName, String newPath) {
     vagrant("mv /vagrant/${layerName} ${yoctoDir}/sources/")
 }
 
-void buildManifest(String variantName, String imageName) {
+void buildManifest(String variantName, String imageName, String layerToReplace="", String newLayerPath="") {
     String yoctoDir = "/home/yoctouser/pelux_yocto"
     String manifest = "pelux.xml"
 
@@ -205,6 +178,10 @@ void buildManifest(String variantName, String imageName) {
         // Initialize vagrant and repo manifest
         startVagrant()
         repoInit(manifest)
+
+        if (layerToReplace != "" && newLayerPath != "") {
+            replaceLayer(yoctoDir, layerToReplace, newLayerPath)
+        }
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
