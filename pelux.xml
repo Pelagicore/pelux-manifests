@@ -13,26 +13,26 @@
   <!-- Base stuff -->
   <project remote="yocto"
            upstream="sumo"
-           revision="45ef387cc54a0584807e05a952e1e4681ec4c664"
+           revision="3b8dc3a88e28546100a6b0b2f2cc37f44e619371"
            name="poky"
            path="sources/poky"/>
 
   <project remote="oe"
            upstream="sumo"
-           revision="be79b8b111a968efdbe5e1482d0c246d0b24763e"
+           revision="2bb21ef27c4b0c9d52d30b3b2c5a0160fd02b966"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="a0d6cdfa7048a3f76507196f33dd833efa3fe973"
+           revision="62a422a4ae42ef05b4a0c902664fe3a69184ab82"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro" />
 
   <project remote="github"
            upstream="master"
-           revision="fe2ce6fb25a34d07f7dbbb86ff8f28641b7b6269"
+           revision="db4cecf9ce504efd7d28e17ef4896fef45b997fe"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
@@ -45,7 +45,7 @@
   <!-- 3rd-party stuff -->
   <project remote="github"
            upstream="sumo"
-           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
+           revision="f2d65d87485ada5a2d3a744fd7b9e46ec7e6b9f2"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate" />
 
@@ -71,7 +71,7 @@
 
   <project remote="code.qt"
            upstream="sumo"
-           revision="168f62cc6d06b205a3ddcb941570103e7910e14d"
+           revision="740471f6025831e7747d1fab844042be0bbed00d"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
