@@ -13,13 +13,13 @@
   <!-- Base stuff -->
   <project remote="yocto"
            upstream="sumo"
-           revision="45ef387cc54a0584807e05a952e1e4681ec4c664"
+           revision="3b8dc3a88e28546100a6b0b2f2cc37f44e619371"
            name="poky"
            path="sources/poky"/>
 
   <project remote="oe"
            upstream="sumo"
-           revision="be79b8b111a968efdbe5e1482d0c246d0b24763e"
+           revision="2bb21ef27c4b0c9d52d30b3b2c5a0160fd02b966"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
@@ -28,13 +28,13 @@
            upstream="sumo"
            revision="6b3078a5c3e6e1ec9e449988e94d5ec5cece5e31"
            name="Pelagicore/meta-bistro"
-           path="sources/meta-bistro" />
+           path="sources/meta-bistro"/>
 
   <project remote="github"
            upstream="sumo"
-           revision="45d80155cbbf0b57561bf49b17957ce006f91792"
+           revision="ad03993c92b3b9dd751b5d7e2543b2b7bd82a630"
            name="Pelagicore/meta-pelux"
-           path="sources/meta-pelux" />
+           path="sources/meta-pelux"/>
 
   <project remote="github"
            upstream="sumo"
@@ -45,9 +45,9 @@
   <!-- 3rd-party stuff -->
   <project remote="github"
            upstream="sumo"
-           revision="6b311da25cccd4ae2b51e209fc83c324306823c2"
+           revision="f2d65d87485ada5a2d3a744fd7b9e46ec7e6b9f2"
            name="sbabic/meta-swupdate"
-           path="sources/meta-swupdate" />
+           path="sources/meta-swupdate"/>
 
   <project remote="yocto"
            upstream="sumo"
@@ -60,7 +60,7 @@
            upstream="14.x-sumo"
            revision="26ebdc2331db2e74a6f61e92751a78c188162dd6"
            name="GENIVI/meta-ivi"
-           path="sources/meta-ivi" />
+           path="sources/meta-ivi"/>
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
@@ -71,7 +71,7 @@
 
   <project remote="code.qt"
            upstream="sumo"
-           revision="4c88bae4e51c1ac8b4e14a999cbc1dbab7111f80"
+           revision="740471f6025831e7747d1fab844042be0bbed00d"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
