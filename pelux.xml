@@ -31,7 +31,7 @@
 
   <project remote="github"
            upstream="rocko"
-           revision="e217d8000cecb82574b83bdf81350cdf58ee3808"
+           revision="3b200c39cbb28ab757f905553a36611ad64d9983"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux" />
 
