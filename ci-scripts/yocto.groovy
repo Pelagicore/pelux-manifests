@@ -94,8 +94,7 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
     }
 
     stage("Bitbake ${imageName} for ${variantName}") {
-        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")
-        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev")
+        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")       
 
         if (update) {
             stage("Bitbake Update ${imageName} for ${variantName}") {
@@ -110,7 +109,6 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
     if (nightly || weekly) {
         stage("Build SDK ${imageName}") {
             vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
-            vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}-dev")
         }
     }
 }
@@ -121,7 +119,7 @@ void runSmokeTests(String yoctoDir, String imageName) {
 
     try {
         stage("Perform smoke testing") {
-            vagrant("/vagrant/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}-dev")
+            vagrant("/vagrant/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}")
         }
     } catch(e) {
         echo "There were failing tests"
@@ -139,15 +137,7 @@ void runSmokeTests(String yoctoDir, String imageName) {
 void runBitbakeTests(String yoctoDir) {
     stage("Perform Bitbake Testing"){
         vagrant("/vagrant/cookbook/yocto/run-bitbake-tests.sh ${yoctoDir} ")
-    }
-    
-    //stage("Publish bitbake test results") {
-    //    reportsDir="/vagrant/${archiveDir}/test_reports/bitbake_tests/"
-    //    vagrant("mkdir -p ${reportsDir}")
-    //    vagrant("cp -a ${yoctoDir}/build/TestResults* ${reportsDir}")
-    //    junit "${archiveDir}/test_reports/bitbake_Tests/TestResults*/*.xml"
-    //}
-    
+    } 
 }
 
 
