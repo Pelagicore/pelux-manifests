@@ -67,5 +67,5 @@ cd -
 # Clone recipes
 mkdir "$YOCTO_DIR"
 cd "$YOCTO_DIR"
-time repo init -u ${COPY_DIR} -m ${MANIFEST} -b master
+time repo init --depth=20 -u ${COPY_DIR} -m ${MANIFEST} -b master
 time repo sync
