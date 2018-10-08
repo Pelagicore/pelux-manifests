@@ -28,20 +28,20 @@ ARCHIVE_DIR="$2"
 IMAGE_DIR="${BUILD_DIR}/tmp/deploy/images"
 SDK_DIR="${BUILD_DIR}/tmp/deploy/sdk"
 
-RPI_ARCH="raspberrypi3"
 INTEL_ARCH="intel-corei7-64"
+ARP_ARCH="arp"
 
 IMAGE_BASENAME="core-image-pelux"
 SDK_BASENAME="pelux-glibc"
 
-# If there is a rpi directory available
-if [ -d ${IMAGE_DIR}/${RPI_ARCH} ]; then
-    echo "Archiving rPi image to $ARCHIVE_DIR"
-    cp ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*.rpi-sdimg $ARCHIVE_DIR
-fi
-
 # If there is an intel directory
 if [ -d ${IMAGE_DIR}/${INTEL_ARCH} ]; then
+    echo "Archiving Intel image to $ARCHIVE_DIR"
+    cp ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*.wic $ARCHIVE_DIR
+fi
+
+# If there is an ARP directory
+if [ -d ${IMAGE_DIR}/${ARP_ARCH} ]; then
     echo "Archiving Intel image to $ARCHIVE_DIR"
     cp ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*.wic $ARCHIVE_DIR
 fi
