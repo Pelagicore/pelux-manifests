@@ -228,7 +228,8 @@ void buildManifest(String variantName, String imageName, boolean smokeTests=fals
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
             // If nightly build, we store the artifacts as well
             boolean nightly = env.NIGHTLY_BUILD == "true"
-            if (nightly) {
+            boolean weekly = env.WEEKLY_BUILD == "true"
+            if (nightly || weekly) {
                 archiveArtifacts(yoctoDir, variantName)
             }
         }
