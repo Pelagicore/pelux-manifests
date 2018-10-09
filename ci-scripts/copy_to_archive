@@ -51,9 +51,3 @@ if [ -d ${SDK_DIR} ]; then
     echo "Archiving SDK to $ARCHIVE_DIR"
     cp ${SDK_DIR}/${SDK_BASENAME}-*.sh $ARCHIVE_DIR
 fi
-
-# Copy the downloads directory
-if [ -d ${BUILD_DIR}/downloads ]; then
-    echo "Archiving downloads to $ARCHIVE_DIR"
-    cp -r ${BUILD_DIR}/downloads $ARCHIVE_DIR
-fi
