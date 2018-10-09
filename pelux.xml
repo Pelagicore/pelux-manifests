@@ -13,7 +13,7 @@
   <!-- Base stuff -->
   <project remote="yocto"
            upstream="sumo"
-           revision="3b8dc3a88e28546100a6b0b2f2cc37f44e619371"
+           revision="161eaa28ed16f93d57f3d1c4be84f894e99ab72e"
            name="poky"
            path="sources/poky"/>
 
