@@ -22,5 +22,4 @@ TEST_SUITES = " \
     rpm.RpmInstallRemoveTest.test_rpm_install \
     rpm.RpmInstallRemoveTest.test_rpm_query_nonroot \
     rpm.RpmInstallRemoveTest.test_rpm_remove \
-    auto \
 "
