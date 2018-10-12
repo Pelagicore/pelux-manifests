@@ -19,5 +19,4 @@ TEST_SUITES = " \
     systemd.SystemdBasicTests.test_systemd_failed \
     systemd.SystemdBasicTests.test_systemd_list \
     systemd.SystemdJournalTests.test_systemd_journal \
-    auto \
 "
