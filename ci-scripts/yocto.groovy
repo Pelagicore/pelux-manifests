@@ -165,7 +165,7 @@ void archiveArtifacts(String yoctoDir, String suffix) {
 }
 
 void buildWithLayer(String variantName, String imageName, String layer, String layerPath) {
-    buildManifest(variantName, imageName, layerToReplace=layer, newLayerPath=layerPath)
+    buildManifest(variantName, imageName, layer, layerPath)
 }
 
 void replaceLayer(String yoctoDir, String layerName, String newPath) {
