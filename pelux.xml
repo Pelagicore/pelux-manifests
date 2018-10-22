@@ -51,7 +51,7 @@
 
   <project remote="yocto"
            upstream="sumo"
-           revision="dd32e94c88550d7629aa696acb565c1597954603"
+           revision="ed2038c935777d1336c17989d454f4e9c95fea7f"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
