@@ -140,6 +140,17 @@ void runBitbakeTests(String yoctoDir) {
     } 
 }
 
+void runYoctoCheckLayer(String yoctoDir) {
+    try {
+        stage("Perform Yocto Compatibility Check"){
+            vagrant("/vagrant/cookbook/yocto/run-yocto-check-layer.sh ${yoctoDir} ")
+        }
+    } catch(e) {
+        echo "Yocto compatibility check failed"
+        println(e.getMessage())
+    }
+}
+
 
 void archiveCache(String yoctoDir, boolean archive, String archivePath) {
     if (archive && archivePath?.trim()) {
@@ -213,6 +224,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
                 runSmokeTests(yoctoDir, imageName)
                 if(weekly) {
                     runBitbakeTests(yoctoDir)
+                    runYoctoCheckLayer(yoctoDir)
                 }
             }
 
