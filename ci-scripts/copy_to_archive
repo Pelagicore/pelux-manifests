@@ -30,6 +30,7 @@ SDK_DIR="${BUILD_DIR}/tmp/deploy/sdk"
 
 INTEL_ARCH="intel-corei7-64"
 ARP_ARCH="arp"
+RPI_ARCH="rasberrypi3"
 
 IMAGE_BASENAME="core-image-pelux"
 SDK_BASENAME="pelux-glibc"
@@ -42,8 +43,14 @@ fi
 
 # If there is an ARP directory
 if [ -d ${IMAGE_DIR}/${ARP_ARCH} ]; then
-    echo "Archiving Intel image to $ARCHIVE_DIR"
-    cp ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*.wic $ARCHIVE_DIR
+    echo "Archiving ARP image to $ARCHIVE_DIR"
+    cp ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*.wic $ARCHIVE_DIR
+fi
+
+# If there is an RPI directory
+if [ -d ${IMAGE_DIR}/${RPI_ARCH} ]; then
+    echo "Archiving RPI image to $ARCHIVE_DIR"
+    cp ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*.rpi-sdimg $ARCHIVE_DIR
 fi
 
 # Copy the SDK
