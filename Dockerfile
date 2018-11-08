@@ -37,7 +37,9 @@ RUN pip3 install unittest-xml-reporting
 
 # For git-lfs
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-RUN apt-get install -y git-lfs
+# Pin version to 2.5.* until a 2.6.* version with a fix
+# for https://github.com/git-lfs/git-lfs/issues/3358 is released.
+RUN apt-get install -y git-lfs=2.5.*
 
 # Remove all apt lists to avoid build caching
 RUN rm -rf /var/lib/apt/lists/*
