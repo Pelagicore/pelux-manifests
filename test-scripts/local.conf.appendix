@@ -15,6 +15,9 @@ TEST_SUITES = " \
     scp \
     df \
     parselogs \
+    softwarecontainer \
+    node_state_manager \
+    dlt_daemon \
     systemd.SystemdBasicTests.test_systemd_basic \
     systemd.SystemdBasicTests.test_systemd_failed \
     systemd.SystemdBasicTests.test_systemd_list \
