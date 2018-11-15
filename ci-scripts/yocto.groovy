@@ -99,7 +99,6 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
         if (update) {
             stage("Bitbake Update ${imageName} for ${variantName}") {
                 vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update")
-                vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev-update")
             }
         }
     }
