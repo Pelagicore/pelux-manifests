@@ -94,12 +94,11 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
     }
 
     stage("Bitbake ${imageName} for ${variantName}") {
-        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")       
+        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")
 
         if (update) {
             stage("Bitbake Update ${imageName} for ${variantName}") {
                 vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update")
-                vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-dev-update")
             }
         }
     }
@@ -136,7 +135,7 @@ void runSmokeTests(String yoctoDir, String imageName) {
 void runBitbakeTests(String yoctoDir) {
     stage("Perform Bitbake Testing"){
         vagrant("/vagrant/cookbook/yocto/run-bitbake-tests.sh ${yoctoDir} ")
-    } 
+    }
 }
 
 
