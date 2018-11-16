@@ -89,8 +89,8 @@
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           upstream="master"
-           revision="3fdf5b15de028c2f7226bcf19cb7a08aa31e0f4d"
+           upstream="sumo"
+           revision="fdc1042deb6278890b15418bae7a70772fe6b2dd"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
