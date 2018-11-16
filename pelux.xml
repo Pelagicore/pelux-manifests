@@ -90,7 +90,7 @@
 
   <project remote="github"
            upstream="sumo"
-           revision="fdc1042deb6278890b15418bae7a70772fe6b2dd"
+           revision="0153dd2c9c2c63b78b653d884429ca58c603f388"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
