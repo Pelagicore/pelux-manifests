@@ -51,18 +51,18 @@ void setupBitbake(String yoctoDir, String templateConf, boolean archive, boolean
         vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}")
 
         // Add other settings that are CI specific to the local.conf
-        vagrant("cat /vagrant/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
+        vagrant("cat /vagrant/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
 
         // Add settings for smoke testing if needed
         if (smokeTests) {
             stage("Setup local conf for smoke testing and tests export") {
                 vagrant("echo '' >> ${yoctoDir}/build/conf/local.conf")
-                vagrant("cat /vagrant/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
+                vagrant("cat /vagrant/conf/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
             }
         }
         if (archive){
             //Mirror git repositories
-            vagrant("cat /vagrant/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf")
+            vagrant("cat /vagrant/conf/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf")
 
         }
     }
