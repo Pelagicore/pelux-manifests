@@ -19,7 +19,7 @@
 
   <project remote="yocto"
            upstream="rocko"
-           revision="0d6e6eb5101c1f24dabd4232d8a08369512c69e3"
+           revision="68a612b7d31d270348ef5439d7f779c309bdb6ec"
            name="poky"
            path="sources/poky"/>
 
