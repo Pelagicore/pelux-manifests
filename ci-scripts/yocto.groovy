@@ -218,12 +218,12 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         try {
             boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
-            runYoctoCheckLayer(yoctoDir)
             if (smokeTests) {
                 boolean weekly = env.WEEKLY_BUILD == "true"
                 runSmokeTests(yoctoDir, imageName)
                 if(weekly) {
                     runBitbakeTests(yoctoDir)
+                    runYoctoCheckLayer(yoctoDir)
                 }
             }
 
