@@ -19,7 +19,7 @@
 
   <project remote="oe"
            upstream="sumo"
-           revision="2bb21ef27c4b0c9d52d30b3b2c5a0160fd02b966"
+           revision="8760facba1bceb299b3613b8955621ddaa3d4c3f"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
