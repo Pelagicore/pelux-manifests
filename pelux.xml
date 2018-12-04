@@ -26,19 +26,19 @@
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="sumo"
-           revision="3b807bbe21adf235115c0271cd711d6a4534fb6e"
+           revision="63751568790d2a4025270e03e798804bcfb52a2b"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
   <project remote="github"
            upstream="sumo"
-           revision="444f0bcb49a31948a0f6f179357978c89aeea18e"
+           revision="27331572026b0a3fb467846d2beee893dd16180d"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
   <project remote="github"
            upstream="sumo"
-           revision="852954ccaa4645bfbb438d183ff8b45e83b8b809"
+           revision="f6e35df5da50f97ca003db99e3d99f10e8b695b6"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
@@ -90,7 +90,7 @@
 
   <project remote="github"
            upstream="sumo"
-           revision="0153dd2c9c2c63b78b653d884429ca58c603f388"
+           revision="f022a33b18a42b5355a1566d69459340c1c48c0f"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
