@@ -64,14 +64,14 @@
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="5.11"
-           revision="ff6127ddd318d422f595295d1c189a86b3032873"
+           upstream="5.12"
+           revision="6830447387d2bfaef1e855040068df2a7f19d485"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
            upstream="sumo"
-           revision="c5a5bce25764de55420664b6896fd76ba5d18f45"
+           revision="72a1cf48d00c1e4cb6bf2a8351e8e611c0dd9bcc"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
