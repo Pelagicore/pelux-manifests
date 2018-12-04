@@ -2,7 +2,7 @@
 <manifest>
 
   <!-- Settings -->
-  <default sync-j="4" revision="master"/>
+  <default sync-j="4" revision="thud"/>
 
   <!-- Remotes -->
   <remote fetch="git://git.openembedded.org" name="oe"/>
@@ -12,27 +12,27 @@
 
   <!-- Base stuff -->
   <project remote="yocto"
-           upstream="sumo"
-           revision="fa962ec72f8a8337eaae71ab622e340f6ef56395"
+           upstream="thud"
+           revision="b904775c2b82f110a9e0ae9281be452546916fea"
            name="poky"
            path="sources/poky"/>
 
   <project remote="oe"
-           upstream="sumo"
-           revision="8760facba1bceb299b3613b8955621ddaa3d4c3f"
+           upstream="thud"
+           revision="a15d7f6ebcb0ed76c83c28f854d55e3f9d5b3677"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
-           upstream="master"
-           revision="f28fc5c6b070409150472b54b716b1c9c5f5360e"
+           upstream="thud"
+           revision="4e6568fe9800a71b1500d602706c35f4d94599b6"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
   <project remote="github"
-           upstream="master"
-           revision="5b57493057050f0fa8d5f4f793f6912583a860cd"
+           upstream="thud"
+           revision="6c33dc1ec1b37c7618903d123bd5c6ec6c758aeb"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
@@ -44,14 +44,14 @@
 
   <!-- 3rd-party stuff -->
   <project remote="github"
-           upstream="sumo"
-           revision="f2d65d87485ada5a2d3a744fd7b9e46ec7e6b9f2"
+           upstream="thud"
+           revision="ed9d6a1086acffe43c090240832eeb9ad6b70883"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate"/>
 
   <project remote="yocto"
-           upstream="sumo"
-           revision="ed2038c935777d1336c17989d454f4e9c95fea7f"
+           upstream="thud"
+           revision="d051460bac9a0a8999703aa7feeb546e9026385c"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
@@ -60,43 +60,43 @@
            revision="7110b507322ceb8aa1ff28c7eebf4c0be695d939"
            name="01org/meta-security-isafw"
            path="sources/meta-security-isafw"/>
-           
+
   <!-- GENIVI stuff -->
   <project remote="github"
-           upstream="14.x-sumo"
-           revision="7a452dc9b803912da56e358c7aa3daa7a2bd695f"
+           upstream="master"
+           revision="13f502d06ef7732dc5f7c5de767141450496e4f6"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi"/>
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
            upstream="5.12"
-           revision="6830447387d2bfaef1e855040068df2a7f19d485"
+           revision="4428b0cc4b1bdb2bf1aa18b159c4f79e7d3a737d"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
-           upstream="sumo"
-           revision="75e93a6ecb121d9aa0ee4aa986b3eef0dd20ea22"
+           upstream="thud"
+           revision="7e125c2a6e765bd0dc7cf10e9cd4be9a1ae5ef60"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- BSP layers -->
   <project remote="yocto"
-           upstream="sumo"
-           revision="90af97d23fb2a56187c2fe2a3f4f4190d7cc2605"
+           upstream="thud"
+           revision="9ad66b4c4c22c140151c1ac12a5c189aa3202c93"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
-           upstream="sumo"
-           revision="2d40b000021bc8a9ef7f329ed0ad410f8d227b97"
+           upstream="thud"
+           revision="d5d92f2cb7f2bf7ef3322da560f35deb59deedf6"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           upstream="sumo"
-           revision="f022a33b18a42b5355a1566d69459340c1c48c0f"
+           upstream="master"
+           revision="2e0fcff50f04f361782e7b85b17fdfa51239e25a"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
