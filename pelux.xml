@@ -2,43 +2,43 @@
 <manifest>
 
   <!-- Settings -->
-  <default sync-j="4" revision="master" />
+  <default sync-j="4" revision="master"/>
 
   <!-- Remotes -->
-  <remote fetch="git://git.openembedded.org"    name="oe"/>
-  <remote fetch="git://git.yoctoproject.org"    name="yocto"/>
-  <remote fetch="git://github.com/"             name="github"/>
-  <remote fetch="git://code.qt.io/"             name="code.qt"/>
+  <remote fetch="git://git.openembedded.org" name="oe"/>
+  <remote fetch="git://git.yoctoproject.org" name="yocto"/>
+  <remote fetch="git://github.com"           name="github"/>
+  <remote fetch="git://code.qt.io"           name="code.qt"/>
 
   <!-- Base stuff -->
   <project remote="yocto"
            upstream="sumo"
-           revision="64a257fa22126c4a40ff7e03424a404e360ebe1e"
+           revision="fa962ec72f8a8337eaae71ab622e340f6ef56395"
            name="poky"
            path="sources/poky"/>
 
   <project remote="oe"
            upstream="sumo"
-           revision="2bb21ef27c4b0c9d52d30b3b2c5a0160fd02b966"
+           revision="8760facba1bceb299b3613b8955621ddaa3d4c3f"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
-           upstream="master"
-           revision="4234da1953121f6384e366966ec3ce59d604c00c"
+           upstream="sumo"
+           revision="63751568790d2a4025270e03e798804bcfb52a2b"
            name="Pelagicore/meta-bistro"
-           path="sources/meta-bistro" />
-
-  <project remote="github"
-           upstream="master"
-           revision="659686ef139cd7f7c578bc37458296a5338d9d76"
-           name="Pelagicore/meta-pelux"
-           path="sources/meta-pelux" />
+           path="sources/meta-bistro"/>
 
   <project remote="github"
            upstream="sumo"
-           revision="852954ccaa4645bfbb438d183ff8b45e83b8b809"
+           revision="27331572026b0a3fb467846d2beee893dd16180d"
+           name="Pelagicore/meta-pelux"
+           path="sources/meta-pelux"/>
+
+  <project remote="github"
+           upstream="sumo"
+           revision="f6e35df5da50f97ca003db99e3d99f10e8b695b6"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
@@ -47,31 +47,31 @@
            upstream="sumo"
            revision="f2d65d87485ada5a2d3a744fd7b9e46ec7e6b9f2"
            name="sbabic/meta-swupdate"
-           path="sources/meta-swupdate" />
+           path="sources/meta-swupdate"/>
 
   <project remote="yocto"
            upstream="sumo"
-           revision="dd32e94c88550d7629aa696acb565c1597954603"
+           revision="ed2038c935777d1336c17989d454f4e9c95fea7f"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="14.x-sumo"
-           revision="26ebdc2331db2e74a6f61e92751a78c188162dd6"
+           revision="7a452dc9b803912da56e358c7aa3daa7a2bd695f"
            name="GENIVI/meta-ivi"
-           path="sources/meta-ivi" />
+           path="sources/meta-ivi"/>
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="5.11"
-           revision="8e485a2bfa4632bfefea861c2a06d9a6e8fc5c33"
+           upstream="5.12"
+           revision="6830447387d2bfaef1e855040068df2a7f19d485"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
            upstream="sumo"
-           revision="da675dd18a83d4ce56a46be9961738e471aa5c03"
+           revision="880ecb7a6e993a986d24c9a8b813bf2a48f51d24"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
@@ -89,8 +89,8 @@
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           upstream="master"
-           revision="fdc1042deb6278890b15418bae7a70772fe6b2dd"
+           upstream="sumo"
+           revision="f022a33b18a42b5355a1566d69459340c1c48c0f"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
