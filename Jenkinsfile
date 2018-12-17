@@ -19,7 +19,21 @@ void buildOnYoctoNode(String variant, String image) {
 }
 
 def variantMap = [:]
-def variantList = env.VARIANT_LIST.split()
+def variantList = []
+
+// If VARIANT_LIST is defined in the Jenkins Environment
+// then use that, otherwise use the default
+try {
+    variantList = env.VARIANT_LIST.split()
+    echo "Using the specified variant list for build"
+    println "[\"${variantList.join('", "')}\"]"
+} catch(e) {
+    println(e.getMessage())
+    echo "Using the default \"VARIANT_LIST\" for build"
+    variantList = ['intel-qtauto:core-image-pelux-qtauto-neptune-dev',
+                    'rpi-qtauto:core-image-pelux-qtauto-neptune-dev']
+    println "[\"${variantList.join('", "')}\"]"
+}
 
 variantList.each {
     def list = it.split(":")
