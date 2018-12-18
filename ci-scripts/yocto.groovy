@@ -94,7 +94,7 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
     }
 
     stage("Bitbake ${imageName} for ${variantName}") {
-        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")       
+        vagrant("/vagrant/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}")
 
         if (update) {
             stage("Bitbake Update ${imageName} for ${variantName}") {
@@ -136,7 +136,7 @@ void runSmokeTests(String yoctoDir, String imageName) {
 void runBitbakeTests(String yoctoDir) {
     stage("Perform Bitbake Testing"){
         vagrant("/vagrant/cookbook/yocto/run-bitbake-tests.sh ${yoctoDir} ")
-    } 
+    }
 }
 
 void runYoctoCheckLayer(String yoctoDir) {
@@ -160,7 +160,7 @@ void archiveCache(String yoctoDir, boolean archive, String archivePath) {
     }
 }
 
-void archiveArtifacts(String yoctoDir, String suffix) {
+void archiveImagesAndSDK(String yoctoDir, String suffix) {
     stage("Archive artifacts") {
         String artifactDir = "artifacts_${suffix}"
 
@@ -229,13 +229,26 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
 
         } finally { // Archive cache even if there were errors.
             archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
-            // If nightly build, we store the artifacts as well
+
+            // Check if we want to store the images, SDK and artifacts as well
+            boolean doArchive = false
             boolean nightly = env.NIGHTLY_BUILD == "true"
             boolean weekly = env.WEEKLY_BUILD == "true"
-            if (nightly || weekly) {
-                archiveArtifacts(yoctoDir, variantName)
+            try {
+                doArchive = env.ARCHIVE_ARTIFACTS
+                echo "Artifacts will be archived"
+            } catch(e) {
+                echo "Will archive if Nightly or Weekly"
+                if (nightly || weekly) {
+                    doArchive = true
+                }
+            }
+
+            if (doArchive) {
+                archiveImagesAndSDK(yoctoDir, variantName)
             }
         }
+
     } finally {
         shutdownVagrant()
         deleteYoctoBuildDir("${yoctoDirInWorkspace}")

@@ -29,7 +29,7 @@ try {
     println "[\"${variantList.join('", "')}\"]"
 } catch(e) {
     println(e.getMessage())
-    echo "Using the default \"VARIANT_LIST\" for build"
+    echo "Using the default variant list for build"
     variantList = ['intel-qtauto:core-image-pelux-qtauto-neptune-dev',
                     'rpi-qtauto:core-image-pelux-qtauto-neptune-dev']
     println "[\"${variantList.join('", "')}\"]"
