@@ -55,6 +55,12 @@
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
+  <project remote="github"
+           upstream="master"
+           revision="7110b507322ceb8aa1ff28c7eebf4c0be695d939"
+           name="01org/meta-security-isafw"
+           path="sources/meta-security-isafw"/>
+           
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="14.x-sumo"

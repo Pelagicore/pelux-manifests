@@ -14,6 +14,7 @@ ARCHIVE_DIR="$2"
 
 IMAGE_DIR="${BUILD_DIR}/tmp/deploy/images"
 SDK_DIR="${BUILD_DIR}/tmp/deploy/sdk"
+LOG_DIR="${BUILD_DIR}/tmp/log"
 
 INTEL_ARCH="intel-corei7-64"
 ARP_ARCH="arp"
@@ -21,6 +22,12 @@ RPI_ARCH="rasberrypi3"
 
 IMAGE_BASENAME="core-image-pelux"
 SDK_BASENAME="pelux-glibc"
+
+# Copy the logs
+if [ -d ${LOG_DIR}/isafw-logs ]; then
+	echo "Archiving logs to $ARCHIVE_DIR"
+	mv ${LOG_DIR}/isafw-report_*/* $ARCHIVE_DIR
+fi
 
 # If there is an Intel directory
 if [ -d ${IMAGE_DIR}/${INTEL_ARCH} ]; then
@@ -45,3 +52,5 @@ if [ -d ${SDK_DIR} ]; then
     echo "Archiving SDK to $ARCHIVE_DIR"
     mv ${SDK_DIR}/${SDK_BASENAME}-*.sh $ARCHIVE_DIR
 fi
+
+
