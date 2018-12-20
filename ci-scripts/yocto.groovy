@@ -71,8 +71,7 @@ void setupBitbake(String yoctoDir, String templateConf, boolean archive, boolean
 void setupCache(String yoctoDir, String url) {
     stage("Setup cache") {
         // Setup site.conf if not building the master to do a incremental build.
-        // The YOCTO_CACHE_URL can be set globally in Manage Jenkins -> Configure System -> Global Properties
-        // or for one job as a parameter.
+        // The YOCTO_CACHE_URL can be set for a Jenkins job as a parameter.
         if (url?.trim()) {
             vagrant("sed 's|%CACHEURL%|${url}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
             echo "Cache set up"
@@ -103,8 +102,8 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
         }
     }
 
-    boolean nightly = env.NIGHTLY_BUILD == "true"
-    boolean weekly = env.WEEKLY_BUILD == "true"
+    boolean nightly = getBoolEnvVar("NIGHTLY_BUILD", false)
+    boolean weekly = getBoolEnvVar("WEEKLY_BUILD", false)
     if (nightly || weekly) {
         stage("Build SDK ${imageName}") {
             vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
@@ -161,7 +160,7 @@ void archiveCache(String yoctoDir, boolean archive, String archivePath) {
 }
 
 void archiveImagesAndSDK(String yoctoDir, String suffix) {
-    stage("Archive artifacts") {
+    stage("Archive Images, SDK and save to Jenkins") {
         String artifactDir = "artifacts_${suffix}"
 
         sh "rm -rf ${artifactDir}"
@@ -191,10 +190,45 @@ void deleteYoctoBuildDir(String buildDir) {
     }
 }
 
+// Helper function to fetch optional boolean variables from the build environment
+// If the environment variable is not set the defaultValue is used.
+boolean getBoolEnvVar(String envVarName, boolean defaultValue) {
+    boolean returnValue = defaultValue
+    try {
+        echo "Trying to fetch boolean ${envVarName}"
+        returnValue = env."${envVarName}" == "true"
+    } catch(e) {
+        echo "${envVarName} was not set. Using default."
+    }
+    echo "Value for ${envVarName} is set to ${returnValue}"
+    return returnValue
+}
+
+// Helper function to fetch optional string variables from the build environment
+// If the environment variable is not set the defaultValue is used.
+String getStringEnvVar(String envVarName, String defaultValue) {
+    String returnValue = defaultValue
+    try {
+        echo "Trying to fetch string ${envVarName}"
+        returnValue = env."${envVarName}"
+        if (returnValue == null) {
+            throw new Exception("The result of ${envVarName} was null")
+        }
+    } catch(e) {
+        println(e)
+        echo "${envVarName} was not set. Using default."
+        returnValue = defaultValue
+    }
+    echo "Value for ${envVarName} is ${returnValue}"
+    return returnValue
+}
+
 void buildManifest(String variantName, String imageName, String layerToReplace="", String newLayerPath="") {
     String yoctoDirInWorkspace = "pelux_yocto"
     String yoctoDir = "/vagrant/${yoctoDirInWorkspace}" // On bind mount to avoid overlay2 fs.
     String manifest = "pelux.xml"
+    String yoctoCacheURL = getStringEnvVar("YOCTO_CACHE_URL", "file:///var/yocto-cache")
+    String yoctoCacheArchivePath = getStringEnvVar("YOCTO_CACHE_PATH", "/var/yocto-cache")
 
     gitSubmoduleUpdate()
 
@@ -209,10 +243,13 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
-        boolean archive = env.ARCHIVE_CACHE == "true"
-        boolean smokeTests = env.SMOKE_TEST == "true"
-        setupBitbake(yoctoDir, templateConf, archive, smokeTests)
-        setupCache(yoctoDir, env.YOCTO_CACHE_URL)
+        boolean doArchiveCache = getBoolEnvVar("ARCHIVE_CACHE", false)
+        boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
+        setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests)
+        setupCache(yoctoDir, yoctoCacheURL)
+
+        boolean nightly = getBoolEnvVar("NIGHTLY_BUILD", false)
+        boolean weekly = getBoolEnvVar("WEEKLY_BUILD", false)
 
         // Build the images
         try {
@@ -220,31 +257,20 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
             buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
             runYoctoCheckLayer(yoctoDir)
             if (smokeTests) {
-                boolean weekly = env.WEEKLY_BUILD == "true"
                 runSmokeTests(yoctoDir, imageName)
                 if(weekly) {
                     runBitbakeTests(yoctoDir)
                 }
             }
 
-        } finally { // Archive cache even if there were errors.
-            archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
+        } finally {
+            // Archive cache even if there were errors.
+            archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
 
             // Check if we want to store the images, SDK and artifacts as well
-            boolean doArchive = false
-            boolean nightly = env.NIGHTLY_BUILD == "true"
-            boolean weekly = env.WEEKLY_BUILD == "true"
-            try {
-                doArchive = env.ARCHIVE_ARTIFACTS
-                echo "Artifacts will be archived"
-            } catch(e) {
-                echo "Will archive if Nightly or Weekly"
-                if (nightly || weekly) {
-                    doArchive = true
-                }
-            }
-
-            if (doArchive) {
+            boolean doArchive = getBoolEnvVar("ARCHIVE_ARTIFACTS", false)
+            if (nightly || weekly || doArchive) {
+                echo "Nightly, Weekly or ARCHIVE_ARTIFACTS was set"
                 archiveImagesAndSDK(yoctoDir, variantName)
             }
         }
