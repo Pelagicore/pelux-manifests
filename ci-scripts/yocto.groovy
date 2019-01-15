@@ -46,7 +46,7 @@ void repoInit(String manifest, String yoctoDir) {
     }
 }
 
-void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests=false, boolean analyzeImage=false) {
+void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage) {
     stage("Setup bitbake") {
         vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}")
 
@@ -155,11 +155,11 @@ void runYoctoCheckLayer(String yoctoDir) {
 }
 
 
-void archiveCache(String yoctoDir, boolean doArchiveCache, String archivePath) {
-    if (doArchiveCache && archivePath?.trim()) {
+void archiveCache(String yoctoDir, boolean doArchiveCache, String yoctoCacheArchivePath) {
+    if (doArchiveCache && yoctoCacheArchivePath?.trim()) {
         stage("Archive cache") {
-            vagrant("rsync -trpgO ${yoctoDir}/build/downloads/ ${archivePath}/downloads/")
-            vagrant("rsync -trpgO ${yoctoDir}/build/sstate-cache/ ${archivePath}/sstate-cache")
+            vagrant("rsync -trpgO ${yoctoDir}/build/downloads/ ${yoctoCacheArchivePath}/downloads/")
+            vagrant("rsync -trpgO ${yoctoDir}/build/sstate-cache/ ${yoctoCacheArchivePath}/sstate-cache")
         }
     }
 }
@@ -174,7 +174,13 @@ void archiveImagesAndSDK(String yoctoDir, String suffix) {
         vagrant("/vagrant/ci-scripts/copy_to_archive ${yoctoDir}/build /vagrant/${artifactDir}")
 
         // And save them in Jenkins
-        archiveArtifacts "${artifactDir}/**"
+        
+        try {
+            archiveArtifacts "${artifactDir}/**"
+        }
+        catch(e) {
+            println("Error archiving in Jenkins \n" + e)
+        }
     }
 }
 
@@ -247,15 +253,16 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
-
+        boolean nightly = getBoolEnvVar("NIGHTLY_BUILD", false)
+        boolean weekly = getBoolEnvVar("WEEKLY_BUILD", false)
+        boolean analyzeImage = getBoolEnvVar("ANALYZE_IMAGE", false)
         boolean doArchiveCache = getBoolEnvVar("ARCHIVE_CACHE", false)
         boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
+        
         setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
         setupCache(yoctoDir, yoctoCacheURL)
         
-        boolean nightly = getBoolEnvVar("NIGHTLY_BUILD", false)
-        boolean weekly = getBoolEnvVar("WEEKLY_BUILD", false)
-        boolean analyzeImage = getBoolEnvVar("DO_ISAFW", false)
+
         
         // Build the images
         try {
@@ -274,8 +281,8 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
             archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
 
             // Check if we want to store the images, SDK and artifacts as well
-            boolean doArchiveCache = getBoolEnvVar("ARCHIVE_ARTIFACTS", false)
-            if (nightly || weekly || doArchiveCache) {
+            boolean doArchiveArtifacts = getBoolEnvVar("ARCHIVE_ARTIFACTS", false)
+            if (nightly || weekly || doArchiveArtifacts) {
                 echo "Nightly, Weekly or ARCHIVE_ARTIFACTS was set"
                 archiveImagesAndSDK(yoctoDir, variantName)
             }
