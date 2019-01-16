@@ -19,9 +19,16 @@ LOG_DIR="${BUILD_DIR}/tmp/log"
 INTEL_ARCH="intel-corei7-64"
 ARP_ARCH="arp"
 RPI_ARCH="rasberrypi3"
+QEMU_ARCH="qemux86-64"
 
 IMAGE_BASENAME="core-image-pelux"
 SDK_BASENAME="pelux-glibc"
+
+# If there is an QEMU directory
+if [ -d ${IMAGE_DIR}/${QEMU_ARCH} ]; then
+    echo "Archiving QEMU image to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${QEMU_ARCH}/${IMAGE_BASENAME}-*.rootfs.ext4 $ARCHIVE_DIR
+fi
 
 # Copy the logs
 if [ -d ${LOG_DIR}/isafw-logs ]; then
