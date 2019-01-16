@@ -107,9 +107,8 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
         }
     }
 
-    boolean nightly = getBoolEnvVar("NIGHTLY_BUILD", false)
-    boolean weekly = getBoolEnvVar("WEEKLY_BUILD", false)
-    if (nightly || weekly) {
+    boolean buildSDK = getBoolEnvVar("BUILD_SDK", false)
+    if (buildSDK) {
         stage("Build SDK ${imageName}") {
             vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
         }
@@ -253,12 +252,10 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
-        boolean nightly = getBoolEnvVar("NIGHTLY_BUILD", false)
-        boolean weekly = getBoolEnvVar("WEEKLY_BUILD", false)
         boolean analyzeImage = getBoolEnvVar("ANALYZE_IMAGE", false)
         boolean doArchiveCache = getBoolEnvVar("ARCHIVE_CACHE", false)
         boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
-        
+        boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
         setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
         setupCache(yoctoDir, yoctoCacheURL)
         
@@ -271,7 +268,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
             runYoctoCheckLayer(yoctoDir)
             if (smokeTests) {
                 runSmokeTests(yoctoDir, imageName)
-                if(weekly) {
+                if(bitbakeTests) {
                     runBitbakeTests(yoctoDir)
                 }
             }
@@ -282,8 +279,8 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
 
             // Check if we want to store the images, SDK and artifacts as well
             boolean doArchiveArtifacts = getBoolEnvVar("ARCHIVE_ARTIFACTS", false)
-            if (nightly || weekly || doArchiveArtifacts) {
-                echo "Nightly, Weekly or ARCHIVE_ARTIFACTS was set"
+            if (doArchiveArtifacts) {
+                echo "ARCHIVE_ARTIFACTS was set"
                 archiveImagesAndSDK(yoctoDir, variantName)
             }
         }
