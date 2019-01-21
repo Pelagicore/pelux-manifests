@@ -25,20 +25,20 @@
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
-           upstream="sumo"
-           revision="63751568790d2a4025270e03e798804bcfb52a2b"
+           upstream="master"
+           revision="f28fc5c6b070409150472b54b716b1c9c5f5360e"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
   <project remote="github"
-           upstream="sumo"
-           revision="27331572026b0a3fb467846d2beee893dd16180d"
+           upstream="master"
+           revision="5b57493057050f0fa8d5f4f793f6912583a860cd"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
   <project remote="github"
-           upstream="sumo"
-           revision="f6e35df5da50f97ca003db99e3d99f10e8b695b6"
+           upstream="master"
+           revision="b4844275d739f2295a0e0a524cc7b072cc46191d"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
@@ -77,7 +77,7 @@
 
   <project remote="code.qt"
            upstream="sumo"
-           revision="880ecb7a6e993a986d24c9a8b813bf2a48f51d24"
+           revision="75e93a6ecb121d9aa0ee4aa986b3eef0dd20ea22"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
