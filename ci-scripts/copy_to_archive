@@ -18,7 +18,7 @@ LOG_DIR="${BUILD_DIR}/tmp/log"
 
 INTEL_ARCH="intel-corei7-64"
 ARP_ARCH="arp"
-RPI_ARCH="rasberrypi3"
+RPI_ARCH="raspberrypi3"
 QEMU_ARCH="qemux86-64"
 
 IMAGE_BASENAME="core-image-pelux"
