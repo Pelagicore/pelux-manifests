@@ -173,7 +173,6 @@ void archiveImagesAndSDK(String yoctoDir, String suffix) {
         vagrant("/vagrant/ci-scripts/copy_to_archive ${yoctoDir}/build /vagrant/${artifactDir}")
 
         // And save them in Jenkins
-        
         try {
             archiveArtifacts "${artifactDir}/**"
         }
@@ -258,9 +257,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
         setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
         setupCache(yoctoDir, yoctoCacheURL)
-        
 
-        
         // Build the images
         try {
             boolean buildUpdate = variantName.startsWith("rpi")
