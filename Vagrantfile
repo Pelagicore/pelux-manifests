@@ -15,8 +15,9 @@ Vagrant.configure(2) do |config|
 
     # If an archive path for the yocto cache is given, we mount it into the vm
     # using the same path as on the host.
-    unless ENV['YOCTO_CACHE_ARCHIVE_PATH'].to_s.strip.empty?
-        config.vm.synced_folder ENV['YOCTO_CACHE_ARCHIVE_PATH'], ENV['YOCTO_CACHE_ARCHIVE_PATH']
+    unless ENV['YOCTO_CACHE_PATH'].to_s.strip.empty?
+      config.vm.synced_folder ENV['YOCTO_CACHE_PATH'], ENV['YOCTO_CACHE_PATH']
+    else
+      config.vm.synced_folder "/var/yocto-cache", "/var/yocto-cache"
     end
 end
-
