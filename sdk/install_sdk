@@ -27,7 +27,7 @@ INSTALL_DIR="$1"
 SDK_DIR="$2"
 
 # Remove the -dev version
-SCRIPT="$(ls ${SDK_DIR}/pelux-*toolchain*.sh | grep -v dev)"
+SCRIPT="$(ls ${SDK_DIR}/pelux-*toolchain*.sh)"
 
 if [ ! -f "${SCRIPT}" ]; then
     echo "Cannot find SDK installation script ${SCRIPT}"
