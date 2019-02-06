@@ -26,7 +26,7 @@
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="f28fc5c6b070409150472b54b716b1c9c5f5360e"
+           revision="c4bb3213ed51856ec6eff19ff23ab35e0d5fdd9b"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
@@ -50,8 +50,8 @@
            path="sources/meta-swupdate"/>
 
   <project remote="yocto"
-           upstream="sumo"
-           revision="ed2038c935777d1336c17989d454f4e9c95fea7f"
+           upstream="master"
+           revision="f9acf9a26617fe3eb4aac5d648f488ad0023a6ff"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
