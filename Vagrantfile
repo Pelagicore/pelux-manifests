@@ -20,4 +20,5 @@ Vagrant.configure(2) do |config|
     else
       config.vm.synced_folder "/var/yocto-cache", "/var/yocto-cache"
     end
+    config.ssh.forward_x11 = true
 end
