@@ -32,7 +32,7 @@
 
   <project remote="github"
            upstream="thud"
-           revision="9d923169265b4d16d1a2731203fa2a00da77101f"
+           revision="e98b178758b04feaaac3c9ac873eacabcc5a3134"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
@@ -71,26 +71,26 @@
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
            upstream="5.12"
-           revision="4428b0cc4b1bdb2bf1aa18b159c4f79e7d3a737d"
+           revision="439f7be65f681d4e45f30571082e38791cca2ef2"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
            upstream="thud"
-           revision="7e125c2a6e765bd0dc7cf10e9cd4be9a1ae5ef60"
+           revision="41303aed23c1843a37b71c2097906505683470ef"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- BSP layers -->
   <project remote="yocto"
            upstream="thud"
-           revision="9ad66b4c4c22c140151c1ac12a5c189aa3202c93"
+           revision="27dadcfc7bc0de70328b02fecb841608389d22fc"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
            upstream="thud"
-           revision="d5d92f2cb7f2bf7ef3322da560f35deb59deedf6"
+           revision="c71d79efc5a06a0c896c278c94f5b14413bb4d69"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
