@@ -12,27 +12,27 @@
 
   <!-- Base stuff -->
   <project remote="yocto"
-           upstream="sumo"
-           revision="58e82c451071d0e257da6088cf643e636282084c"
+           upstream="thud"
+           revision="7c76c5d78b850a9c1adccf8b11ed0164da608f1c"
            name="poky"
            path="sources/poky"/>
 
   <project remote="oe"
-           upstream="sumo"
-           revision="8760facba1bceb299b3613b8955621ddaa3d4c3f"
+           upstream="thud"
+           revision="6ef9657068492d4644079c88f2adee9c3cac9543"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="c4bb3213ed51856ec6eff19ff23ab35e0d5fdd9b"
+           revision="e55ed7737c5db439b96fa3fee2839a64976d2021"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
   <project remote="github"
            upstream="master"
-           revision="1f81027db7c94c13b0cc1aeb03c86e2f4bc4db31"
+           revision="97aa9ea0f5adc8934773baa324534eb2bf0f880b"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
@@ -44,14 +44,14 @@
 
   <!-- 3rd-party stuff -->
   <project remote="github"
-           upstream="sumo"
-           revision="f2d65d87485ada5a2d3a744fd7b9e46ec7e6b9f2"
+           upstream="thud"
+           revision="4ab05dff6a2a0c5c898b33af0905d2cebcaf6767"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate"/>
 
   <project remote="yocto"
-           upstream="master"
-           revision="f9acf9a26617fe3eb4aac5d648f488ad0023a6ff"
+           upstream="thud"
+           revision="9e8c0c96b443828a255e7d6ca6291598347672ac"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
@@ -63,39 +63,39 @@
            
   <!-- GENIVI stuff -->
   <project remote="github"
-           upstream="14.x-sumo"
-           revision="7a452dc9b803912da56e358c7aa3daa7a2bd695f"
+           upstream="master"
+           revision="92479341e6352dd7755e741174d7e393f64ab908"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi"/>
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
            upstream="5.12"
-           revision="6830447387d2bfaef1e855040068df2a7f19d485"
+           revision="439f7be65f681d4e45f30571082e38791cca2ef2"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
-           upstream="sumo"
-           revision="75e93a6ecb121d9aa0ee4aa986b3eef0dd20ea22"
+           upstream="thud"
+           revision="41303aed23c1843a37b71c2097906505683470ef"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- BSP layers -->
   <project remote="yocto"
-           upstream="sumo"
-           revision="90af97d23fb2a56187c2fe2a3f4f4190d7cc2605"
+           upstream="thud"
+           revision="27dadcfc7bc0de70328b02fecb841608389d22fc"
            name="meta-intel"
            path="sources/meta-intel"/>
 
   <project remote="yocto"
-           upstream="sumo"
-           revision="2d40b000021bc8a9ef7f329ed0ad410f8d227b97"
+           upstream="thud"
+           revision="c71d79efc5a06a0c896c278c94f5b14413bb4d69"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           upstream="sumo"
+           upstream="master"
            revision="f022a33b18a42b5355a1566d69459340c1c48c0f"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
