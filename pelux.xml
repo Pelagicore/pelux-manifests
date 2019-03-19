@@ -13,7 +13,7 @@
   <!-- Base stuff -->
   <project remote="yocto"
            upstream="sumo"
-           revision="fa962ec72f8a8337eaae71ab622e340f6ef56395"
+           revision="b28f5672ab55ea303727e9f03bc594c7774d597e"
            name="poky"
            path="sources/poky"/>
 
@@ -26,19 +26,19 @@
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="sumo"
-           revision="63751568790d2a4025270e03e798804bcfb52a2b"
+           revision="4febba7236e5e1a4dad4ce034ca7b0019386f0f6"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
   <project remote="github"
            upstream="sumo"
-           revision="27331572026b0a3fb467846d2beee893dd16180d"
+           revision="2d08e172432e4eab8967bfaed1c20e7ec9d8bb1c"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
   <project remote="github"
            upstream="sumo"
-           revision="f6e35df5da50f97ca003db99e3d99f10e8b695b6"
+           revision="b2d2e18333a31ce8f0b3a27a579405d344599845"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
@@ -71,14 +71,14 @@
 
   <project remote="code.qt"
            upstream="sumo"
-           revision="880ecb7a6e993a986d24c9a8b813bf2a48f51d24"
+           revision="75e93a6ecb121d9aa0ee4aa986b3eef0dd20ea22"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
   <!-- BSP layers -->
   <project remote="yocto"
            upstream="sumo"
-           revision="90af97d23fb2a56187c2fe2a3f4f4190d7cc2605"
+           revision="ba5f7ecd26630b74b6338c1828847a64ab172453"
            name="meta-intel"
            path="sources/meta-intel"/>
 
@@ -90,7 +90,7 @@
 
   <project remote="github"
            upstream="sumo"
-           revision="f022a33b18a42b5355a1566d69459340c1c48c0f"
+           revision="9e97ce7f3e68ed33cf97c73e06a820242813491d"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
