@@ -46,24 +46,29 @@ void repoInit(String manifest, String yoctoDir) {
     }
 }
 
-void setupBitbake(String yoctoDir, String templateConf, boolean archive, boolean smokeTests=false) {
+void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage) {
     stage("Setup bitbake") {
         vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}")
 
         // Add other settings that are CI specific to the local.conf
-        vagrant("cat /vagrant/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
+        vagrant("cat /vagrant/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
 
         // Add settings for smoke testing if needed
         if (smokeTests) {
             stage("Setup local conf for smoke testing and tests export") {
                 vagrant("echo '' >> ${yoctoDir}/build/conf/local.conf")
-                vagrant("cat /vagrant/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
+                vagrant("cat /vagrant/conf/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
             }
         }
-        if (archive){
+        if (doArchiveCache){
             //Mirror git repositories
-            vagrant("cat /vagrant/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf")
+            vagrant("cat /vagrant/conf/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf")
 
+        }
+        if (analyzeImage){
+            //Set up the configuration for running ISAFW
+            vagrant ("cat /vagrant/conf/isafw.local.conf >> ${yoctoDir}/build/conf/local.conf")
+            vagrant ("cat /vagrant/conf/isafw.bblayers.conf >> ${yoctoDir}/build/conf/bblayers.conf")
         }
     }
 }
@@ -71,8 +76,7 @@ void setupBitbake(String yoctoDir, String templateConf, boolean archive, boolean
 void setupCache(String yoctoDir, String url) {
     stage("Setup cache") {
         // Setup site.conf if not building the master to do a incremental build.
-        // The YOCTO_CACHE_URL can be set globally in Manage Jenkins -> Configure System -> Global Properties
-        // or for one job as a parameter.
+        // The YOCTO_CACHE_URL can be set for a Jenkins job as a parameter.
         if (url?.trim()) {
             vagrant("sed 's|%CACHEURL%|${url}|g' /vagrant/site.conf.in > ${yoctoDir}/build/conf/site.conf")
             echo "Cache set up"
@@ -103,15 +107,15 @@ void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boo
         }
     }
 
-    boolean nightly = env.NIGHTLY_BUILD == "true"
-    boolean weekly = env.WEEKLY_BUILD == "true"
-    if (nightly || weekly) {
+    boolean buildSDK = getBoolEnvVar("BUILD_SDK", false)
+    if (buildSDK) {
         stage("Build SDK ${imageName}") {
             vagrant("/vagrant/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}")
         }
     }
 }
 
+// In order to run smoke tests, the -dev image should be specified because of the dependencies
 void runSmokeTests(String yoctoDir, String imageName) {
     String archiveDir = "testReports-" + imageName
 
@@ -138,28 +142,43 @@ void runBitbakeTests(String yoctoDir) {
     }
 }
 
+void runYoctoCheckLayer(String yoctoDir) {
+    try {
+        stage("Perform Yocto Compatibility Check"){
+            vagrant("/vagrant/cookbook/yocto/run-yocto-check-layer.sh ${yoctoDir} ")
+        }
+    } catch(e) {
+        echo "Yocto compatibility check failed"
+        println(e.getMessage())
+    }
+}
 
-void archiveCache(String yoctoDir, boolean archive, String archivePath) {
-    if (archive && archivePath?.trim()) {
+
+void archiveCache(String yoctoDir, boolean doArchiveCache, String yoctoCacheArchivePath) {
+    if (doArchiveCache && yoctoCacheArchivePath?.trim()) {
         stage("Archive cache") {
-            vagrant("rsync -trpgO ${yoctoDir}/build/downloads/ ${archivePath}/downloads/")
-            vagrant("rsync -trpgO ${yoctoDir}/build/sstate-cache/ ${archivePath}/sstate-cache")
+            vagrant("rsync -trpgO ${yoctoDir}/build/downloads/ ${yoctoCacheArchivePath}/downloads/")
+            vagrant("rsync -trpgO ${yoctoDir}/build/sstate-cache/ ${yoctoCacheArchivePath}/sstate-cache")
         }
     }
 }
 
-void archiveArtifacts(String yoctoDir, String suffix) {
-    stage("Archive artifacts") {
+void archiveImagesAndSDK(String yoctoDir, String suffix) {
+    stage("Archive Images, SDK and save to Jenkins") {
         String artifactDir = "artifacts_${suffix}"
 
         sh "rm -rf ${artifactDir}"
         sh "mkdir ${artifactDir}"
-
         // Copy images and SDK to the synced directory
         vagrant("/vagrant/ci-scripts/copy_to_archive ${yoctoDir}/build /vagrant/${artifactDir}")
 
         // And save them in Jenkins
-        archiveArtifacts "${artifactDir}/**"
+        try {
+            archiveArtifacts "${artifactDir}/**"
+        }
+        catch(e) {
+            println("Error archiving in Jenkins \n" + e)
+        }
     }
 }
 
@@ -179,10 +198,45 @@ void deleteYoctoBuildDir(String buildDir) {
     }
 }
 
+// Helper function to fetch optional boolean variables from the build environment
+// If the environment variable is not set the defaultValue is used.
+boolean getBoolEnvVar(String envVarName, boolean defaultValue) {
+    boolean returnValue = defaultValue
+    try {
+        echo "Trying to fetch boolean ${envVarName}"
+        returnValue = env."${envVarName}" == "true"
+    } catch(e) {
+        echo "${envVarName} was not set. Using default."
+    }
+    echo "Value for ${envVarName} is set to ${returnValue}"
+    return returnValue
+}
+
+// Helper function to fetch optional string variables from the build environment
+// If the environment variable is not set the defaultValue is used.
+String getStringEnvVar(String envVarName, String defaultValue) {
+    String returnValue = defaultValue
+    try {
+        echo "Trying to fetch string ${envVarName}"
+        returnValue = env."${envVarName}"
+        if (returnValue == null) {
+            throw new Exception("The result of ${envVarName} was null")
+        }
+    } catch(e) {
+        println(e)
+        echo "${envVarName} was not set. Using default."
+        returnValue = defaultValue
+    }
+    echo "Value for ${envVarName} is ${returnValue}"
+    return returnValue
+}
+
 void buildManifest(String variantName, String imageName, String layerToReplace="", String newLayerPath="") {
     String yoctoDirInWorkspace = "pelux_yocto"
     String yoctoDir = "/vagrant/${yoctoDirInWorkspace}" // On bind mount to avoid overlay2 fs.
     String manifest = "pelux.xml"
+    String yoctoCacheURL = getStringEnvVar("YOCTO_CACHE_URL", "file:///var/yocto-cache")
+    String yoctoCacheArchivePath = getStringEnvVar("YOCTO_CACHE_PATH", "/var/yocto-cache")
 
     gitSubmoduleUpdate()
 
@@ -197,26 +251,37 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
 
         // Setup yocto
         String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
-        boolean archive = env.ARCHIVE_CACHE == "true"
-        boolean smokeTests = env.SMOKE_TEST == "true"
-        setupBitbake(yoctoDir, templateConf, archive, smokeTests)
-        setupCache(yoctoDir, env.YOCTO_CACHE_URL)
+        boolean analyzeImage = getBoolEnvVar("ANALYZE_IMAGE", false)
+        boolean doArchiveCache = getBoolEnvVar("ARCHIVE_CACHE", false)
+        boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
+        boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
+        setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
+        setupCache(yoctoDir, yoctoCacheURL)
 
         // Build the images
         try {
             boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
+            runYoctoCheckLayer(yoctoDir)
             if (smokeTests) {
                 runSmokeTests(yoctoDir, imageName)
+                if(bitbakeTests) {
+                    runBitbakeTests(yoctoDir)
+                }
             }
-        } finally { // Archive cache even if there were errors.
-            archiveCache(yoctoDir, archive, env.YOCTO_CACHE_ARCHIVE_PATH)
-            // If nightly build, we store the artifacts as well
-            boolean nightly = env.NIGHTLY_BUILD == "true"
-            if (nightly) {
-                archiveArtifacts(yoctoDir, variantName)
+
+        } finally {
+            // Archive cache even if there were errors.
+            archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
+
+            // Check if we want to store the images, SDK and artifacts as well
+            boolean doArchiveArtifacts = getBoolEnvVar("ARCHIVE_ARTIFACTS", false)
+            if (doArchiveArtifacts) {
+                echo "ARCHIVE_ARTIFACTS was set"
+                archiveImagesAndSDK(yoctoDir, variantName)
             }
         }
+
     } finally {
         shutdownVagrant()
         deleteYoctoBuildDir("${yoctoDirInWorkspace}")
