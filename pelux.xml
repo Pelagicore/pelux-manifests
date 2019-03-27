@@ -6,9 +6,9 @@
 
   <!-- Remotes -->
   <remote fetch="git://git.openembedded.org" name="oe"/>
-  <remote fetch="git://git.yoctoproject.org" name="yocto"/>
-  <remote fetch="git://github.com"           name="github"/>
-  <remote fetch="git://code.qt.io"           name="code.qt"/>
+  <remote fetch="https://yoctoproject.org" name="yocto"/>
+  <remote fetch="https://github.com"           name="github"/>
+  <remote fetch="https://code.qt.io"           name="code.qt"/>
 
   <!-- Base stuff -->
   <project remote="yocto"
