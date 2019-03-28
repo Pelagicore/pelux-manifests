@@ -14,33 +14,50 @@ ARCHIVE_DIR="$2"
 
 IMAGE_DIR="${BUILD_DIR}/tmp/deploy/images"
 SDK_DIR="${BUILD_DIR}/tmp/deploy/sdk"
+LOG_DIR="${BUILD_DIR}/tmp/log"
 
-RPI_ARCH="raspberrypi3"
 INTEL_ARCH="intel-corei7-64"
+ARP_ARCH="arp"
+RPI_ARCH="raspberrypi3"
+QEMU_ARCH="qemux86-64"
 
 IMAGE_BASENAME="core-image-pelux"
 SDK_BASENAME="pelux-glibc"
 
-# If there is a rpi directory available
-if [ -d ${IMAGE_DIR}/${RPI_ARCH} ]; then
-    echo "Archiving rPi image to $ARCHIVE_DIR"
-    cp ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*.rpi-sdimg $ARCHIVE_DIR
+# If there is an QEMU directory
+if [ -d ${IMAGE_DIR}/${QEMU_ARCH} ]; then
+    echo "Archiving QEMU image to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${QEMU_ARCH}/${IMAGE_BASENAME}-*.rootfs.ext4 $ARCHIVE_DIR
 fi
 
-# If there is an intel directory
+# Copy the logs
+if [ -d ${LOG_DIR}/isafw-logs ]; then
+	echo "Archiving logs to $ARCHIVE_DIR"
+	mv ${LOG_DIR}/isafw-report_*/* $ARCHIVE_DIR
+fi
+
+# If there is an Intel directory
 if [ -d ${IMAGE_DIR}/${INTEL_ARCH} ]; then
     echo "Archiving Intel image to $ARCHIVE_DIR"
-    cp ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*.wic $ARCHIVE_DIR
+    mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
+fi
+
+# If there is an ARP directory
+if [ -d ${IMAGE_DIR}/${ARP_ARCH} ]; then
+    echo "Archiving ARP image to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
+fi
+
+# If there is an RPI directory
+if [ -d ${IMAGE_DIR}/${RPI_ARCH} ]; then
+    echo "Archiving RPI image to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*rootfs.rpi-sdimg $ARCHIVE_DIR
 fi
 
 # Copy the SDK
 if [ -d ${SDK_DIR} ]; then
     echo "Archiving SDK to $ARCHIVE_DIR"
-    cp ${SDK_DIR}/${SDK_BASENAME}-*.sh $ARCHIVE_DIR
+    mv ${SDK_DIR}/${SDK_BASENAME}-*.sh $ARCHIVE_DIR
 fi
 
-# Copy the downloads directory
-if [ -d ${BUILD_DIR}/downloads ]; then
-    echo "Archiving downloads to $ARCHIVE_DIR"
-    cp -r ${BUILD_DIR}/downloads $ARCHIVE_DIR
-fi
+
