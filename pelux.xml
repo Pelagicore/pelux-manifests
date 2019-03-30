@@ -45,7 +45,7 @@
   <!-- 3rd-party stuff -->
   <project remote="github"
            upstream="thud"
-           revision="4ab05dff6a2a0c5c898b33af0905d2cebcaf6767"
+           revision="36c07285ed0e5b2a9f7623c47ec17b0255123ebf"
            name="sbabic/meta-swupdate"
            path="sources/meta-swupdate"/>
 
