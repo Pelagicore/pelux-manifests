@@ -26,7 +26,7 @@
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="f907f962b61a77d670e6508e89fbebd68fab9ae2"
+           revision="856abdc67418b2b05187aa92d58adb76141af9b6"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
@@ -60,7 +60,7 @@
            revision="7110b507322ceb8aa1ff28c7eebf4c0be695d939"
            name="01org/meta-security-isafw"
            path="sources/meta-security-isafw"/>
-           
+
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="master"
