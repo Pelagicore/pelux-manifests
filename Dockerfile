@@ -36,10 +36,9 @@ RUN apt-get update && apt-get install -y \
 RUN pip3 install unittest-xml-reporting
 
 # For git-lfs
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-# Pin version to 2.5.* until a 2.6.* version with a fix
-# for https://github.com/git-lfs/git-lfs/issues/3358 is released.
-RUN apt-get install -y git-lfs=2.5.*
+# The downloaded script is needed since git-lfs is not available per default for Ubuntu 16.04
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash && sudo apt-get install -y git-lfs
+
 
 # Remove all apt lists to avoid build caching
 RUN rm -rf /var/lib/apt/lists/*
