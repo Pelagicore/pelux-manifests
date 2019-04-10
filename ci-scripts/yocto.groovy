@@ -255,6 +255,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         boolean doArchiveCache = getBoolEnvVar("ARCHIVE_CACHE", false)
         boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
         boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
+        boolean yoctoCompatTest = getBoolEnvVar("YOCTO_COMPATIBILITY_TEST", false)
         setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
         setupCache(yoctoDir, yoctoCacheURL)
 
@@ -262,7 +263,9 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         try {
             boolean buildUpdate = variantName.startsWith("rpi")
             buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
-            runYoctoCheckLayer(yoctoDir)
+            if (yoctoCompatTest) {
+                runYoctoCheckLayer(yoctoDir)
+            }
             if (smokeTests) {
                 runSmokeTests(yoctoDir, imageName)
                 if(bitbakeTests) {
