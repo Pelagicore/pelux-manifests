@@ -12,10 +12,8 @@ USER root
 # like explained here: https://stackoverflow.com/a/37727984
 RUN apt-get update && apt-get install -y \
         openssh-server \
-        inetutils-ping \
         iptables \
         cvs \
-        subversion \
         coreutils \
         python3-pip \
         libfdt1 \
@@ -26,7 +24,6 @@ RUN apt-get update && apt-get install -y \
         graphviz \
         qemu-user \
         g++-multilib \
-        gcc-multilib \
         curl \
         repo \
         rsync \
