@@ -3,7 +3,8 @@
 
 Vagrant.configure(2) do |config|
     config.vm.provider "docker" do |d, configOverride|
-        d.build_dir = "."
+        d.image = "pelux/pelux-yocto:ubuntu1604"
+        d.pull = true
         d.has_ssh = true
         d.build_args = ['--build-arg', 'userid=' + `id -u`.strip, '--build-arg', 'groupid=' + `id -g`.strip]
         d.create_args = ['--cap-add=NET_ADMIN', '--device=/dev/net/tun']
@@ -21,4 +22,5 @@ Vagrant.configure(2) do |config|
       config.vm.synced_folder "/var/yocto-cache", "/var/yocto-cache"
     end
     config.ssh.forward_x11 = true
+    config.vm.synced_folder ".", "/vagrant", create: true, owner: "yoctouser", group: "yoctouseer"
 end
