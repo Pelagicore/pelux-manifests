@@ -96,7 +96,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="f022a33b18a42b5355a1566d69459340c1c48c0f"
+           revision="1fc215f792fb3b48a0cfb2ea1c8714b21244ccda"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
