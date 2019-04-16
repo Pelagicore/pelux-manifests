@@ -20,7 +20,6 @@ BSP](https://www.yoctoproject.org/downloads/bsps/pyro23/intel-corei7-64)
 
 * [Intel NUC](https://en.wikipedia.org/wiki/Next_Unit_of_Computing)
 * [Automotive Reference Platform](https://www.youtube.com/watch?v=bPsZKolovQM)
-* Minnowboard Max, Turbot
 
 ### PELUX Raspberry Pi 3
 Reference instance for Raspberry Pi 3. Currently targets 32-bit mode.
@@ -39,8 +38,8 @@ this fashion.
 
 License and Copyright
 ---------------------
-Copyright (C) 2015-2017 Pelagicore AB  
-Copyright (C) 2017-2018 Luxoft Sweden AB
+Copyright &copy; 2017 Pelagicore AB  
+Copyright &copy; 2019 Luxoft Sweden AB
 
 All metadata is MIT licensed unless otherwise stated. Source code included
 in tree for individual recipes is under the LICENSE stated in the associated
