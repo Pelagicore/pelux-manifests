@@ -18,6 +18,7 @@ RUN apt-get update && \
         cpio \
         curl \
         cvs \
+        debianutils \
         diffstat \
         g++-multilib \
         gawk \
@@ -27,6 +28,7 @@ RUN apt-get update && \
         help2man \
         iptables \
         iputils-ping \
+        libegl1-mesa \
         libfdt1 \
         libsdl1.2-dev \
         libxml2-utils \
@@ -36,6 +38,9 @@ RUN apt-get update && \
         python \
         python-pysqlite2 \
         python3 \
+        python3-git \
+        python3-jinja2 \
+        python3-pexpect \
         python3-pip \
         qemu-user \
         repo \
