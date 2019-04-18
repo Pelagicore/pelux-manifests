@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+USERID=1003
+GROUPID=1003
+
+echo "------ DOCKER HUB BUILD HOOK - START -------"
+
+docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%d %H:%M:%S"` --build-arg userid=$USERID --build-arg groupid=$GROUPID -t $IMAGE_NAME .
+
+echo "------ DOCKER HUB BUILD HOOK - END -------"
