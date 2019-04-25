@@ -38,7 +38,7 @@ cd ${COPY_DIR}
 
 # Check if master branch exists
 git rev-parse --verify master
-if [$? == 0]; then
+if [ $? == 0 ]; then
     git branch -D master
 fi
 
