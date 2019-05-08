@@ -13,10 +13,38 @@ void buildOnYoctoNode(String variant, String image) {
 
         checkout scm
         def manifests = load "ci-scripts/yocto.groovy"
-
-        manifests.buildManifest(variant, image)
+        try {
+            manifests.buildManifest(variant, image)
+        } catch (e) {
+            // This part will be run in case of fail
+            manifest.shutdownVagrant()
+            throw e
+        } finally {
+            // Can be redundant, so just to doublecheck
+            manifest.shutdownVagrant()
+        } 
     }
 }
+// If there is a build for this PR in progress, abort it
+script {
+    def jobname = env.JOB_NAME
+    def buildnum = env.BUILD_NUMBER.toInteger()
+    def job = Jenkins.instance.getItemByFullName(jobname)
+
+    for (build in job.builds) {
+        if (!build.isBuilding()) {
+            continue;
+        }
+        if (buildnum == build.getNumber().toInteger()) {
+            continue;
+        }
+
+        println("Aborting previous running build #${build.number}...")
+
+        build.doStop();
+    }
+}
+
 
 def variantMap = [:]
 def variantList = []
