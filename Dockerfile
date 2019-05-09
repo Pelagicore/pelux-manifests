@@ -97,4 +97,4 @@ RUN /tmp/cookbook/system-config/vagrant-ssh-user.sh
 USER root
 RUN mkdir /var/run/sshd
 EXPOSE 22
-CMD  ["/usr/sbin/sshd", "-D"]
+CMD  ["timeout", "--signal=SIGKILL", "21600", "/usr/sbin/sshd", "-D"]
