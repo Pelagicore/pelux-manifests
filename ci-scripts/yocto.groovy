@@ -40,20 +40,13 @@ void repoInit(String manifest, String yoctoDir) {
     }
 }
 
-void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage) {
+void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean analyzeImage) {
     stage("Setup bitbake") {
         vagrant("/vagrant/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}")
 
         // Add other settings that are CI specific to the local.conf
         vagrant("cat /vagrant/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
 
-        // Add settings for smoke testing if needed
-        if (smokeTests) {
-            stage("Setup local conf for smoke testing and tests export") {
-                vagrant("echo '' >> ${yoctoDir}/build/conf/local.conf")
-                vagrant("cat /vagrant/conf/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf")
-            }
-        }
         if (doArchiveCache){
             //Mirror git repositories
             vagrant("cat /vagrant/conf/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf")
@@ -250,7 +243,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
         boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
         boolean yoctoCompatTest = getBoolEnvVar("YOCTO_COMPATIBILITY_TEST", false)
-        setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
+        setupBitbake(yoctoDir, templateConf, doArchiveCache, analyzeImage)
         setupCache(yoctoDir, yoctoCacheURL)
 
         // Build the images
