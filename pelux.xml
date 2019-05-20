@@ -71,13 +71,13 @@
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
            upstream="5.12"
-           revision="refs/tags/v5.12.1"
+           revision="refs/tags/v5.12.3"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
            upstream="thud"
-           revision="78dffecae11a66c6de4efc8dfc7e5baa41c4e5c0"
+           revision="c4f72c0b2f07d1a9573150b8e545802eed2f7fac"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
