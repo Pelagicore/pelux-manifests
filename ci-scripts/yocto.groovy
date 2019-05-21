@@ -260,9 +260,6 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
                 }
             }
 
-        }  catch(e) {
-            echo "Bitbake process failed!"
-            println(e.getMessage())
         } finally {
             // Archive cache even if there were errors.
             archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
