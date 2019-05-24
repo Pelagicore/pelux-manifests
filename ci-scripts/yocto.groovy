@@ -117,6 +117,12 @@ void runSmokeTests(String yoctoDir, String imageName) {
         stage("Publish smoke test results") {
             reportsDir="/vagrant/${archiveDir}/test_reports/${imageName}/"
             vagrant("mkdir -p ${reportsDir}")
+            if (fileExists("pelux_yocto/build/tmp/log/oeqa/testresults.json")) {
+                // Since `thud`, poky test report consists of a single JSON
+                // file; we need to convert it into jUnit format.
+                vagrant("mkdir -p ${yoctoDir}/build/TestResults/")
+                vagrant("cd ${yoctoDir}/build/TestResults/ && /vagrant/cookbook/yocto/json2junit.py ${yoctoDir}/build/tmp/log/oeqa/testresults.json")
+            }
             vagrant("cp -a ${yoctoDir}/build/TestResults* ${reportsDir}")
             junit "${archiveDir}/test_reports/${imageName}/TestResults*/*.xml"
         }
