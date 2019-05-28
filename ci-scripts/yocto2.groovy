@@ -158,8 +158,7 @@ void buildWithLayer(String variantName, String imageName, String layer, String l
 
 void replaceLayer(String yoctoDir, String layerName, String newPath) {
     sh "rm -rf ${yoctoDir}/sources/${layerName}"
-    //sh "cp -R ${newPath} ${layerName}"
-    sh "mv /workspace/${layerName} ${yoctoDir}/sources/"archiveImagesAndSDK
+    sh "mv /workspace/${layerName} ${yoctoDir}/sources/${layerName}"
 }
 
 void deleteYoctoBuildDir(String buildDir) {
