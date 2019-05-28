@@ -26,7 +26,7 @@
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="d524a251acc592e8724683e5bd98d945e023500a"
+           revision="f8fe04f2b2e4a87e6eb7e6c604119724fc032e95"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
