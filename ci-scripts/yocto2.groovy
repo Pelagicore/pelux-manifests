@@ -100,6 +100,12 @@ void runSmokeTests(String yoctoDir, String imageName) {
         stage("Publish smoke test results") {
             reportsDir="/workspace/${archiveDir}/test_reports/${imageName}/"
             sh "mkdir -p ${reportsDir}"
+            if (fileExists("pelux_yocto/build/tmp/log/oeqa/testresults.json")) {
+                // Since `thud`, poky test report consists of a single JSON
+                // file; we need to convert it into jUnit format.
+                sh "mkdir -p ${yoctoDir}/build/TestResults/"
+                sh "cd ${yoctoDir}/build/TestResults/ && /workspace/cookbook/yocto/json2junit.py ${yoctoDir}/build/tmp/log/oeqa/testresults.json"
+            }
             sh "cp -a ${yoctoDir}/build/TestResults* ${reportsDir}"
             junit "${archiveDir}/test_reports/${imageName}/TestResults*/*.xml"
         }
