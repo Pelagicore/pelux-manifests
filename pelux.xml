@@ -84,7 +84,7 @@
   <!-- BSP layers -->
   <project remote="yocto"
            upstream="thud"
-           revision="27dadcfc7bc0de70328b02fecb841608389d22fc"
+           revision="3c45215fe075ddaa892bc87f969f50684a7062b4"
            name="meta-intel"
            path="sources/meta-intel"/>
 
