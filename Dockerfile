@@ -89,12 +89,3 @@ CMD /bin/bash
 
 # Set up git and repo
 ADD --chown=yoctouser:yoctouser cookbook /tmp/cookbook/
-
-# Set up git config --global stuff
-RUN /tmp/cookbook/system-config/vagrant-ssh-user.sh
-
-# SSH settings
-USER root
-RUN mkdir /var/run/sshd
-EXPOSE 22
-CMD  ["timeout", "--signal=SIGKILL", "21600", "/usr/sbin/sshd", "-D"]
