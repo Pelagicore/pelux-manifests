@@ -1,62 +1,39 @@
 #!/usr/bin/groovy
 // Copyright (C) Pelagicore AB 2018
 
-void shutdownVagrant() {
-    // In case the destroy step fails (happens sometimes with hung up ssh connections)
-    // we retry a couple of times to make sure it shuts down and is destroyed.
-    retry(5) {
-        sh "vagrant destroy -f"
-    }
-}
-
-// Helper function to run commands through vagrant
-void vagrant(String command) {
-    sh "vagrant ssh -c \"${command}\""
-}
-
 void verifySDK(String upstream, String variant) {
 
-    try {
-        stage("Checkout repo") {
-            // Checkout the git repository and refspec pointed to by jenkins
-            checkout scm
-            // Update the submodules in the repository.
-            sh 'git submodule update --init'
-        }
+    stage("Checkout repo") {
+        // Checkout the git repository and refspec pointed to by jenkins
+        checkout scm
+        // Update the submodules in the repository.
+        sh 'git submodule update --init'
+    }
 
-        stage("Start Vagrant ${variant}") {
-            // Start the machine and provision it
-            shutdownVagrant()
-            sh "vagrant up"
-        }
+    String sdkDir = "/home/yoctouser/sdk"
+    String archive_directory = "artifacts_${variant}"
+    String sdkFilePattern = "pelux-glibc-*.sh"
 
-        String sdkDir = "/home/yoctouser/sdk"
-        String archive_directory = "artifacts_${variant}"
-        String sdkFilePattern = "pelux-glibc-*.sh"
+    stage("Copying latest SDK ${variant}") {
+        sh "rm -rf ${archive_directory}"
 
-        stage("Copying latest SDK ${variant}") {
-            sh "rm -rf ${archive_directory}"
-
-            copyArtifacts(projectName: "${upstream}",
-                          selector: lastSuccessful(),
-                          filter: "artifacts_${variant}/${sdkFilePattern}")
-        }
-
+        copyArtifacts(projectName: "${upstream}",
+                      selector: lastSuccessful(),
+                      filter: "artifacts_${variant}/${sdkFilePattern}")
+    }
+    def customImage = docker.image("pelux/pelux-yocto:yoctouser")
+    customImage.inside('-v $WORKSPACE:/workspace -v /var/yocto-cache:/var/yocto-cache --cap-add=NET_ADMIN --device=/dev/net/tun') {
         stage("Installing SDK ${variant}") {
-            vagrant("/vagrant/sdk/install_sdk ${sdkDir} /vagrant/${archive_directory}")
+            sh "/workspace/sdk/install_sdk ${sdkDir} /workspace/${archive_directory}"
         }
 
         stage("Building sample library ${variant}") {
-            vagrant("/vagrant/sdk/test_sdk ${sdkDir} template-library")
+            sh "/workspace/sdk/test_sdk ${sdkDir} template-library"
         }
 
         stage("Building sample service ${variant}") {
-            vagrant("/vagrant/sdk/test_sdk ${sdkDir} template-service")
+            sh "/workspace/sdk/test_sdk ${sdkDir} template-service"
         }
-    }
-    finally {
-        // Always try to shut down the machine
-        shutdownVagrant()
     }
 }
 
