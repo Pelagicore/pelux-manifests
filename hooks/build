@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-USERID=1003
-GROUPID=1003
+USERID=$(id -u)
+GROUPID=$(id -g)
 
 echo "------ DOCKER HUB BUILD HOOK - START -------"
 
