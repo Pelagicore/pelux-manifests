@@ -39,6 +39,7 @@ fi
 # If there is an Intel directory
 if [ -d ${IMAGE_DIR}/${INTEL_ARCH} ]; then
     echo "Archiving Intel image to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bmap $ARCHIVE_DIR
     mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
     mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*20*.swu $ARCHIVE_DIR
 fi
@@ -47,6 +48,7 @@ fi
 
 if [ -d ${IMAGE_DIR}/${ARP_ARCH} ]; then
     echo "Archiving ARP image to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bmap $ARCHIVE_DIR
     mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
     mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*20*.swu $ARCHIVE_DIR
 fi
