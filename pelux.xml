@@ -26,13 +26,13 @@
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
            upstream="master"
-           revision="ba322bb037c9067a0e7a182e0c5d85b8259f23bc"
+           revision="89b5859ed723366db25045690258f86d1528367a"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
   <project remote="github"
            upstream="master"
-           revision="24640f1e93ea4c67ddf8e7155cf2af3e47e25239"
+           revision="823134fb0084dee0fab858845ae26b4371f88c57"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
