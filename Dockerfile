@@ -83,9 +83,16 @@ RUN groupmod --gid $groupid yoctouser
 RUN echo 'yoctouser:yoctouser' | chpasswd
 RUN echo 'yoctouser ALL=(ALL) NOPASSWD:SETENV: ALL' > /etc/sudoers.d/yoctouser
 
+# Copy cookbook
+ADD --chown=yoctouser:yoctouser cookbook /tmp/cookbook/
+
 USER yoctouser
 WORKDIR /home/yoctouser
-CMD /bin/bash
 
-# Set up git and repo
-ADD --chown=yoctouser:yoctouser cookbook /tmp/cookbook/
+# Script which allows to pass containers CMD as an argument to timeout command
+# in case we need redefine entrypoint '--entrypoint' key can be used durring container start
+RUN echo "#!/usr/bin/env bash" >> /home/yoctouser/docker-ep.sh && \
+    echo 'exec  timeout --signal=SIGKILL 21600 "$@"' >> /home/yoctouser/docker-ep.sh && \
+    chmod +x /home/yoctouser/docker-ep.sh
+ENTRYPOINT ["/home/yoctouser/docker-ep.sh"]
+
