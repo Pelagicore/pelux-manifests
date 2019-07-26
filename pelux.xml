@@ -25,20 +25,20 @@
 
   <!-- Pelagicore/Luxoft stuff -->
   <project remote="github"
-           upstream="master"
-           revision="89b5859ed723366db25045690258f86d1528367a"
+           upstream="thud"
+           revision="refs/tags/v4.0-thud"
            name="Pelagicore/meta-bistro"
            path="sources/meta-bistro"/>
 
   <project remote="github"
-           upstream="master"
-           revision="52a40e1135c4703260eeb7f038dc5c701b2aa90e"
+           upstream="thud"
+           revision="refs/tags/v4.0-thud"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
   <project remote="github"
-           upstream="master"
-           revision="b4844275d739f2295a0e0a524cc7b072cc46191d"
+           upstream="thud"
+           revision="refs/tags/v4.0-thud"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
@@ -95,8 +95,8 @@
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           upstream="master"
-           revision="71898eb2a1c9fdeede6e53804995433f67e7b18c"
+           upstream="thud"
+           revision="refs/tags/v4.0-thud"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
 
