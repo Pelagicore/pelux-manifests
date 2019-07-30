@@ -131,10 +131,20 @@ void runYoctoCheckLayer(String yoctoDir) {
 
 
 void archiveCache(String yoctoDir, boolean doArchiveCache, String yoctoCacheArchivePath) {
-    if (doArchiveCache && yoctoCacheArchivePath?.trim()) {
-        stage("Archive cache") {
-            sh "rsync -trpgO ${yoctoDir}/build/downloads/ ${yoctoCacheArchivePath}/downloads/"
-            sh "rsync -trpgO ${yoctoDir}/build/sstate-cache/ ${yoctoCacheArchivePath}/sstate-cache"
+    def sC = sh script:"test -d ${yoctoCacheArchivePath}/sstate-cache && test -d ${yoctoCacheArchivePath}/downloads", returnStatus:true
+    if (sC != 0) {
+        echo "Cache dirs are not mounted"
+    } else {
+        echo "Cache dirs are mounted"
+        if (doArchiveCache && yoctoCacheArchivePath?.trim()) {
+            stage("Archive cache") {
+                try {
+                    sh "rsync -trpgO  --info=progress2 --info=name0 --info=skip0 ${yoctoDir}/build/downloads/ ${yoctoCacheArchivePath}/downloads/"
+                    sh "rsync -trpgO  --info=progress2 --info=name0 --info=skip0 ${yoctoDir}/build/sstate-cache/ ${yoctoCacheArchivePath}/sstate-cache"
+                } catch(e) {
+                    println("Error archiving cache \n" + e)
+                }
+            }
         }
     }
 }
