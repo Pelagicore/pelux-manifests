@@ -77,7 +77,7 @@
 
   <project remote="code.qt"
            upstream="QtAS-5.13.0"
-           revision="7eab9d044f30deda8c0121b40e77aff3d66ffa32"
+           revision="e35e0affd05ddddaf3846f292f662984b9bed162"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
