@@ -76,7 +76,7 @@
            path="sources/meta-qt5"/>
 
   <project remote="code.qt"
-           upstream="QtAS-5.13.0"
+           upstream="thud"
            revision="e35e0affd05ddddaf3846f292f662984b9bed162"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
