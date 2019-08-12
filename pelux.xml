@@ -32,7 +32,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="1acf4025a35a630a572d31938ada529951d6c153"
+           revision="bfb4d23861d92c1388da276becaacd5191f7bfd7"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
@@ -64,7 +64,7 @@
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="master"
-           revision="6539b053b3c3834f815ce2158ae26e5901c6b7e4"
+           revision="0a0aeecdfeb61f983c8c02c264162527ee8fb51d"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi"/>
 
