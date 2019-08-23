@@ -12,6 +12,7 @@ USER root
 # like explained here: https://stackoverflow.com/a/37727984
 RUN apt-get update && \
     apt-get install -y \
+        bc \
         build-essential \
         chrpath \
         coreutils \
