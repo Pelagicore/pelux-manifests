@@ -38,7 +38,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="b4844275d739f2295a0e0a524cc7b072cc46191d"
+           revision="be904452ed82865494df380c0d41d312417da4a7"
            name="Pelagicore/meta-template"
            path="sources/meta-template"/>
 
