@@ -64,7 +64,7 @@
   <!-- GENIVI stuff -->
   <project remote="github"
            upstream="master"
-           revision="0a0aeecdfeb61f983c8c02c264162527ee8fb51d"
+           revision="4fd8d784db63b2e93724e69a13bac917437390a7"
            name="GENIVI/meta-ivi"
            path="sources/meta-ivi"/>
 
