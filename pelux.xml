@@ -32,7 +32,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="1a0baaac7f7c16af9c41ac32947904bec8b000a8"
+           revision="878da62bd3c16721cc791ec7f3ebcd0b95869961"
            name="Pelagicore/meta-pelux"
            path="sources/meta-pelux"/>
 
