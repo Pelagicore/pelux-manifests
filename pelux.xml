@@ -5,10 +5,11 @@
   <default sync-j="4" revision="master"/>
 
   <!-- Remotes -->
-  <remote fetch="git://git.openembedded.org" name="oe"/>
-  <remote fetch="git://git.yoctoproject.org" name="yocto"/>
-  <remote fetch="git://github.com"           name="github"/>
-  <remote fetch="git://code.qt.io"           name="code.qt"/>
+  <remote fetch="git://git.openembedded.org"    name="oe"/>
+  <remote fetch="git://git.yoctoproject.org"    name="yocto"/>
+  <remote fetch="git://github.com"              name="github"/>
+  <remote fetch="git://code.qt.io"              name="code.qt"/>
+  <remote fetch="https://source.codeaurora.org" name="codeaurora"/>
 
   <!-- Base stuff -->
   <project remote="yocto"
@@ -99,5 +100,29 @@
            revision="71898eb2a1c9fdeede6e53804995433f67e7b18c"
            name="Pelagicore/meta-arp"
            path="sources/meta-arp"/>
+
+  <project remote="github"
+           upstream="thud"
+           revision="4a244af3993ae662624c6f615464e6806cc719a2"
+           name="Freescale/meta-freescale-distro"
+           path="sources/meta-freescale-distro"/>
+
+  <project remote="yocto"
+           upstream="thud"
+           revision="8b9a1e19b1983301bbad9f0c61a4d2adc3fdd741"
+           name="meta-freescale"
+           path="sources/meta-freescale"/>
+
+  <project remote="codeaurora"
+           upstream="thud-4.19.35-1.0.0"
+           revision="054f84048a2ba6b7d7ac4fcb371b0c6a5d71f7be"
+           name="external/imx/meta-fsl-bsp-release"
+           path="sources/meta-fsl-bsp-release"/>
+
+  <project remote="github"
+           upstream="thud"
+           revision="af69de6bae01e0e20da07d8752d630e9e5c5146e"
+           name="Pelagicore/meta-smarcimx8m"
+           path="sources/meta-smarcimx8m"/>
 
 </manifest>
