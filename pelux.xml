@@ -125,4 +125,10 @@
            name="Pelagicore/meta-smarcimx8m"
            path="sources/meta-smarcimx8m"/>
 
+  <project remote="github"
+           upstream="thud-l4t-r32.1"
+           revision="29677fe9484eddaa351dd0a05b0a8f8fb15fe075"
+           name="madisongh/meta-tegra"
+           path="sources/meta-tegra"/>
+
 </manifest>
