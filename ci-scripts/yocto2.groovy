@@ -22,6 +22,13 @@ void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, 
 
         // Add other settings that are CI specific to the local.conf
         sh "cat /workspace/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
+
+        // Uncomment `ACCEPT_FSL_EULA = "1"` to accept the Freescale EULA
+        // in local.conf if ACCEPT_FSL_EULA parameter is set to true
+        if (getBoolEnvVar("ACCEPT_FSL_EULA", false)) {
+            sh "sed -i '/ACCEPT_FSL_EULA/s/^#//g' ${yoctoDir}/build/conf/local.conf"
+        }
+
         // Add settings for smoke testing if needed
         if (smokeTests) {
             stage("Setup local conf for smoke testing and tests export") {
