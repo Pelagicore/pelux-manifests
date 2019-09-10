@@ -71,7 +71,7 @@
 
   <!-- Qt + Qt Automotive support stuff -->
   <project remote="code.qt"
-           upstream="5.12"
+           upstream="5.13"
            revision="refs/tags/v5.13.0"
            name="yocto/meta-qt5"
            path="sources/meta-qt5"/>
