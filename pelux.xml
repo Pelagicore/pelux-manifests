@@ -52,7 +52,7 @@
 
   <project remote="yocto"
            upstream="thud"
-           revision="bbc38dc9d6d02e73c08df289bb22a292c2264e9b"
+           revision="7685c7d415e0002c448007960837ae8898cd57a5"
            name="meta-virtualization"
            path="sources/meta-virtualization"/>
 
