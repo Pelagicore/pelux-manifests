@@ -4,92 +4,66 @@
 
 // Helper to do checkout and update of submodules.
 void gitSubmoduleUpdate() {
-    stage("Update submodules") {
-        sh "git submodule update --init"
-    }
+    sh "git submodule update --init"
 }
 
 void repoInit(String manifest, String yoctoDir) {
-    stage("Repo init") {
-        syncDir = "/workspace"
-        sh "/workspace/ci-scripts/do_repo_init ${manifest} ${syncDir} ${yoctoDir}"
-    }
+    syncDir = "/workspace"
+    sh "/workspace/ci-scripts/do_repo_init ${manifest} ${syncDir} ${yoctoDir}"
 }
 
 void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage) {
-    stage("Setup bitbake") {
-        sh "/workspace/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}"
+    sh "/workspace/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}"
 
-        // Add other settings that are CI specific to the local.conf
-        sh "cat /workspace/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
+    // Add other settings that are CI specific to the local.conf
+    sh "cat /workspace/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
 
-        // Uncomment `ACCEPT_FSL_EULA = "1"` to accept the Freescale EULA
-        // in local.conf if ACCEPT_FSL_EULA parameter is set to true
-        if (getBoolEnvVar("ACCEPT_FSL_EULA", false)) {
-            sh "sed -i '/ACCEPT_FSL_EULA/s/^#//g' ${yoctoDir}/build/conf/local.conf"
-        }
+    // Uncomment `ACCEPT_FSL_EULA = "1"` to accept the Freescale EULA
+    // in local.conf if ACCEPT_FSL_EULA parameter is set to true
+    if (getBoolEnvVar("ACCEPT_FSL_EULA", false)) {
+        sh "sed -i '/ACCEPT_FSL_EULA/s/^#//g' ${yoctoDir}/build/conf/local.conf"
+    }
 
-        // Add settings for smoke testing if needed
-        if (smokeTests) {
-            stage("Setup local conf for smoke testing and tests export") {
-                sh "echo '' >> ${yoctoDir}/build/conf/local.conf"
-                sh "cat /workspace/conf/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
-            }
-        }
-        if (doArchiveCache){
-            //Mirror git repositories
-            sh "cat /workspace/conf/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf"
+    // Add settings for smoke testing if needed
+    if (smokeTests) {
+        sh "echo '' >> ${yoctoDir}/build/conf/local.conf"
+        sh "cat /workspace/conf/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
+    }
 
-        }
-        if (analyzeImage){
-            //Set up the configuration for running ISAFW
-            sh "cat /workspace/conf/isafw.local.conf >> ${yoctoDir}/build/conf/local.conf"
-            sh "cat /workspace/conf/isafw.bblayers.conf >> ${yoctoDir}/build/conf/bblayers.conf"
-        }
+    if (doArchiveCache){
+        //Mirror git repositories
+        sh "cat /workspace/conf/local.conf_mirror.appendix >> ${yoctoDir}/build/conf/local.conf"
+    }
+
+    if (analyzeImage){
+        //Set up the configuration for running ISAFW
+        sh "cat /workspace/conf/isafw.local.conf >> ${yoctoDir}/build/conf/local.conf"
+        sh "cat /workspace/conf/isafw.bblayers.conf >> ${yoctoDir}/build/conf/bblayers.conf"
     }
 }
 
 void setupCache(String yoctoDir, String url) {
-    stage("Setup cache") {
-        // Setup site.conf if not building the master to do a incremental build.
-        // The YOCTO_CACHE_URL can be set for a Jenkins job as a parameter.
-        if (url?.trim()) {
-            sh "sed 's|%CACHEURL%|${url}|g' /workspace/site.conf.in > ${yoctoDir}/build/conf/site.conf"
-            echo "Cache set up"
-        } else {
-            echo "No cache setup"
-        }
+    // Setup site.conf if not building the master to do a incremental build.
+    // The YOCTO_CACHE_URL can be set for a Jenkins job as a parameter.
+    if (url?.trim()) {
+        sh "sed 's|%CACHEURL%|${url}|g' /workspace/site.conf.in > ${yoctoDir}/build/conf/site.conf"
+        echo "Cache set up"
+    } else {
+        echo "No cache setup"
     }
 }
 
-void buildImageAndSDK(String yoctoDir, String imageName, String variantName, boolean update=false) {
+void buildImage(String yoctoDir, String imageName, String variantName) {
     // If we have a site.conf, that means we have caching, if we don't that
     // means we should do a fetchall.
     def statusCode = sh script:"test -f ${yoctoDir}/build/conf/site.conf", returnStatus:true
     if (statusCode != 0) {
-        stage("Fetch sources") {
-            sh "/workspace/cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${imageName}"
-        }
+        echo "Fetching sources for recipes"
+        sh "/workspace/cookbook/yocto/fetch-sources-for-recipes.sh ${yoctoDir} ${imageName}"
     } else {
         echo "\'site.conf\' exists, using cache"
     }
-
-    stage("Bitbake ${imageName} for ${variantName}") {
-        sh "/workspace/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}"
-
-        if (update) {
-            stage("Bitbake Update ${imageName} for ${variantName}") {
-                sh "/workspace/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update"
-            }
-        }
-    }
-
-    boolean buildSDK = getBoolEnvVar("BUILD_SDK", false)
-    if (buildSDK) {
-        stage("Build SDK ${imageName}") {
-            sh "/workspace/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}"
-        }
-    }
+    sh "/workspace/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}"
 }
 
 // In order to run smoke tests, the -dev image should be specified because of the dependencies
@@ -97,39 +71,32 @@ void runSmokeTests(String yoctoDir, String imageName) {
     String archiveDir = "testReports-" + imageName
 
     try {
-        stage("Perform smoke testing") {
-            sh "/workspace/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}"
-        }
+        sh "/workspace/cookbook/yocto/runqemu-smoke-test.sh ${yoctoDir} ${imageName}"
     } catch(e) {
         echo "There were failing tests"
         println(e.getMessage())
     } finally {
-        stage("Publish smoke test results") {
-            reportsDir="/workspace/${archiveDir}/test_reports/${imageName}/"
-            sh "mkdir -p ${reportsDir}"
-            if (fileExists("pelux_yocto/build/tmp/log/oeqa/testresults.json")) {
-                // Since `thud`, poky test report consists of a single JSON
-                // file; we need to convert it into jUnit format.
-                sh "mkdir -p ${yoctoDir}/build/TestResults/"
-                sh "cd ${yoctoDir}/build/TestResults/ && /workspace/cookbook/yocto/json2junit.py ${yoctoDir}/build/tmp/log/oeqa/testresults.json"
-            }
-            sh "cp -a ${yoctoDir}/build/TestResults* ${reportsDir}"
-            junit "${archiveDir}/test_reports/${imageName}/TestResults*/*.xml"
+        reportsDir="/workspace/${archiveDir}/test_reports/${imageName}/"
+        sh "mkdir -p ${reportsDir}"
+        if (fileExists("pelux_yocto/build/tmp/log/oeqa/testresults.json")) {
+            // Since `thud`, poky test report consists of a single JSON
+            // file; we need to convert it into jUnit format.
+            sh "mkdir -p ${yoctoDir}/build/TestResults/"
+            sh "cd ${yoctoDir}/build/TestResults/ && /workspace/cookbook/yocto/json2junit.py ${yoctoDir}/build/tmp/log/oeqa/testresults.json"
         }
+        sh "cp -a ${yoctoDir}/build/TestResults* ${reportsDir}"
+        junit "${archiveDir}/test_reports/${imageName}/TestResults*/*.xml"
     }
 }
 
 void runBitbakeTests(String yoctoDir) {
-    stage("Perform Bitbake Testing"){
-       sh "/workspace/cookbook/yocto/run-bitbake-tests.sh ${yoctoDir} "
-    }
+    sh "/workspace/cookbook/yocto/run-bitbake-tests.sh ${yoctoDir} "
+
 }
 
 void runYoctoCheckLayer(String yoctoDir) {
     try {
-        stage("Perform Yocto Compatibility Check"){
-            sh "/workspace/cookbook/yocto/run-yocto-check-layer.sh ${yoctoDir} "
-        }
+        sh "/workspace/cookbook/yocto/run-yocto-check-layer.sh ${yoctoDir} "
     } catch(e) {
         echo "Yocto compatibility check failed"
         println(e.getMessage())
@@ -144,34 +111,30 @@ void archiveCache(String yoctoDir, boolean doArchiveCache, String yoctoCacheArch
     } else {
         echo "Cache dirs are mounted"
         if (doArchiveCache && yoctoCacheArchivePath?.trim()) {
-            stage("Archive cache") {
-                try {
-                    sh "rsync -trpgO  --info=progress2 --info=name0 --info=skip0 ${yoctoDir}/build/downloads/ ${yoctoCacheArchivePath}/downloads/"
-                    sh "rsync -trpgO  --info=progress2 --info=name0 --info=skip0 ${yoctoDir}/build/sstate-cache/ ${yoctoCacheArchivePath}/sstate-cache"
-                } catch(e) {
-                    println("Error archiving cache \n" + e)
-                }
+            try {
+                sh "rsync -trpgO  --info=progress2 --info=name0 --info=skip0 ${yoctoDir}/build/downloads/ ${yoctoCacheArchivePath}/downloads/"
+                sh "rsync -trpgO  --info=progress2 --info=name0 --info=skip0 ${yoctoDir}/build/sstate-cache/ ${yoctoCacheArchivePath}/sstate-cache"
+            } catch(e) {
+                println("Error archiving cache \n" + e)
             }
         }
     }
 }
 
 void archiveImagesAndSDK(String yoctoDir, String suffix) {
-    stage("Archive Images, SDK and save to Jenkins") {
-        String artifactDir = "artifacts_${suffix}"
+    String artifactDir = "artifacts_${suffix}"
 
-        sh "rm -rf ${artifactDir}"
-        sh "mkdir ${artifactDir}"
-        // Copy images and SDK to the synced directory
-        sh "/workspace/ci-scripts/copy_to_archive ${yoctoDir}/build /workspace/${artifactDir}"
+    sh "rm -rf ${artifactDir}"
+    sh "mkdir ${artifactDir}"
+    // Copy images and SDK to the synced directory
+    sh "/workspace/ci-scripts/copy_to_archive ${yoctoDir}/build /workspace/${artifactDir}"
 
-        // And save them in Jenkins
-        try {
-            archiveArtifacts "${artifactDir}/**"
-        }
-        catch(e) {
-            println("Error archiving in Jenkins \n" + e)
-        }
+    // And save them in Jenkins
+    try {
+        archiveArtifacts "${artifactDir}/**"
+    }
+    catch(e) {
+        println("Error archiving in Jenkins \n" + e)
     }
 }
 
@@ -182,12 +145,6 @@ void buildWithLayer(String variantName, String imageName, String layer, String l
 void replaceLayer(String yoctoDir, String layerName, String newPath) {
     sh "rm -rf ${yoctoDir}/sources/${layerName}"
     sh "mv /workspace/${layerName} ${yoctoDir}/sources/${layerName}"
-}
-
-void deleteYoctoBuildDir(String buildDir) {
-    stage("Deleting Yocto build directory") {
-        sh "rm -rf ${buildDir}"
-    }
 }
 
 // Helper function to fetch optional boolean variables from the build environment
@@ -234,7 +191,9 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
 
     try {
         // Initialize cookbook and repo manifest
-        repoInit(manifest, yoctoDir)
+        stage("Repo init") {
+            repoInit(manifest, yoctoDir)
+        }
 
         if (layerToReplace != "" && newLayerPath != "") {
             replaceLayer(yoctoDir, layerToReplace, newLayerPath)
@@ -247,37 +206,68 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
         boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
         boolean yoctoCompatTest = getBoolEnvVar("YOCTO_COMPATIBILITY_TEST", false)
-        setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
-        setupCache(yoctoDir, yoctoCacheURL)
+        stage("Setup bitbake and cache") {
+            setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
+            setupCache(yoctoDir, yoctoCacheURL)
+        }
 
         // Build the images
         try {
+            stage("Bitbake ${imageName} for ${variantName}") {
+                buildImage(yoctoDir, imageName, variantName)
+            }
+
             boolean buildUpdate = variantName.startsWith("rpi") || variantName.startsWith("intel") || variantName.startsWith("arp")
-            buildImageAndSDK(yoctoDir, imageName, variantName, buildUpdate)
+            stage("Bitbake cpio/swu archive for ${variantName}") {
+                when (buildUpdate) {
+                    sh "/workspace/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update"
+                }
+            }
+
+            boolean buildSDK = getBoolEnvVar("BUILD_SDK", false)
+            stage("Build SDK ${imageName}") {
+                when (buildSDK) {
+                    sh "/workspace/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}"
+                }
+            }
+
             if (yoctoCompatTest) {
                 runYoctoCheckLayer(yoctoDir)
             }
             if (smokeTests) {
+                stage ("Run smoke tests")
                 runSmokeTests(yoctoDir, imageName)
-                if(bitbakeTests) {
-                    runBitbakeTests(yoctoDir)
+                stage("Run bitbake tests"){
+                    when (bitbakeTests) {
+                        runBitbakeTests(yoctoDir)
+                    }
+                }
+            }
+        } finally {
+            // Archive cache even if there were errors.
+            stage("Archive cache") {
+                when (doArchiveCache) {
+                    archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
                 }
             }
 
-        } finally {
-            // Archive cache even if there were errors.
-            archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
-
             // Check if we want to store the images, SDK and artifacts as well
             boolean doArchiveArtifacts = getBoolEnvVar("ARCHIVE_ARTIFACTS", false)
-            if (doArchiveArtifacts) {
-                echo "ARCHIVE_ARTIFACTS was set"
-                archiveImagesAndSDK(yoctoDir, variantName)
+            stage("Archive build artifacts") {
+                when (doArchiveArtifacts) {
+                    echo "ARCHIVE_ARTIFACTS was set"
+                    archiveImagesAndSDK(yoctoDir, variantName)
+                }
             }
         }
 
     } finally {
-        deleteYoctoBuildDir("${yoctoDirInWorkspace}")
+        stage("Cleanup workspace") {
+            sh "rm -rf ${yoctoDirInWorkspace}"
+            if (currentBuild.result == "SUCCESS") {
+                cleanWs()
+            }
+        }
     }
 }
 
