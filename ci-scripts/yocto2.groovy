@@ -192,7 +192,9 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
     try {
         // Initialize cookbook and repo manifest
         stage("Repo init") {
-            repoInit(manifest, yoctoDir)
+            timestamps {
+                repoInit(manifest, yoctoDir)
+            }
         }
 
         if (layerToReplace != "" && newLayerPath != "") {
@@ -214,20 +216,26 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         // Build the images
         try {
             stage("Bitbake ${imageName} for ${variantName}") {
-                buildImage(yoctoDir, imageName, variantName)
+                timestamps {
+                    buildImage(yoctoDir, imageName, variantName)
+                }
             }
 
             boolean buildUpdate = variantName.startsWith("rpi") || variantName.startsWith("intel") || variantName.startsWith("arp")
             stage("Bitbake cpio/swu archive for ${variantName}") {
                 when (buildUpdate) {
-                    sh "/workspace/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update"
+                    timestamps {
+                        sh "/workspace/cookbook/yocto/build-images.sh ${yoctoDir} ${imageName}-update"
+                    }
                 }
             }
 
             boolean buildSDK = getBoolEnvVar("BUILD_SDK", false)
             stage("Build SDK ${imageName}") {
                 when (buildSDK) {
-                    sh "/workspace/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}"
+                    timestamps {
+                        sh "/workspace/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}"
+                    }
                 }
             }
 
@@ -235,11 +243,16 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
                 runYoctoCheckLayer(yoctoDir)
             }
             if (smokeTests) {
-                stage ("Run smoke tests")
-                runSmokeTests(yoctoDir, imageName)
+                stage ("Run smoke tests") {
+                    timestamps {
+                        runSmokeTests(yoctoDir, imageName)
+                    }
+                }
                 stage("Run bitbake tests"){
                     when (bitbakeTests) {
-                        runBitbakeTests(yoctoDir)
+                        timestamps {
+                            runBitbakeTests(yoctoDir)
+                        }
                     }
                 }
             }
@@ -247,7 +260,9 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
             // Archive cache even if there were errors.
             stage("Archive cache") {
                 when (doArchiveCache) {
-                    archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
+                    timestamps {
+                        archiveCache(yoctoDir, doArchiveCache, yoctoCacheArchivePath)
+                    }
                 }
             }
 
@@ -256,7 +271,9 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
             stage("Archive build artifacts") {
                 when (doArchiveArtifacts) {
                     echo "ARCHIVE_ARTIFACTS was set"
-                    archiveImagesAndSDK(yoctoDir, variantName)
+                    timestamps {
+                        archiveImagesAndSDK(yoctoDir, variantName)
+                    }
                 }
             }
         }
