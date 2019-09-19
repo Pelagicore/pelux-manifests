@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2018 Luxoft Sweden AB
+# Copyright (C) 2019 Luxoft Sweden AB
 #
 
 
@@ -20,6 +20,7 @@ INTEL_ARCH="intel-corei7-64"
 ARP_ARCH="arp"
 RPI_ARCH="raspberrypi3"
 QEMU_ARCH="qemux86-64"
+JETSON_ARCH="jetson-tx2"
 
 IMAGE_BASENAME="core-image-pelux"
 SDK_BASENAME="pelux-glibc"
@@ -62,6 +63,12 @@ if [ -d ${IMAGE_DIR}/${RPI_ARCH} ]; then
     mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bmap $ARCHIVE_DIR
     mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bz2 $ARCHIVE_DIR
     mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*20*.swu $ARCHIVE_DIR
+fi
+
+# If there is a Jetson TX2 directory
+if [ -d ${IMAGE_DIR}/${JETSON_ARCH} ]; then
+    echo "Archiving Jetson TX2 image to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*.tegraflash.zip $ARCHIVE_DIR
 fi
 
 # Copy the SDK
