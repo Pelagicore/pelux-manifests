@@ -68,7 +68,7 @@ fi
 # If there is a Jetson TX2 directory
 if [ -d ${IMAGE_DIR}/${JETSON_ARCH} ]; then
     echo "Archiving Jetson TX2 image to $ARCHIVE_DIR"
-    mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*.tegraflash.zip $ARCHIVE_DIR
+    mv ${IMAGE_DIR}/${JETSON_ARCH}/${IMAGE_BASENAME}-*.tegraflash.zip $ARCHIVE_DIR
 fi
 
 # Copy the SDK
