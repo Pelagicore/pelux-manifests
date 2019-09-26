@@ -91,7 +91,7 @@
 
   <project remote="yocto"
            upstream="thud"
-           revision="89bdf97beaf3b136c24c4d6f86c0bcbb47fe3043"
+           revision="4e5be97d75668804694412f9b86e9291edb38b9d"
            name="meta-raspberrypi"
            path="sources/meta-raspberrypi"/>
 
