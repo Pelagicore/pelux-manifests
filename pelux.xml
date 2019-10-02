@@ -78,7 +78,7 @@
 
   <project remote="code.qt"
            upstream="thud"
-           revision="ac1c91c68ecbb51bd779c73ac1b430a1944bd2b8"
+           revision="e3db9ef03862cb3f9196b2d9d43e9fcad1e8fbef"
            name="yocto/meta-boot2qt"
            path="sources/meta-boot2qt"/>
 
