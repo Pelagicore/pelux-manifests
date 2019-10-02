@@ -2,7 +2,10 @@
 #
 # Copyright (C) 2019 Luxoft Sweden AB
 #
-
+# Script to move all required artifacts into single directory
+# Limitations: 
+#   If ${IMAGE_DIR} contains more than one directory you will got
+#   replica of every file in $ARCHIVE_DIR
 
 if [ $# -ne 2 ]; then
     echo "Usage: $0 <build_dir> <archive_dir>"
@@ -15,15 +18,16 @@ ARCHIVE_DIR="$2"
 IMAGE_DIR="${BUILD_DIR}/tmp/deploy/images"
 SDK_DIR="${BUILD_DIR}/tmp/deploy/sdk"
 LOG_DIR="${BUILD_DIR}/tmp/log"
+LICENSE_DIR="${BUILD_DIR}/tmp/deploy/licenses"
 
-INTEL_ARCH="intel-corei7-64"
-ARP_ARCH="arp"
-RPI_ARCH="raspberrypi3"
 QEMU_ARCH="qemux86-64"
 JETSON_ARCH="jetson-tx2"
 
 IMAGE_BASENAME="core-image-pelux"
 SDK_BASENAME="pelux-glibc"
+
+# Enable globstar option to recurse all the directories
+shopt -s globstar
 
 # If there is an QEMU directory
 if [ -d ${IMAGE_DIR}/${QEMU_ARCH} ]; then
@@ -33,42 +37,55 @@ fi
 
 # Copy the logs
 if [ -d ${LOG_DIR}/isafw-logs ]; then
-	echo "Archiving logs to $ARCHIVE_DIR"
-	mv ${LOG_DIR}/isafw-report_*/* $ARCHIVE_DIR
+    echo "Archiving ISA FW logs to $ARCHIVE_DIR"
+    mv ${LOG_DIR}/isafw-report_*/* $ARCHIVE_DIR
 fi
 
-# If there is an Intel directory
-if [ -d ${IMAGE_DIR}/${INTEL_ARCH} ]; then
-    echo "Archiving Intel image to $ARCHIVE_DIR"
-    mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bmap $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bz2 $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${INTEL_ARCH}/${IMAGE_BASENAME}-*20*.swu $ARCHIVE_DIR
+if [ -f ${LOG_DIR}/cooker/**/console-latest.log ]; then
+    VARIANT=$(basename $(dirname  ${LOG_DIR}/cooker/**/console-latest.log))
+    TIMESTAMP=$(readlink ${LOG_DIR}/cooker/**/console-latest.log)
+    echo "Archiving build console log $ARCHIVE_DIR"
+    cp -p ${LOG_DIR}/cooker/**/console-latest.log $ARCHIVE_DIR/console-${VARIANT}-${TIMESTAMP}
 fi
 
-# If there is an ARP directory
-
-if [ -d ${IMAGE_DIR}/${ARP_ARCH} ]; then
-    echo "Archiving ARP image to $ARCHIVE_DIR"
-    mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bmap $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bz2 $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${ARP_ARCH}/${IMAGE_BASENAME}-*20*.swu $ARCHIVE_DIR
+# Find the older directory
+LICENSE_BUILD_DIR=$(ls -t ${LICENSE_DIR} | grep "${IMAGE_BASENAME}.*20.*" | tail -1)
+# Copy license manifest file
+if [ -f ${LICENSE_DIR}/${LICENSE_BUILD_DIR}/license.manifest ]; then
+    echo "Archiving license manifest to $ARCHIVE_DIR"
+    mv ${LICENSE_DIR}/${LICENSE_BUILD_DIR}/license.manifest $ARCHIVE_DIR/${LICENSE_BUILD_DIR}.license.manifest
 fi
 
-# If there is an RPI directory
-if [ -d ${IMAGE_DIR}/${RPI_ARCH} ]; then
-    echo "Archiving RPI image to $ARCHIVE_DIR"
-    mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bmap $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*rootfs.wic.bz2 $ARCHIVE_DIR
-    mv ${IMAGE_DIR}/${RPI_ARCH}/${IMAGE_BASENAME}-*20*.swu $ARCHIVE_DIR
+# Copy if image files exist
+if [ -f ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.wic ]; then
+    echo "Archiving rootfs.wic for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.wic $ARCHIVE_DIR
+fi
+
+if [ -f ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.wic.bmap ]; then
+    echo "Archiving rootfs.wic.bmap for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.wic.bmap $ARCHIVE_DIR
+fi
+
+if [ -f ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.wic.bz2 ]; then
+    echo "Archiving rootfs.wic.bz2 for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.wic.bz2 $ARCHIVE_DIR
+fi
+
+if [ -f ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*20*.swu ]; then
+    echo "Archiving cpio/swu archive for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*20*.swu $ARCHIVE_DIR
+fi
+
+if [ -f ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.manifest ]; then
+    echo "Archiving manifest for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.manifest $ARCHIVE_DIR
 fi
 
 # If there is a Jetson TX2 directory
 if [ -d ${IMAGE_DIR}/${JETSON_ARCH} ]; then
-    echo "Archiving Jetson TX2 image to $ARCHIVE_DIR"
-    mv ${IMAGE_DIR}/${JETSON_ARCH}/${IMAGE_BASENAME}-*.tegraflash.zip $ARCHIVE_DIR
+    echo "Archiving disk image package for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
+    mv ${IMAGE_DIR}/${JETSON_ARCH}/${IMAGE_BASENAME}-*20*.tegraflash.zip $ARCHIVE_DIR
 fi
 
 # Copy the SDK
@@ -77,4 +94,5 @@ if [ -d ${SDK_DIR} ]; then
     mv ${SDK_DIR}/${SDK_BASENAME}-*.sh $ARCHIVE_DIR
 fi
 
-
+# Disable globstar option
+shopt -u globstar
