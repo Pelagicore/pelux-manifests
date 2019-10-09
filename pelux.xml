@@ -96,12 +96,6 @@
            path="sources/meta-raspberrypi"/>
 
   <project remote="github"
-           upstream="master"
-           revision="71898eb2a1c9fdeede6e53804995433f67e7b18c"
-           name="Pelagicore/meta-arp"
-           path="sources/meta-arp"/>
-
-  <project remote="github"
            upstream="thud"
            revision="4a244af3993ae662624c6f615464e6806cc719a2"
            name="Freescale/meta-freescale-distro"
