@@ -20,7 +20,7 @@
 
   <project remote="oe"
            upstream="thud"
-           revision="2d088d252624b19df384aecc434d23afb636178f"
+           revision="446bd615fd7cb9bc7a159fe5c2019ed08d1a7a93"
            name="meta-openembedded"
            path="sources/meta-openembedded"/>
 
