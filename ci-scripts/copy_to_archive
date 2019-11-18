@@ -42,10 +42,14 @@ if [ -d ${LOG_DIR}/isafw-logs ]; then
 fi
 
 if [ -f ${LOG_DIR}/cooker/**/console-latest.log ]; then
-    VARIANT=$(basename $(dirname  ${LOG_DIR}/cooker/**/console-latest.log))
-    TIMESTAMP=$(readlink ${LOG_DIR}/cooker/**/console-latest.log)
-    echo "Archiving build console log $ARCHIVE_DIR"
-    cp -p ${LOG_DIR}/cooker/**/console-latest.log $ARCHIVE_DIR/console-${VARIANT}-${TIMESTAMP}
+    shopt -u globstar;
+    for n in $(find ${LOG_DIR}/cooker/** -type f -links 1);
+    do
+        TIMESTAMP=$(basename ${n})
+        VARIANT=$(basename $(dirname ${n}))
+        cp ${n} $ARCHIVE_DIR/console-${VARIANT}-${TIMESTAMP}
+    done;
+    shopt -s globstar;
 fi
 
 # Find the older directory
