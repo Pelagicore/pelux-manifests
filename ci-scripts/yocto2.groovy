@@ -12,7 +12,7 @@ void repoInit(String manifest, String yoctoDir) {
     sh "/workspace/ci-scripts/do_repo_init ${manifest} ${syncDir} ${yoctoDir}"
 }
 
-void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage) {
+void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage, boolean addTestConf) {
     sh "/workspace/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}"
 
     // Add other settings that are CI specific to the local.conf
@@ -25,7 +25,7 @@ void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, 
     }
 
     // Add settings for smoke testing if needed
-    if (smokeTests) {
+    if (smokeTests || addTestConf) {
         sh "echo '' >> ${yoctoDir}/build/conf/local.conf"
         sh "cat /workspace/conf/test-scripts/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
     }
@@ -206,10 +206,11 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         boolean analyzeImage = getBoolEnvVar("ANALYZE_IMAGE", false)
         boolean doArchiveCache = getBoolEnvVar("ARCHIVE_CACHE", false)
         boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
+        boolean addTestConf = getBoolEnvVar("ADD_TEST_CONF", false)
         boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
         boolean yoctoCompatTest = getBoolEnvVar("YOCTO_COMPATIBILITY_TEST", false)
         stage("Setup bitbake and cache") {
-            setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage)
+            setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage, addTestConf)
             setupCache(yoctoDir, yoctoCacheURL)
         }
 
@@ -235,6 +236,19 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
                 when (buildSDK) {
                     timestamps {
                         sh "/workspace/cookbook/yocto/build-sdk.sh ${yoctoDir} ${imageName}"
+                    }
+                }
+            }
+
+            stage("Bitbake testexport ${imageName} for ${variantName}") {
+                when (addTestConf) {
+                    timestamps {
+                        try {
+                            sh "/workspace/cookbook/yocto/build-testexport.sh ${yoctoDir} ${imageName}"
+                        } catch(e) {
+                            echo "Testexport can not be built"
+                            println(e.getMessage())
+                        }
                     }
                 }
             }

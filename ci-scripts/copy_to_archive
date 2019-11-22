@@ -19,6 +19,7 @@ IMAGE_DIR="${BUILD_DIR}/tmp/deploy/images"
 SDK_DIR="${BUILD_DIR}/tmp/deploy/sdk"
 LOG_DIR="${BUILD_DIR}/tmp/log"
 LICENSE_DIR="${BUILD_DIR}/tmp/deploy/licenses"
+TEST_DIR="${BUILD_DIR}/tmp/testimage"
 
 QEMU_ARCH="qemux86-64"
 JETSON_ARCH="jetson-tx2"
@@ -84,6 +85,11 @@ fi
 if [ -f ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.manifest ]; then
     echo "Archiving manifest for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
     mv ${IMAGE_DIR}/**/${IMAGE_BASENAME}-*rootfs.manifest $ARCHIVE_DIR
+fi
+
+if [ -f ${TEST_DIR}/**/testexport.tar.gz ]; then
+    echo "Archiving testexport archive for ${IMAGE_BASENAME} to $ARCHIVE_DIR"
+    mv ${TEST_DIR}/**/testexport.tar.gz $ARCHIVE_DIR
 fi
 
 # If there is a Jetson TX2 directory
