@@ -10,6 +10,7 @@
   <remote fetch="git://github.com"              name="github"/>
   <remote fetch="git://code.qt.io"              name="code.qt"/>
   <remote fetch="https://source.codeaurora.org" name="codeaurora"/>
+  <remote fetch="http://git.embedian.com"       name="embedian"/>
 
   <!-- Base stuff -->
   <project remote="yocto"
@@ -113,10 +114,10 @@
            name="external/imx/meta-fsl-bsp-release"
            path="sources/meta-fsl-bsp-release"/>
 
-  <project remote="github"
-           upstream="thud"
-           revision="af69de6bae01e0e20da07d8752d630e9e5c5146e"
-           name="Pelagicore/meta-smarcimx8m"
+  <project remote="embedian"
+           upstream="master"
+           revision="3745f5192e5afd08dd6de222dad987be881a2fd7"
+           name="developer/meta-smarcimx8m-sumo.git"
            path="sources/meta-smarcimx8m"/>
 
   <project remote="github"
