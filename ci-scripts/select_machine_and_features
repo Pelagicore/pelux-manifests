@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Uncomment machine and features in bblayers.conf and local.conf.
+#
+# It is possible to leave the feature list empty but machine always needs to be specified.
+# Not setting any features will only allow building the minimal image.
+#
+
+if [ "$#" = "0" ]; then
+    echo "Usage:"
+    echo "    $(basename $0) <machine> [feature1 feature2 ...]"
+    echo "Example:"
+    echo "    $(basename $0) intel-corei7-64 qtauto"
+    exit 1
+fi
+
+# If BUILDDIR is not set in env, use present work directory.
+# We want to use BUILDDIR specifically here since that variable is set by
+# oe-init-build-env in poky. Meaning we get some reuse
+if [ -z "$BUILDDIR" ]; then
+    BUILDDIR=$PWD
+    echo "BUILDDIR not set. Using PWD instead..."
+fi
+
+# Select machine in local.conf
+machine="$1"
+echo "Selecting MACHINE = \"${machine}\""
+sed -i "/MACHINE *= *\"${machine}\"/s/^# //g" "${BUILDDIR}/conf/local.conf"
+shift
+
+# Enable feature layers in bblayers.conf
+while test $# -gt 0; do
+   feature=$1
+   echo "Enabling feature ${feature}"
+   sed -i "/require conf.*bblayers.*${feature}/s/^# //g" "${BUILDDIR}/conf/bblayers.conf"
+   shift
+done
+

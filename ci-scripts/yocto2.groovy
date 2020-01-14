@@ -12,26 +12,13 @@ void repoInit(String manifest, String yoctoDir) {
     sh "/workspace/ci-scripts/do_repo_init ${manifest} ${syncDir} ${yoctoDir}"
 }
 
-/*
-Uncomment machine and features in bblayers.conf and local.conf.
-
-It is possible to leave the feature list empty but machine always needs to be specified.
-Not setting any features will only allow building the minimal image.
-*/
-void uncommentMachineAndFeatures(String machine, List features) {
-    for (String feature in features) {
-        sh "sed -i '/require conf.*bblayers.*${feature}/s/^# //g' ${yoctoDir}/build/conf/bblayers.conf"
-    }
-
-    sh "sed -i '/MACHINE *= *\"${machine}\"/s/^# //g' ${yoctoDir}/build/conf/local.conf"
-}
-
 void setupBitbake(String yoctoDir, String machine, List features, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage, boolean addTestConf) {
 
     String templateConf="${yoctoDir}/sources/meta-pelux/conf/samples"
     sh "/workspace/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}"
 
-    uncommentMachineAndFeatures(machine, features)
+    String featureStringList = features.join(" ")
+    sh "BUILDDIR=${yoctoDir}/build /workspace/ci-scripts/select_machine_and_features ${machine} ${featureStringList}"
 
     // Add other settings that are CI specific to the local.conf
     sh "cat /workspace/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
