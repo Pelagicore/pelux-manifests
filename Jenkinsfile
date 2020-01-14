@@ -15,7 +15,7 @@ void buildOnYoctoNode(String variant, String image) {
         def customImage = docker.image("pelux/pelux-yocto:yoctouser")
         customImage.inside('-v $WORKSPACE:/workspace -v /var/yocto-cache:/var/yocto-cache --cap-add=NET_ADMIN --device=/dev/net/tun') {
             def manifests = load "ci-scripts/yocto2.groovy"
-            manifests.buildManifest(variant, image)
+            manifests.buildManifest(image)
         }
     }
 }

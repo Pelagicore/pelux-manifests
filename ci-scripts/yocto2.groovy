@@ -12,8 +12,26 @@ void repoInit(String manifest, String yoctoDir) {
     sh "/workspace/ci-scripts/do_repo_init ${manifest} ${syncDir} ${yoctoDir}"
 }
 
-void setupBitbake(String yoctoDir, String templateConf, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage, boolean addTestConf) {
+/*
+Uncomment machine and features in bblayers.conf and local.conf.
+
+It is possible to leave the feature list empty but machine always needs to be specified.
+Not setting any features will only allow building the minimal image.
+*/
+void uncommentMachineAndFeatures(String machine, List features) {
+    for (String feature in features) {
+        sh "sed -i '/require conf.*bblayers.*${feature}/s/^# //g' ${yoctoDir}/build/conf/bblayers.conf"
+    }
+
+    sh "sed -i '/MACHINE *= *\"${machine}\"/s/^# //g' ${yoctoDir}/build/conf/local.conf"
+}
+
+void setupBitbake(String yoctoDir, String machine, List features, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage, boolean addTestConf) {
+
+    String templateConf="${yoctoDir}/sources/meta-pelux/conf/samples"
     sh "/workspace/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}"
+
+    uncommentMachineAndFeatures(machine, features)
 
     // Add other settings that are CI specific to the local.conf
     sh "cat /workspace/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"
@@ -103,7 +121,6 @@ void runYoctoCheckLayer(String yoctoDir) {
     }
 }
 
-
 void archiveCache(String yoctoDir, boolean doArchiveCache, String yoctoCacheArchivePath) {
     def sC = sh script:"test -d ${yoctoCacheArchivePath}/sstate-cache && test -d ${yoctoCacheArchivePath}/downloads", returnStatus:true
     if (sC != 0) {
@@ -176,7 +193,12 @@ String getStringEnvVar(String envVarName, String defaultValue) {
     return returnValue
 }
 
-void buildManifest(String variantName, String imageName, String layerToReplace="", String newLayerPath="") {
+// "machine" is a name of a valid yocto machine.
+// Example: machine = "intel-corei7-64"
+//
+// "features" is a list of strings representing additional features in the build.
+// Example: features = ["qtauto"]
+void buildManifest(String machine, List features, String imageName, String layerToReplace="", String newLayerPath="") {
     String yoctoDirInWorkspace = "pelux_yocto"
     String yoctoDir = "/workspace/${yoctoDirInWorkspace}" // On bind mount to avoid overlay2 fs.
     String manifest = "pelux.xml"
@@ -198,15 +220,18 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         }
 
         // Setup yocto
-        String templateConf="${yoctoDir}/sources/meta-pelux/conf/variant/${variantName}"
         boolean analyzeImage = getBoolEnvVar("ANALYZE_IMAGE", false)
         boolean doArchiveCache = getBoolEnvVar("ARCHIVE_CACHE", false)
         boolean smokeTests = getBoolEnvVar("SMOKE_TEST", false)
         boolean addTestConf = getBoolEnvVar("ADD_TEST_CONF", false)
         boolean bitbakeTests = getBoolEnvVar("BITBAKE_TEST", false)
         boolean yoctoCompatTest = getBoolEnvVar("YOCTO_COMPATIBILITY_TEST", false)
+
+        // VariantName is only used for labeling things.
+        String variantName = machine + '-' + features.join('-')
+
         stage("Setup bitbake and cache") {
-            setupBitbake(yoctoDir, templateConf, doArchiveCache, smokeTests, analyzeImage, addTestConf)
+            setupBitbake(yoctoDir, machine, features, doArchiveCache, smokeTests, analyzeImage, addTestConf)
             setupCache(yoctoDir, yoctoCacheURL)
         }
 
