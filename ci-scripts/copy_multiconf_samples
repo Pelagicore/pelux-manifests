@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Copies the multiconfig directory from the provided templateconf path to
+# build/conf. This allows it to be used with multiconfig setups of Yocto
+# and is a required step when using meta-acrn.
+
+if [ "$#" = "0" ]; then
+    echo "Usage:"
+    echo "    $(basename $0) <templateconf_path>"
+    echo "Example:"
+    echo "    $(basename $0) \$PWD/sources/meta-pelux/conf/sample"
+    exit 1
+fi
+
+templateconf_path=$1
+
+# If BUILDDIR is not set in env, use present work directory.
+# We want to use BUILDDIR specifically here since that variable is set by
+# oe-init-build-env in poky. Meaning we get some reuse
+if [ -z "$BUILDDIR" ]; then
+    BUILDDIR=$PWD
+    echo "BUILDDIR not set. Using PWD instead..."
+fi
+
+mkdir -p ${BUILDDIR}/conf/multiconfig
+cp -r ${templateconf_path}/multiconfig ${BUILDDIR}/conf/multiconfig

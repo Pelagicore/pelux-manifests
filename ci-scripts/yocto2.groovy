@@ -14,11 +14,15 @@ void repoInit(String manifest, String yoctoDir) {
 
 void setupBitbake(String yoctoDir, String machine, List features, boolean doArchiveCache, boolean smokeTests, boolean analyzeImage, boolean addTestConf) {
 
-    String templateConf="${yoctoDir}/sources/meta-pelux/conf/samples"
+    String templateConf="${yoctoDir}/sources/meta-pelux/conf/sample"
     sh "/workspace/cookbook/yocto/initialize-bitbake.sh ${yoctoDir} ${templateConf}"
 
     String featureStringList = features.join(" ")
     sh "BUILDDIR=${yoctoDir}/build /workspace/ci-scripts/select_machine_and_features ${machine} ${featureStringList}"
+
+    if ("acrn" in features) {
+        sh "BUILDDIR=${yoctoDir}/build /workspace/ci-scripts/copy_muliconf_samples ${templateConf}"
+    }
 
     // Add other settings that are CI specific to the local.conf
     sh "cat /workspace/conf/local.conf.appendix >> ${yoctoDir}/build/conf/local.conf"

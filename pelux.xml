@@ -34,8 +34,8 @@
 
   <project remote="github"
            upstream="master"
-           revision="774a2db7a772c4ba8c5ca4f080eecb40aea15003"
-           name="Pelagicore/meta-pelux"
+           revision="f8eb42d5c35b9076a0d7ba85cebf63a76e39a91f"
+           name="dunderroffe/meta-pelux"
            path="sources/meta-pelux"/>
 
   <project remote="github"
@@ -125,5 +125,11 @@
            revision="a7f117529b3e93cac4f85c642783236f298bc519"
            name="madisongh/meta-tegra"
            path="sources/meta-tegra"/>
+
+  <project remote="yocto"
+           upstream="acrn"
+           revision="bac29886c307f1351fdca5bfa6325e17fcfbad2d"
+           name="meta-acrn"
+           path="sources/meta-acrn"/>
 
 </manifest>
