@@ -53,7 +53,7 @@ void setupCache(String yoctoDir, String url) {
     }
 }
 
-void buildImage(String yoctoDir, String imageName, String variantName) {
+void buildImage(String yoctoDir, String imageName) {
     // If we have a site.conf, that means we have caching, if we don't that
     // means we should do a fetchall.
     def statusCode = sh script:"test -f ${yoctoDir}/build/conf/site.conf", returnStatus:true
@@ -218,7 +218,7 @@ void buildManifest(String variantName, String imageName, String layerToReplace="
         try {
             stage("Bitbake ${imageName} for ${variantName}") {
                 timestamps {
-                    buildImage(yoctoDir, imageName, variantName)
+                    buildImage(yoctoDir, imageName)
                 }
             }
 
