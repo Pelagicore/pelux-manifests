@@ -34,7 +34,7 @@
 
   <project remote="github"
            upstream="master"
-           revision="f8eb42d5c35b9076a0d7ba85cebf63a76e39a91f"
+           revision="f81f5a5f55efbee586493e6574c10388363c56f3"
            name="dunderroffe/meta-pelux"
            path="sources/meta-pelux"/>
 
