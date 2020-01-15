@@ -8,14 +8,14 @@
 // that one has to allocate a node first, which would stay busy until the end of
 // the parallel pipeline
 
-void buildOnYoctoNode(String variant, String image) {
+void buildOnYoctoNode(String machine, List features, String image) {
     node("Yocto") {
 
         checkout scm
         def customImage = docker.image("pelux/pelux-yocto:yoctouser")
         customImage.inside('-v $WORKSPACE:/workspace -v /var/yocto-cache:/var/yocto-cache --cap-add=NET_ADMIN --device=/dev/net/tun') {
             def manifests = load "ci-scripts/yocto2.groovy"
-            manifests.buildManifest(image)
+            manifests.buildManifest(machine, features, image)
         }
     }
 }
@@ -61,7 +61,14 @@ try {
 variantList.each {
     def list = it.split(":")
     variantMap["${list[0]}"] = {
-        buildOnYoctoNode(list[0], list[1])
+
+        // TODO get these values from variantMap (or similar).
+        String machine = "intel-corei7-64"
+        List features = ["qtauto"]
+
+        def yoctoImage = list[1]
+
+        buildOnYoctoNode(machine, features, yoctoImage)
     }
 }
 
