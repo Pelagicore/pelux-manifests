@@ -22,17 +22,18 @@ if [ -z "$BUILDDIR" ]; then
     echo "BUILDDIR not set. Using PWD instead..."
 fi
 
-# Select machine in local.conf
+# Select machine in local.conf and enable the bblayers for it in bblayers.conf
 machine="$1"
 echo "Selecting MACHINE = \"${machine}\""
 sed -i "/MACHINE *= *\"${machine}\"/s/^# //g" "${BUILDDIR}/conf/local.conf"
+sed -i "/require conf.*machines.*bblayers.*${machine}/s/^# //g" "${BUILDDIR}/conf/bblayers.conf"
 shift
 
 # Enable feature layers in bblayers.conf
 while test $# -gt 0; do
    feature=$1
    echo "Enabling feature ${feature}"
-   sed -i "/require conf.*bblayers.*${feature}/s/^# //g" "${BUILDDIR}/conf/bblayers.conf"
+   sed -i "/require conf.*features.*bblayers.*${feature}/s/^# //g" "${BUILDDIR}/conf/bblayers.conf"
    shift
 done
 
