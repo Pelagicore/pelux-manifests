@@ -11,6 +11,9 @@ USER root
 # Install dependencies in one command to avoid potential use of previous cache
 # like explained here: https://stackoverflow.com/a/37727984
 RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
+    apt update && \
     apt-get install -y \
         bc \
         build-essential \
@@ -21,9 +24,11 @@ RUN apt-get update && \
         cvs \
         debianutils \
         diffstat \
-        g++-multilib \
+        g++-7 \
+        g++-7-multilib \
         gawk \
-        gcc-multilib \
+        gcc-7 \
+        gcc-7-multilib \
         git-core \
         graphviz \
         help2man \
@@ -55,9 +60,9 @@ RUN apt-get update && \
         tmux \
         unzip \
         wget \
-        xz-utils
-
-RUN apt-get clean
+        xz-utils && \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7 --slave /usr/bin/gcov gcov /usr/bin/gcov-7 && \
+    apt-get clean -y
 
 # For Yocto bitbake -c testimage XML reporting
 RUN pip3 install unittest-xml-reporting
